@@ -1,0 +1,42 @@
+DefController?
+
+- load the object using the id
+- return the class
+- use the values to populate the object
+
+loading an enemy
+
+- load id 'zom'
+- return 'zom', /sprites/zom/, 'the shambling undead',2,1
+- instantiate enemy
+- load enemy into instantiated object
+
+weapons
+	id
+	sprite
+	description
+	sound
+	attackRange
+	attackDamage
+vehicles
+	id
+	description
+	maxFuel
+	maxPassenger
+	weightBonus
+items
+	id
+	sprite
+	description
+	type
+enemies
+	id
+	sprite
+	description
+	hp
+	move
+
+verbs
+nouns
+events
+quests

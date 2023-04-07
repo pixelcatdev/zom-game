@@ -1,0 +1,114 @@
+{
+	"loot": [
+		{
+			"lootName": "Food",
+			"lootDesc": "Assorted rations that when consumed, restore party energy",			
+			"lootType": "Food",
+			"lootTypeVal": 5,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 0.25,
+			"lootStack": 99999
+		},
+		{
+			"lootName": "Medicine",
+			"lootDesc": "A first-aid kit, containing bandages, plasters and a small packet of painkillers",
+			"lootType": "Food",
+			"lootTypeVal": 5,
+			"lootWeight": 1,
+			"lootRarity": 0.5,
+			"lootValue": 0.75,
+			"lootStack": 99999
+		},
+		{
+			"lootName": "Ammunition",
+			"lootDesc": "A range of shells and bullets for use with various firearms",
+			"lootType": "Food",
+			"lootTypeVal": 5,
+			"lootWeight": 0.5,
+			"lootRarity": 0.05,
+			"lootValue": 0.75,
+			"lootStack": 99999
+		},
+		{
+			"lootName": "Fuel",
+			"lootDesc": "A jerry can holding enough fuel for 5 miles of travel",
+			"lootType": "Food",
+			"lootTypeVal": 5,
+			"lootWeight": 40,
+			"lootRarity": 0.025,
+			"lootValue": 2,
+			"lootStack": 99999
+		},
+		{
+			"lootName": "Scrap",
+			"lootDesc": "Assorted odds and ends that can be used to patch up transport or craft equipment",
+			"lootType": "Food",
+			"lootTypeVal": 5,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 0.1,
+			"lootStack": 99999
+		},
+		{
+			"lootName": "Shotgun",
+			"lootDesc": "A farming shotgun",
+			"lootType": "WeaponRanged",
+			"lootTypeVal": 5,
+			"lootWeight": 7,
+			"lootRarity": 0.75,
+			"lootValue": 15,
+			"lootStack": 1
+		},
+		{
+			"lootName": "Pipe",
+			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 2,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 2,
+			"lootStack": 1
+		},
+		{
+			"lootName": "Wood Axe",
+			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 2,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 2,
+			"lootStack": 1
+		},
+		{
+			"lootName": "Cricket Bat",
+			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 2,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 2,
+			"lootStack": 1
+		},
+		{
+			"lootName": "Snooker Cue",
+			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 2,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 2,
+			"lootStack": 1
+		},
+		{
+			"lootName": "Pistol",
+			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootType": "WeaponRanged",
+			"lootTypeVal": 3,
+			"lootWeight": 1,
+			"lootRarity": 0.75,
+			"lootValue": 2,
+			"lootStack": 1
+		}	
+	]
+}

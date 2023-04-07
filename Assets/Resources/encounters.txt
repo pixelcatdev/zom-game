@@ -1,0 +1,159 @@
+{
+	"encounters": [
+		{
+			"encounterType":"TransportFind",
+			"encounterTitle":"Transport Discovered",
+			"encounterText": [
+					{"text":"when parked on the verge, you come across a (vehicle)"},
+					{"text":"when abandoned at the side of the road, you stumble upon a (vehicle)"},
+					{"text":"when sat in the middle of the road, you spot an intact (vehicle)"},
+					{"text":"when parked a little way off the road, you find a (vehicle)"}
+			],
+			"randomiseOptions":true,
+			"encounterOptions": [
+					{"option":"check the battery"},
+					{"option":"check the engine"},
+					{"option":"try the ignition"},
+					{"option":"hotwire the ignition"}
+			],
+			"encounterWin": [
+					{"win":"it must be your lucky day as it starts"},
+					{"win":"it splutters to life"}
+			],
+			"encounterLose": [
+					{"lose":"it fails to start the battery dead"},
+					{"lose":"a loud bang and a cloud of smoke erupts from the bonnet"},
+					{"lose":"you start the engine, but nothing happens"}
+			],
+			"encounterSkill":"driving"
+		},
+		
+				
+		{
+			"encounterType":"TransportDamage",
+			"encounterTitle":"You're driving along when...",
+			"encounterText": [
+					{"text":"when a zom lurches into your path"},
+					{"text":"when a tree starts to fall into your path"},
+					{"text":"when you spot a spike trap spread across the road"}
+			],
+			"randomiseOptions":true,
+			"encounterOptions": [
+					{"option":"swerve violently"},
+					{"option":"slam on the brakes"},
+					{"option":"accelerate as fast as you can"},
+					{"option":"pull on the handbrake"}
+			],
+			"encounterWin": [
+					{"win":"you narrowly make it past in the nick of time"},
+					{"win":"you manage to skillfully slip out of the way"}
+			],
+			"encounterLose": [
+					{"lose":"you're struck hard, and sent into a spin"},
+					{"lose":"the windscreen shatters as you fail to gain control in time"},
+					{"lose":"there's a loud thud and the smell of burning rubber as you fail to account for the road surface"}
+			],
+			"encounterSkill":"driving"
+		},
+		
+		
+		{
+			"encounterType":"FindItems",
+			"encounterTitle":"Something catches your eye...",
+			"encounterText": [
+					{"text":"when they come across a deserted safehouse, but it looks secured from the outside"},
+					{"text":"when they spot an abandoned campervan on the side of the road"}
+			],
+			"randomiseOptions":true,
+			"encounterOptions": [
+					{"option":"approach with caution"},
+					{"option":"force your way in"}
+			],
+			"encounterWin": [
+					{"win":"breaking in, the smell of sweat and blood is mingled with decay. A body is hunched over a seat. Clutched in its hands, a duffel bag"},
+					{"win":"finding a way in, you spot the remains of a struggle, but no survivors. Amongst the debris, is a cardboard box."}
+			],
+			"encounterLose": [
+					{"lose":"you break in, and find the inside stripped clean of anything useful."},
+					{"lose":"they gains entry, and finds nothing but death and decay."}
+			],
+			"encounterSkill":"survival"
+		},
+		
+		
+		{
+			"encounterType":"LoseItems",
+			"encounterTitle":"Danger!",
+			"encounterText": [
+					{"text":"when a group of hidden hostile survivors starts shooting at your group"},
+					{"text":"when they notices a nearby hoard of zoms, far too large to tackle head on, shuffling from out of the shadows"}
+			],
+			"randomiseOptions":true,
+			"encounterOptions": [
+					{"option":"scatter the party"},
+					{"option":"take cover"},
+					{"option":"hide"}
+			],
+			"encounterWin": [
+					{"win":"You manage to evade the threat, keeping the party together and escaping silently"},
+					{"win":"There's enough cover to make a quick exit, and they leaves before they can come to any harm"}
+			],
+			"encounterLose": [
+					{"lose":"In the ensuing chaos, one of they drops a bag holding precious resources"},
+					{"lose":"As they flees through a narrow gap, you don't have time to take every bag and make the difficult decision to leave resources behind"}
+			],
+			"encounterSkill":"survival"
+		},
+		
+		
+		{
+			"encounterType":"InjurSurvivor",
+			"encounterTitle":"Danger!",
+			"encounterText": [
+					{"text":"when a wild and rabid dog springs from out of nowhere and bears down on your group"},
+					{"text":"when a zom lunges from the shadow of an overturned vehicle at one of them"},
+					{"text":"when the ground suddenly gives way"},
+					{"text":"when a car suddenly speeds towards your group from out of nowhere"}
+			],
+			"randomiseOptions":true,
+			"encounterOptions": [
+					{"option":"pull them out of the way"},
+					{"option":"shout a warning"},
+					{"option":"jump to their aid"}
+			],
+			"encounterWin": [
+					{"win":"(party member) narrowly dodges the threat and tumbles to their feet before getting back up and dusting themselves off"},
+					{"win":"the threat is averted with your quick thinking"}
+			],
+			"encounterLose": [
+					{"lose":"(party member) yells in agony as you're unable to do anything in time"},
+					{"lose":"Your reactions are too slow as (party member) screams in terror"}
+			],
+			"encounterSkill":"survival"
+		},
+		
+		{
+			"encounterType":"Trader",
+			"encounterTitle":"Trade",
+			"encounterText": [
+					{"text":"when someone steps from the shadows waving a white flag, they have something to trade"},
+					{"text":"when an emaciated refugee waves you down and starts unpacking a bag. They have something to trade"},
+					{"text":"when a suspicious looking individual catches your attention and approaches, pulling a trolley of goods to trade"}
+			],
+			"randomiseOptions":false,
+			"encounterOptions": [
+					{"option":"Trade"},
+					{"option":"Ignore"}
+			],
+			"encounterWin": [
+					{"win":"The Trader shows you what is on offer..."}
+			],
+			"encounterLose": [
+					{"lose":"You decide not to trade on this occassion and move on with your travels"},
+					{"lose":"For whatever reason, you decide not to barter and carry on"},
+					{"lose":"The trader begins to swear as your party turns away uninterested"}
+			],
+			"encounterSkill":"survival"
+		}
+	]
+}

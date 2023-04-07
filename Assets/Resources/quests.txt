@@ -1,0 +1,27 @@
+{
+	"quests": [
+		{
+			"escort": [
+					{"quest":"(name) needs to get some urgent supplies to (location)"},
+					{"quest":"Escort (name) to safety in (location)"},
+					{"quest":"Guide (name) to (location)"},
+					{"quest":"Help (name) reach (location)"},
+					{"quest":"Assist (name) in reaching (location)"},
+					{"quest":"(name) needs to get to (location)"},
+					{"quest":"(name) wants to go home. Help them reach (location)"},
+					{"quest":"(name) is lost and wants to go home. Help them reach (location)"}
+					
+			],
+			"fetch": [
+					{"quest":"A group of survivors are in need of supplies. Return with (qty) (item)"}
+			],
+			"find": [
+					{"quest":"Help (name) find their daughter (direction) of (location)"},
+					{"quest":"(name) wants to find their friend. They were last seen (direction) of (location)"},
+					{"quest":"(name) tells you of a rumour about a cache of supplies (direction) of (location)"},
+					{"quest":"(name) has heard stories of a supply camp (direction) of (location)"},
+					{"quest":"(name) has found details of a refugee camp somewhere (direction) of (location)"}
+			]
+		}
+	]
+}

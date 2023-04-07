@@ -1,0 +1,45 @@
+- Map
+	- Move
+		- On foot		Move 1 mile anywhere, consuming party energy
+		- In vehicle		Move 1 mile on a road, consuming transports fuel
+	- Rest				Rest for 6 hours
+	- Enter Zone			Switch to the arcade-style zone mode
+	- Inventory Management
+		- Discard x1/All	Drop one or all of an item
+		- Craft			Craft a weapon
+	- Party Management
+		- Abandon		Remove a member from party
+		- Heal			Heal all injured/infected members
+		- Feed			Restore party energy
+		- Equip			Equip with a weapon from inventory
+	- Transport Management
+		- Enter			Enter a nearby vehicle if its functioning, fueled and your party size doesnt exceed capacity
+		- Refuel		Refuel a nearby vehicle with 1 fuel from inventory
+		- Repair		Repair a nearby vehicle with 1 resource from inventory
+		- Exit			Exit an entered vehicle, leaving it on that specific tile
+	- Journal			Records a list of all events that occur to your party during the game
+	- Roadmap
+		- Note			Allows you to mark the map and put a 32-char note with it
+		- Erase			Allows you to remove an existing mark
+
+---------------
+
+- Survivors
+	Name
+	HP
+	Infection
+	Perk
+	Objective
+- Transport
+	Type
+	Capacity
+	Storage
+	HP
+	MPG
+
+- Trek around the UK, keep your party fed and healthy
+- Move on foot or by car at the expense of energy (restored by resting and eating) or transport (restored by fuel)
+- Uncover the story of the plague as the rest of the world fights to keep it contained to the UK mainland as the timeline unfolds with every mile crossed
+- Enter topdown maps and fight off zoms, wild dogs and hostile survivors with ranged and melee weapons whilst rescuing survivors and searching for loot
+- Take advantage of survivor skills; from medics to engineers, buff your energy restoration with multiple cooks in the party or craft makeshift weapons with an engineer present
+- Some survivors want to achieve a certain objective, help them achieve that in exchange for plentiful rewards

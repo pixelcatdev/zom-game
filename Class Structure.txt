@@ -1,0 +1,53 @@
+saveData
+
+party		party data (energy, position, survivors etc)
+world		datetime and tile data
+quests		all current quests
+log		list of log entries from the start of the game
+
+-----------------------------
+
+class structures
+
+party
+	energy
+	list<survivor>
+	inventory
+
+survivor
+	name
+	class
+	hp
+	infection
+	weaponId
+	color
+
+inventory
+	list<inventorySlot>
+
+inventorySlot
+	itemId
+	qty
+
+world
+	worldDateTime
+	list<tile>
+
+tile
+	name
+	biome
+	list<vehicle>
+	list<quest>
+
+log
+	list<logEntry>
+
+logEntry
+	logDateTime
+	logEntry
+
+----------------------------------
+
+Id's
+
+id's are used to return class data for specific things, like vehicles, weapons, items and enemies

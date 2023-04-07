@@ -1,0 +1,94 @@
+{
+   "nouns": [	
+      {
+		 "biome":"generic",
+         "noun":"a deserted military checkpoint",
+         "frequency": "Very Rare"
+      },
+	  {
+		 "biome":"generic",
+         "noun":"a mass grave",
+         "frequency": "Rare"
+      },
+	  	  {
+		 "biome":"generic",
+         "noun":"a mass grave",
+         "frequency": "Common"
+      },
+	  {
+		 "biome":"Countryside",
+         "noun":"an eerily quiet lake",
+         "frequency": "Very Rare"
+      },
+	  {
+		 "biome":"Countryside",
+         "noun":"an old farmhouse",
+         "frequency": "Rare"
+      },
+	  {
+		 "biome":"Countryside",
+         "noun":"an abandoned village",
+         "frequency": "Common"
+      },
+	  {
+		 "biome":"Woodland",
+         "noun":"a vehicle crash-site",
+         "frequency": "Very Rare"
+      },
+	  {
+		 "biome":"Woodland",
+         "noun":"a clearing",
+         "frequency": "Common"
+      },
+	  {
+		 "biome":"Woodland",
+         "noun":"an abandoned campsite",
+         "frequency": "Rare"
+      },
+	  {
+		 "biome":"Urban",
+         "noun":"a tower block",
+         "frequency": "Common"
+      },
+	  {
+		 "biome":"Urban",
+         "noun":"the ruins of a supermarket",
+         "frequency": "Rare"
+      },
+	  {
+		 "biome":"Urban",
+         "noun":"a barricaded church",
+         "frequency": "Very Rare"
+      },
+	  {
+		 "biome":"Motorway",
+         "noun":"the mangled and charred remains of a pile-up",
+         "frequency": "Rare"
+      },
+	  {
+		 "biome":"Motorway",
+         "noun":"a roadside cafe",
+         "frequency": "Common"
+      },
+	  {
+		 "biome":"Motorway",
+         "noun":"a military checkpoint",
+         "frequency": "Very Rare"
+      },
+	  {
+		 "biome":"Mountain",
+         "noun":"a craggy hiking trial",
+         "frequency": "Common"
+      },
+	  {
+		 "biome":"Mountain",
+         "noun":"a roaring waterfall",
+         "frequency": "Rare"
+      },
+	  {
+		 "biome":"Mountain",
+         "noun":"the wreckage of a helicopter",
+         "frequency": "Very Rare"
+      }
+   ]
+}

@@ -1,0 +1,74 @@
+{
+   "Verbs": [
+	
+      {
+         "verb":"finds",
+         "frequency": "Common",
+      },
+	  {
+         "verb":"stumbles upon",
+         "frequency": "Common",
+      },
+	  {
+         "verb":"comes across",
+         "frequency": "Common",
+      },
+	  {
+         "verb":"discovers",
+         "frequency": "Common",
+      }
+   ],
+   "Generic Nouns": [
+	
+      {
+         "noun":"a deserted military checkpoint",
+         "frequency": "Rare",
+      },
+	  {
+         "noun":"a serene river",
+         "frequency": "Common",
+      },
+	  {
+         "noun":"a raging river",
+         "frequency": "Rare",
+      },
+	  {
+         "noun":"a still lake",
+         "frequency": "Common",
+      },
+	  {
+         "noun":"a mass grave",
+         "frequency": "Very Rare",
+      },
+   ],
+   "Woodland Nouns": [
+	
+      {
+         "noun":"a clearing",
+         "frequency": "Common",
+      },
+	  {
+         "noun":"an old shack",
+         "frequency": "Rare",
+      },
+	  {
+         "noun":"a mossy cave",
+         "frequency": "Very Rare",
+      }
+   ],
+   "Urban Nouns": [
+	
+      {
+         "noun":"a terraced house",
+         "frequency": "Common",
+      },
+	  {
+         "noun":"the ruins of a hospital",
+         "frequency": "Rare",
+      },
+	  {
+         "noun":"a medical checkpoint",
+         "frequency": "Very Rare",
+      }
+   ]
+}

@@ -1,0 +1,28 @@
+{
+	"vehicles": [
+		{
+			"vehicleName": "Car",
+			"vehiclePassengers": 5,
+			"vehicleMaxFuel": 300,
+			"vehicleCarry": 250
+		},
+		{
+			"vehicleName": "Bus",
+			"vehiclePassengers": 6,
+			"vehicleMaxFuel": 250,
+			"vehicleCarry": 250
+		},
+		{
+			"vehicleName": "Lorry",
+			"vehiclePassengers": 3,
+			"vehicleMaxFuel": 500,
+			"vehicleCarry": 1000
+		},
+		{
+			"vehicleName": "Motorbike",
+			"vehiclePassengers": 1,
+			"vehicleMaxFuel": 150,
+			"vehicleCarry": 25
+		}		
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"weapons": [
+		{
+			"weaponName": "Shotgun",
+			"weaponWeight": 7,
+			"weaponRarity": 1,
+			"weaponType": "Ranged",
+			"weaponAttack": 5,
+			"weaponValue": 25
+		},
+		{
+			"weaponName": "Pipe",
+			"weaponWeight": 1,
+			"weaponRarity": 1,
+			"weaponType": "Ranged",
+			"weaponAttack": 5,
+			"weaponValue": 25
+		}
+	]
+}

@@ -1,0 +1,213 @@
+on car spawn
+
+- instantiate car
+- add car to list of spawned vehicles
+- store cars id, hp, fuel and tile position
+
+----------
+
+- save vehicles to a class list
+- list contains vehicle id, hp, fuel
+- id returns vehicle details (name, description, passenger size, max fuel etc)
+- hp returns spawned vehicles health
+- fuel returns spawned vehicles fuel
+
+- save structure
+
+- load
+- loop through all tiles, setting the properties of every tile 
+- loop through all world vehicle spawns, setting the property of every vehicle accordingly
+
+--- party stats ---
+
+- party PosX
+- party PosY
+- party energy
+- party members (survivor class list)
+	- survivor
+		- name (string)
+		- hp (int)
+		- equippedId (string)
+- party vehicle Id
+- party vehicle Hp
+- party vehicle Fuel
+- party inventory (inventory class list)
+	- itemId
+	- slotQty
+
+-- world stats ----
+
+- world tiles (tile class list)
+	- tile
+		- tile PosX
+		- tile PosY
+		- tile threat level
+		- tile biome
+		- vehicles spawned (vehicle class list)
+			- vehicle ID
+			- vehicle Hp
+			- vehicle Fuel
+
+------------------
+
+Tile Properties
+
+- biome				//what biome it is
+- name				//name if applicable
+- threat			//threat level - risk of attack
+- vehicles			//list of spawned vehicles (if any) on this tile (vehicle class list)
+	- vehicle ID
+	- vehicle Hp
+	- vehicle Fuel
+
+e.g.
+
+- biome		road
+- name		m25
+- threat	5
+- vehicles
+	0 - vehicle Id		motorbikeDef
+		- name		motorbike
+		- passengers	2
+		- maxHp		5
+		- maxFuel	250
+		- carryWeight	25
+	- vehicle Hp		2
+	- vehicle Fuel		25
+
+	1 - vehicle Id		vanDef
+		- name		transit van
+		- passengers	6
+		- maxHp		8
+		- maxFuel	400
+		- carryWeight	250
+	- vehicle Hp		6
+	- vehicle Fuel		315
+
+save/load
+- the above data is saved to the relevant list in the save file
+- when loaded, its all loaded back into the target tile
+
+taking vehicle
+- the chosen vehicle is removed from the list and added to the partyVehicle slot
+
+leaving vehicle
+- the vehicle is removed from the partyVehicle slot and moved to the tiles vehicles class list
+
+---------------------
+
+- Saving
+- Move data from objects to save object
+- serialize to file
+
+- Loading
+- Deserialize from file
+- Move data to objects
+
+// Define a class that represents the data you want to save
+public class PlayerData
+{
+    public string name;
+    public int score;
+}
+
+// Define a list of PlayerData objects
+List<PlayerData> players = new List<PlayerData>();
+players.Add(new PlayerData() { name = "Alice", score = 100 });
+players.Add(new PlayerData() { name = "Bob", score = 200 });
+
+// Convert the list to a JSON string
+string json = JsonUtility.ToJson(players);
+
+// Save the JSON string to a file
+string filePath = "C:/Users/MyUsername/Documents/player_data.json";
+File.WriteAllText(filePath, json);
+
+---------------------
+
+UI
+
+- Inventory Slot prefab
+- For each slot
+	- instantiate a slot prefab
+	- populate the item name and qty of each slot
+	- set the buttons properties to correlate with the index of each 'for each'
+
+----------------------
+Config structures
+
+- configs are JSON structured files holding the games stats for vehicles, weapons, enemies and loot
+- the configs are loaded on app launch and stored in runtime, with their IDs called to return config specific info when needed
+- it's designed to allow the game to be easily modded by adding new types
+
+vehicles
+	vehicleId
+	name
+	maxHp
+	maxFuel
+	maxPassengers
+	carryWeight
+weapons
+	weaponId
+	name
+	damage
+	weight
+	val
+enemies
+	enemyId
+	name
+	atk
+	def
+	hp
+	loot
+loot
+	lootId
+	name
+	desc
+	weight
+	val
+
+-----------------
+- configs
+
+- vehicles
+	- motorbike
+	- hatchback
+	- convertible
+	- estate
+	- transit van
+	- cab
+	- bus
+	- double-decker bus
+	- hgv
+	- tractor
+	- jcb
+	- lorry
+	- dustbin lorry
+- weapons
+	- pistol
+	- shotgun
+	- rifle
+	- cricket bat
+	- crowbar
+	- hammer
+	- knife
+- enemies
+	- zom
+	- zom survivor
+	- wild dog
+	- raider
+	- rogue soldier
+- loot
+	- food
+	- medicine
+	- fuel
+	- ammo
+	- scrap
+
+-----------------
+
+- load all configs
+- load game
+	- loop through every tile and populate the tile property save data
+	- loop through the party and populate the survivor save data

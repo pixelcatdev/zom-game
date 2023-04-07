@@ -1,0 +1,28 @@
+{
+	"enemies": [
+		{
+			"enemyName": "Zom",
+			"enemyAttack": 2,			
+			"enemyDefense": 1,
+			"enemySprite":"\\Directory\\..."
+		},
+		{
+			"enemyName": "Raider",
+			"enemyAttack": 3,
+			"enemyDefense": 7,
+			"enemySprite":"\\Directory\\..."
+		},
+		{
+			"enemyName": "Wild Dog",
+			"enemyAttack": 2,
+			"enemyDefense": 3,
+			"enemySprite":"\\Directory\\..."
+		},
+		{
+			"enemyName": "Rogue Soldier",
+			"enemyAttack": 5,
+			"enemyDefense": 3,
+			"enemySprite":"\\Directory\\..."
+		}		
+	]
+}

@@ -1,0 +1,78 @@
+- config
+	- save
+	- load
+	- load json configs
+		- verbs
+		- nouns
+		- male names
+		- female names
+		- events
+			- urban
+			- countryside
+			- woodland
+			- motorway
+			- mountain
+			- coastal
+		- vehicles
+		- weapons
+		- enemies
+- world
+	- map (cornwall and devon)
+		- tile
+			- biome
+			- name
+			- threat level
+		- urban
+		- countryside
+		- woodland
+		- motorway
+		- mountain
+		- coastal
+	- survivor
+		- name
+		- skill
+	- party
+		- feed
+		- heal
+		- rest
+		- move
+			- consume energy
+			- consume fuel
+			- trigger event (on-foot and vehicle)
+		- status updates
+		- recruit
+		- abandon
+		- equip
+		- kill
+		- vehicle management
+			- enter
+			- exit
+			- refuel
+			- repair
+	- enter zone
+	- inventory
+		- add
+		- drop
+	- trade
+		- buy
+		- sell
+	- quest
+		- reach location
+		- find location
+		- return resources
+	- journal
+		- record recruit, abandon, death
+		- record events
+		- record quests
+- zone
+	- zone generation						DONE
+	- player turn
+		- move							DONE
+		- attack						DONE
+	- enemy turn
+		- move 							DONE
+		- attack						DONE
+	- kill survivor							DONE
+	- kill enemy							DONE
+	- pickup loot							
+	- exit zone
