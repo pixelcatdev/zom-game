@@ -50,6 +50,7 @@ public class TileData
     public string biome;
     public float threatLevel;
     public bool alreadyScavenged;
+    public GameObject alreadyScavengedIcon;
     public List<Vehicle> vehicles = new List<Vehicle>();
 }
 

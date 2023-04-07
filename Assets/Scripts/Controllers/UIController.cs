@@ -114,12 +114,38 @@ public class UIController : MonoBehaviour
         {
             InventorySlot slot = PartyController.instance.inventory.inventorySlots[i];
 
+            //Set the slot loot name, but flag it as equipped if it's equipped
             GameObject newSlot = Instantiate(uiInventorySlotObj, uiInventorySlots);
-            newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = slot.lootName;
+            if (slot.lootEquipped == true)
+            {
+                for (int x = 0; x < PartyController.instance.party.partySurvivors.Count; x++)
+                {
+                    if (PartyController.instance.party.partySurvivors[x].equippedWeaponIndex == i)
+                    {
+                        newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = "[E] " + slot.lootName;
+                    }
+                }
+            }
+            else
+            {
+                newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = slot.lootName;
+            }
             newSlot.GetComponent<UiInventorySlotProps>().uiQty.text = "x" + slot.lootQty;
             newSlot.GetComponent<UiInventorySlotProps>().uiWeight.text = slot.lootWeight + "(lb)";
             newSlot.GetComponent<UiInventorySlotProps>().uiTotalWeight.text = slot.lootQty * slot.lootWeight + "(lb)";
+
             int slotId = i;
+            //If the slot is food or medicine, activate the Use Item button
+            if (slot.lootType == "Food")
+            {
+                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.gameObject.SetActive(true);
+                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.FeedParty(slotId, slot.lootTypeVal); });
+            }
+            else if (slot.lootType == "Medicine")
+            {
+                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.gameObject.SetActive(true);
+                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.HealParty(slotId, slot.lootTypeVal); });
+            }
             newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.DropItem(slotId, false); });
             newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.DropItem(slotId, true); });
         }

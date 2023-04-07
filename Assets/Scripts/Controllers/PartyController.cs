@@ -49,17 +49,14 @@ public class PartyController : MonoBehaviour
             //On left-click, if the tile is within 1.5 unit of the party's position
             if (Input.GetMouseButtonDown(0) && Vector2.Distance(PartyController.instance.partyObj.position, hit.transform.position) <= 1.5f)
             {
-                //Set the target tile to be a reference to the current tile
-                WorldController.instance.currentTile = hitObj;
-
                 //Call PartyController MoveParty (with tile Vector2 pos and the biome)
-                MoveParty(hit.transform.position, hit.GetComponent<WorldTileProps>().tileProps.biome);
+                MoveParty(hitObj, hit.transform.position, hit.GetComponent<WorldTileProps>().tileProps.biome);
             }
         }
     }
 
     //Move the party to a target tile
-    public void MoveParty(Vector2 tilePos, string tileBiome)
+    public void MoveParty(GameObject selectedTile, Vector2 tilePos, string tileBiome)
     {
         bool canMove = false;
         int energyCost = 5;
@@ -78,6 +75,9 @@ public class PartyController : MonoBehaviour
         //If they can move
         if (canMove == true)
         {
+            //Set the target tile to be a reference to the current tile
+            WorldController.instance.currentTile = selectedTile;
+
             Debug.Log("Moved Party");
             //Deduct Energy or Vehicle Fuel and advance time based on speed
             if (party.inVehicle == false)
@@ -129,6 +129,64 @@ public class PartyController : MonoBehaviour
         StartCoroutine("RestCoroutine", 60f);
     }
 
+    //Restore Energy to the party using food
+    public void FeedParty(int inventoryIndex, int amount)
+    {
+        bool partyFed = false;
+        if (party.partyEnergy + amount <= 100)
+        {
+            party.partyEnergy += amount;
+            partyFed = true;
+        }
+        else
+        {
+            party.partyEnergy = 100;
+            partyFed = false;
+        }
+
+        if(partyFed == true)
+        {
+            DropItem(inventoryIndex, false);
+            Debug.Log("Party energy increased, food consumed");            
+        }
+
+        UIController.instance.UpdateHud();
+        UIController.instance.UpdateParty();
+    }
+
+    //Decrease Infection to the party using food
+    public void HealParty(int inventoryIndex, int amount)
+    {
+        bool partyHealed = false;
+
+        //Loop through each person, if theyre infected, heal - otherwise don't
+        for (int i = 0; i < party.partySurvivors.Count; i++)
+        {
+            if(party.partySurvivors[i].infection > 0)
+            {
+                if(party.partySurvivors[i].infection - amount > 0)
+                {
+                    party.partySurvivors[i].infection -= amount;
+                }
+                else
+                {
+                    party.partySurvivors[i].infection = 0;
+                }
+
+                partyHealed = true;
+            }
+        }
+
+        if (partyHealed == true)
+        {
+            DropItem(inventoryIndex, false);
+            Debug.Log("Infection decreased within your party, medicine consumed");
+        }
+
+        UIController.instance.UpdateHud();
+        UIController.instance.UpdateParty();
+    }
+
     //Scavenge for resources at the risk of triggering an ambush or encounter
     public void Scavenge()
     {
@@ -136,6 +194,7 @@ public class PartyController : MonoBehaviour
         if (WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavenged == false)
         {
             WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavenged = true;
+            WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavengedIcon.SetActive(true);
             StartCoroutine("ScavengeCoroutine", 2f);
         }
         else
@@ -204,10 +263,11 @@ public class PartyController : MonoBehaviour
         //Add death to journal log
         EncounterController.instance.AddToStatus(party.partySurvivors[survivorId].survivorName + " has been killed.");
 
-        //Turn the survivor into a zom if they are infected
+        //Turn the survivor into a zom if they are infected, triggering a single zom ambush
         if (party.partySurvivors[survivorId].infection > 0 && GameController.instance.gameMode == GameController.GameMode.worldmap)
         {
             Debug.Log(party.partySurvivors[survivorId].survivorName + " has turned. Starting ambush");
+            //AmbushController.instance.SetupAmbush();
         }
 
         //Remove from Survivor list
@@ -374,7 +434,7 @@ public class PartyController : MonoBehaviour
 
     }
 
-    //Drop one or all items from a party inventory slot
+    //Drop one or all items from a party inventory slot - this also shuffles down any equippedItemIndexes on each survivor (so if they had index 3 equipped, but index 2 was discarded, then index 3 becoems index 2)
     public void DropItem(int index, bool dropAll)
     {
         //Only allow it to be dropped if its not equipped
@@ -391,6 +451,15 @@ public class PartyController : MonoBehaviour
                 else
                 {
                     inventory.inventorySlots.RemoveAt(index);
+
+                    //now that an index has been removed, correct all equipped weapon indexes if they were after this index
+                    for (int i = 0; i < party.partySurvivors.Count; i++)
+                    {
+                        if(party.partySurvivors[i].equippedWeaponIndex > index)
+                        {
+                            party.partySurvivors[i].equippedWeaponIndex--;
+                        }                        
+                    }
                 }
 
                 UIController.instance.UpdateInventory();
@@ -399,6 +468,16 @@ public class PartyController : MonoBehaviour
             {
                 Debug.Log("Dropping all " + inventory.inventorySlots[index].lootName);
                 inventory.inventorySlots.RemoveAt(index);
+
+                //now that an index has been removed, correct all equipped weapon indexes if they were after this index
+                for (int i = 0; i < party.partySurvivors.Count; i++)
+                {
+                    if (party.partySurvivors[i].equippedWeaponIndex > index)
+                    {
+                        party.partySurvivors[i].equippedWeaponIndex--;
+                    }
+                }
+
                 UIController.instance.UpdateInventory();
             }
 
@@ -468,7 +547,7 @@ public class PartyController : MonoBehaviour
             //Call inventory pickup method - add item to existing slot or create new slot (pass across all the items details)            
             int randomQty = Random.Range(1, 3);
             Loot randomItem = ConfigController.instance.loot.loot[Random.Range(0, ConfigController.instance.loot.loot.Count - 1)];
-            AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, randomQty, randomItem.lootStack);
+            AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, randomQty, randomItem.lootBiome);
 
             //Update the status text to state what was picked up
             EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + randomQty);

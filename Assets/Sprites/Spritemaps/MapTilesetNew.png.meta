@@ -236,7 +236,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -244,6 +244,48 @@ TextureImporter:
       bones: []
       spriteID: 9499bb67a7a4ca370800000000000000
       internalID: 8335118900194416969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileWoodland01
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dba3422e671d5d342a8daf5c003420c7
+      internalID: -1733721843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileScavengedMarker
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 598dd5a5b6ab334489fa4e0a8e1f7b3f
+      internalID: 1731802442
       vertices: []
       indices: 
       edges: []
@@ -264,7 +306,9 @@ TextureImporter:
       TileMotorway01: -6531884202438210599
       TileMountain01: 4715877838645083414
       TileParty01: 8335118900194416969
+      TileScavengedMarker: 1731802442
       TileUrban01: -8463246525145207645
+      TileWoodland01: -1733721843
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

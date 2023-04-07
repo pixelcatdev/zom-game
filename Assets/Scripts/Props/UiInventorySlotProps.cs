@@ -10,6 +10,7 @@ public class UiInventorySlotProps : MonoBehaviour
     public TextMeshProUGUI uiQty;
     public TextMeshProUGUI uiWeight;
     public TextMeshProUGUI uiTotalWeight;
+    public Button uiUseItemButton;
     public Button uiDiscardOneButton;
     public Button uiDiscardAllButton;
 
