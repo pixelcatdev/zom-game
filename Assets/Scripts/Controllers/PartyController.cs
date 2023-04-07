@@ -112,6 +112,17 @@ public class PartyController : MonoBehaviour
             //Move the camera
             Camera.main.transform.position = new Vector3(tilePos.x, tilePos.y, Camera.main.transform.position.z);
 
+            //Check the log to see if this is the first time the party has visited this location
+            string tileName = selectedTile.GetComponent<WorldTileProps>().tileProps.name;
+            if(tileName.Length > 0)
+            {
+                bool locationVisited = WorldController.instance.world.logs.Exists(s => s.Contains(tileName));
+                if (locationVisited == false)
+                {
+                    WorldController.instance.AddLog("Your party visits " + tileName + " for the first time");
+                }
+            }            
+
             //Check the party status
             CheckPartyStatus();
 
@@ -144,10 +155,10 @@ public class PartyController : MonoBehaviour
             partyFed = false;
         }
 
-        if(partyFed == true)
+        if (partyFed == true)
         {
             DropItem(inventoryIndex, false);
-            Debug.Log("Party energy increased, food consumed");            
+            Debug.Log("Party energy increased, food consumed");
         }
 
         UIController.instance.UpdateHud();
@@ -162,9 +173,9 @@ public class PartyController : MonoBehaviour
         //Loop through each person, if theyre infected, heal - otherwise don't
         for (int i = 0; i < party.partySurvivors.Count; i++)
         {
-            if(party.partySurvivors[i].infection > 0)
+            if (party.partySurvivors[i].infection > 0)
             {
-                if(party.partySurvivors[i].infection - amount > 0)
+                if (party.partySurvivors[i].infection - amount > 0)
                 {
                     party.partySurvivors[i].infection -= amount;
                 }
@@ -230,7 +241,7 @@ public class PartyController : MonoBehaviour
     {
         if (party.partySurvivors.Count < 6)
         {
-            party.partySurvivors.Add(new Survivor());            
+            party.partySurvivors.Add(new Survivor());
 
             //Randomise gender
             int gender = Random.Range(0, 2);
@@ -252,6 +263,9 @@ public class PartyController : MonoBehaviour
 
             //Randomise chance of new quest
 
+            //Update the logs
+            WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
+
             //Update the UI
             UIController.instance.UpdateHud();
         }
@@ -266,8 +280,14 @@ public class PartyController : MonoBehaviour
         //Turn the survivor into a zom if they are infected, triggering a single zom ambush
         if (party.partySurvivors[survivorId].infection > 0 && GameController.instance.gameMode == GameController.GameMode.worldmap)
         {
-            Debug.Log(party.partySurvivors[survivorId].survivorName + " has turned. Starting ambush");
             //AmbushController.instance.SetupAmbush();
+
+            //Update the logs
+            WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " passes away due to their infection, and quickly reanimates.");
+        }
+        else
+        {
+            WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " was killed.");
         }
 
         //Remove from Survivor list
@@ -277,16 +297,17 @@ public class PartyController : MonoBehaviour
     //Abandon a survivor
     public void AbandonSurvivor(int survivorId)
     {
-        if(party.partySurvivors.Count > 1)
+        if (party.partySurvivors.Count > 1)
         {
             Debug.Log("Abandoning " + party.partySurvivors[survivorId].survivorName);
+            WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " leaves the party.");
             RemoveSurvivorFromParty(survivorId);
         }
         else
         {
             Debug.Log("Cannot abandon the last survivor");
         }
-        
+
     }
 
     public void RemoveSurvivorFromParty(int survivorId)
@@ -324,16 +345,16 @@ public class PartyController : MonoBehaviour
 
     //Unequips a currently equipped weapon
     public void UnequipWeapon(int survivorIndex)
-    {        
+    {
         int equippedWeaponIndex = party.partySurvivors[survivorIndex].equippedWeaponIndex;
-        if(equippedWeaponIndex != -1)
+        if (equippedWeaponIndex != -1)
         {
             party.partySurvivors[survivorIndex].equippedWeaponIndex = -1;
             party.partySurvivors[survivorIndex].attack = 0;
             inventory.inventorySlots[equippedWeaponIndex].lootEquipped = false;
             UIController.instance.CloseWeaponMenu();
             UIController.instance.UpdateParty();
-        }        
+        }
     }
 
     //Enter a vehicle
@@ -365,16 +386,16 @@ public class PartyController : MonoBehaviour
         int fuelIndex = -1;
         for (int i = 0; i < inventory.inventorySlots.Count; i++)
         {
-            if(inventory.inventorySlots[i].lootName == "Fuel")
+            if (inventory.inventorySlots[i].lootName == "Fuel")
             {
                 fuelIndex = i;
             }
         }
 
         //if fuel has been found in the inventory
-        if(fuelIndex != -1)
+        if (fuelIndex != -1)
         {
-            if(inventory.inventorySlots[fuelIndex].lootQty - 1 > 0)
+            if (inventory.inventorySlots[fuelIndex].lootQty - 1 > 0)
             {
                 DropItem(fuelIndex, false);
                 party.partyVehicle.vehicleFuel++;
@@ -406,7 +427,7 @@ public class PartyController : MonoBehaviour
             if (inventory.inventorySlots[i].lootName == lootName)// && (lootType != "WeaponRanged" || lootType != "WeaponMelee"))
             {
                 Debug.Log(lootName + " found in inventory");
-                if(lootType != "WeaponRanged" && lootType != "WeaponMelee")
+                if (lootType != "WeaponRanged" && lootType != "WeaponMelee")
                 {
                     inventory.inventorySlots[i].lootQty += lootQty;
                     hasItem = true;
@@ -415,7 +436,7 @@ public class PartyController : MonoBehaviour
                 else
                 {
                     hasItem = false;
-                }                
+                }
             }
             else
             {
@@ -447,7 +468,7 @@ public class PartyController : MonoBehaviour
     public void DropItem(int index, bool dropAll)
     {
         //Only allow it to be dropped if its not equipped
-        if(inventory.inventorySlots[index].lootEquipped == false)
+        if (inventory.inventorySlots[index].lootEquipped == false)
         {
             if (dropAll == false)
             {
@@ -464,10 +485,10 @@ public class PartyController : MonoBehaviour
                     //now that an index has been removed, correct all equipped weapon indexes if they were after this index
                     for (int i = 0; i < party.partySurvivors.Count; i++)
                     {
-                        if(party.partySurvivors[i].equippedWeaponIndex > index)
+                        if (party.partySurvivors[i].equippedWeaponIndex > index)
                         {
                             party.partySurvivors[i].equippedWeaponIndex--;
-                        }                        
+                        }
                     }
                 }
 
@@ -497,7 +518,7 @@ public class PartyController : MonoBehaviour
         {
             Debug.Log("Cannot drop an equipped item, must unequip first from the Party Screen");
         }
-        
+
     }
 
     //recalculate the party weight

@@ -40,6 +40,11 @@ public class UIController : MonoBehaviour
     public Transform uiWeaponsSlots;
     public GameObject uiWeaponSlotObj;
 
+    public GameObject uiJournal;
+    public TextMeshProUGUI uiJournalLogs;
+    public GameObject uiNotes;
+    public TMP_InputField uiNotesInput;
+
     public List<GameObject> survivorObjs;
     public List<GameObject> enemyObjs;
 
@@ -90,6 +95,11 @@ public class UIController : MonoBehaviour
             uiParty.SetActive(true);
             UpdateParty();
         }
+        else if (targetMenu == "Journal")
+        {
+            uiJournal.SetActive(true);
+            UpdateJournal();
+        }
     }
 
     //Closes all menus when returning to the worldmap
@@ -99,6 +109,8 @@ public class UIController : MonoBehaviour
         uiVehicles.SetActive(false);
         uiParty.SetActive(false);
         uiWeapons.SetActive(false);
+        uiJournal.SetActive(false);
+        uiNotes.SetActive(false);
     }
 
     //Updates the Inventory menu
@@ -282,6 +294,37 @@ public class UIController : MonoBehaviour
         }
 
         return equippableWeapons;
+    }
+
+    //Updates the Journal with previously recorded events
+    public void UpdateJournal()
+    {
+        string logsString = null;
+
+        for (int i = 0; i < WorldController.instance.world.logs.Count; i++)
+        {
+            logsString += WorldController.instance.world.logs[i] + "\n";
+        }
+        uiJournalLogs.text = logsString;
+    }
+
+    //Opens the Notes tab in the journal
+    public void OpenJournalNotes()
+    {
+        uiNotes.SetActive(true);
+        UpdateNotes();
+    }
+
+    //Closes the Notes tab in the journal
+    public void CloseJournalNotes()
+    {
+        uiNotes.SetActive(false);
+    }
+
+    //Updates the notes tab to load the players previously written notes back in
+    public void UpdateNotes()
+    {
+        uiNotesInput.text = WorldController.instance.world.journalNotes;
     }
 
     //Updates all UI elements on the main screen

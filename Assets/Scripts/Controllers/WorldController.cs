@@ -7,7 +7,6 @@ public class WorldController : MonoBehaviour
 {    
     public List<GameObject> worldTileObjects;
     public World world = new World();
-    public Log log = new Log();
     public GameObject currentTile;
 
     public static WorldController instance;
@@ -32,13 +31,25 @@ public class WorldController : MonoBehaviour
         newDateTime = newDateTime.AddMinutes(minutes);
         world.worldDateTime = newDateTime.ToString();
     }
+
+    public void UpdateJournalNotes()
+    {
+        world.journalNotes = UIController.instance.uiNotesInput.text;
+    }
+
+    //Adds a new log to the log strings
+    public void AddLog(string logString)
+    {
+        world.logs.Add(world.worldDateTime +": " + logString);
+    }
 }
 
 [System.Serializable]
 public class World
 {
     public string worldDateTime;
-
+    public string journalNotes;
+    public List<string> logs;
     //All tiles in the map and their associated properties
     public List<TileData> worldTileData = new List<TileData>();
 }
@@ -52,17 +63,4 @@ public class TileData
     public bool alreadyScavenged;
     public GameObject alreadyScavengedIcon;
     public List<Vehicle> vehicles = new List<Vehicle>();
-}
-
-[System.Serializable]
-public class Log
-{
-    public List<LogEntry> logEntries = new List<LogEntry>();
-}
-
-[System.Serializable]
-public class LogEntry
-{
-    public string logDateTime;
-    public string logEntry;
 }

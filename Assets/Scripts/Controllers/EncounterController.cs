@@ -44,7 +44,7 @@ public class EncounterController : MonoBehaviour
                 Vehicle randomVehicle = ConfigController.instance.vehicles.vehicles[Random.Range(0, ConfigController.instance.vehicles.vehicles.Count - 1)];
                 WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Add(randomVehicle);
                 Vehicle spawnedVehicle = WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles[WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Count-1];
-                spawnedVehicle.vehicleFuel = Random.Range(0, spawnedVehicle.vehicleMaxFuel);
+                spawnedVehicle.vehicleFuel = Random.Range(0, spawnedVehicle.vehicleMaxFuel / 4);
                 spawnedVehicle.vehicleHp = Random.Range(0, 11);
 
                 //Add status text with vehicle details

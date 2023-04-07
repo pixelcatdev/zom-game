@@ -32,9 +32,6 @@ public class SaveController : MonoBehaviour
         //Inventory
         saveData.inventory = PartyController.instance.inventory;
 
-        //Log
-        saveData.log = WorldController.instance.log;
-
         //Clear worldTileData
         WorldController.instance.world.worldTileData.Clear();
 
@@ -71,9 +68,6 @@ public class SaveController : MonoBehaviour
         //Inventory
         PartyController.instance.inventory = saveData.inventory;
 
-        //Log
-        WorldController.instance.log = saveData.log;
-
         //Load the world data
         WorldController.instance.world = saveData.world;
         for (int i = 0; i < WorldController.instance.world.worldTileData.Count; i++)
@@ -98,5 +92,4 @@ public class SaveData
     public Party party;
     public World world;
     public Inventory inventory;
-    public Log log;
 }

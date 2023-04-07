@@ -152,6 +152,7 @@ public class AmbushController : MonoBehaviour
                     {
                         Debug.Log("Zom attempting to infect");
                         PartyController.instance.party.partySurvivors[randomPartyMember].infection = 1;
+                        WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was bitten by a Zom and infected.");
                         //Add a status for the enemy infecting the party member
                         EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " has been infected!");
                     }
