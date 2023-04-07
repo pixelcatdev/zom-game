@@ -8,7 +8,7 @@
 			"lootWeight": 2,
 			"lootRarity": 0.75,
 			"lootValue": 0.25,
-			"lootBiome": "Countryside"
+			"lootBiome": "Urban"
 		},
 		{
 			"lootName": "Baked Beans",
@@ -16,19 +16,19 @@
 			"lootType": "Food",
 			"lootTypeVal": 5,
 			"lootWeight": 0.5,
-			"lootRarity": 0.75,
+			"lootRarity": 0.4,
 			"lootValue": 0.25,
-			"lootBiome": "Countryside"
+			"lootBiome": "Urban"
 		},		
 		{
-			"lootName": "Zom'be Gone!",
+			"lootName": "Zom-be Gone!",
 			"lootDesc": "Commercially available antigens, designed to reduce the infection. Hugely ineffective.",
 			"lootType": "Medicine",
 			"lootTypeVal": 1,
 			"lootWeight": 1,
 			"lootRarity": 0.5,
 			"lootValue": 0.75,
-			"lootBiome": "Countryside"
+			"lootBiome": "Urban"
 		},
 		{
 			"lootName": "Ammunition",
@@ -36,8 +36,8 @@
 			"lootType": "Resource",
 			"lootTypeVal": 5,
 			"lootWeight": 0.5,
-			"lootRarity": 0.05,
-			"lootValue": 0.75,
+			"lootRarity": 0.9,
+			"lootValue": 5,
 			"lootBiome": "Countryside"
 		},
 		{
@@ -46,9 +46,9 @@
 			"lootType": "Resource",
 			"lootTypeVal": 5,
 			"lootWeight": 40,
-			"lootRarity": 0.025,
+			"lootRarity": 0.75,
 			"lootValue": 2,
-			"lootBiome": "Countryside"
+			"lootBiome": "Motorway"
 		},
 		{
 			"lootName": "Scrap",
@@ -56,7 +56,7 @@
 			"lootType": "Resource",
 			"lootTypeVal": 5,
 			"lootWeight": 1,
-			"lootRarity": 0.75,
+			"lootRarity": 0.1,
 			"lootValue": 0.1,
 			"lootBiome": "Countryside"
 		},
@@ -66,7 +66,7 @@
 			"lootType": "WeaponRanged",
 			"lootTypeVal": 5,
 			"lootWeight": 7,
-			"lootRarity": 0.75,
+			"lootRarity": 0.9,
 			"lootValue": 15,
 			"lootBiome": "Countryside"
 		},
@@ -74,11 +74,11 @@
 			"lootName": "Pipe",
 			"lootDesc": "A blunt lead pipe, great for battering",
 			"lootType": "WeaponMelee",
-			"lootTypeVal": 2,
+			"lootTypeVal": 1,
 			"lootWeight": 1,
-			"lootRarity": 0.75,
+			"lootRarity": 0.5,
 			"lootValue": 2,
-			"lootBiome": "Countryside"
+			"lootBiome": "Urban"
 		},
 		{
 			"lootName": "Wood Axe",
@@ -86,7 +86,7 @@
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
 			"lootWeight": 1,
-			"lootRarity": 0.75,
+			"lootRarity": 0.7,
 			"lootValue": 2,
 			"lootBiome": "Countryside"
 		},
@@ -96,7 +96,7 @@
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
 			"lootWeight": 1,
-			"lootRarity": 0.75,
+			"lootRarity": 0.6,
 			"lootValue": 2,
 			"lootBiome": "Countryside"
 		},
@@ -106,9 +106,9 @@
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
 			"lootWeight": 1,
-			"lootRarity": 0.75,
+			"lootRarity": 0.8,
 			"lootValue": 2,
-			"lootBiome": "Countryside"
+			"lootBiome": "Urban"
 		},
 		{
 			"lootName": "Pistol",
@@ -116,9 +116,9 @@
 			"lootType": "WeaponRanged",
 			"lootTypeVal": 3,
 			"lootWeight": 1,
-			"lootRarity": 0.75,
+			"lootRarity": 0.9,
 			"lootValue": 2,
-			"lootBiome": "Countryside"
+			"lootBiome": "Urban"
 		}	
 	]
 }

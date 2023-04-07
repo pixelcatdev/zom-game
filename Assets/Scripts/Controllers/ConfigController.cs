@@ -79,7 +79,7 @@ public class Loot
     public float lootWeight;
     public float lootRarity;
     public float lootValue;
-    public int lootBiome;
+    public string lootBiome;
 }
 
 [System.Serializable]

@@ -395,7 +395,7 @@ public class PartyController : MonoBehaviour
     }
 
     //Adds an item to the party inventory - ok, so this should be in its own Inventory class, but kiss my arse
-    public void AddItem(string lootName, string lootDesc, string lootType, int lootTypeVal, float lootRarity, float lootWeight, float lootValue, int lootQty, int lootStack)
+    public void AddItem(string lootName, string lootDesc, string lootType, int lootTypeVal, float lootRarity, float lootWeight, float lootValue, int lootQty, string lootBiome)
     {
         bool hasItem = false;
 
@@ -403,10 +403,19 @@ public class PartyController : MonoBehaviour
         for (int i = 0; i < inventory.inventorySlots.Count; i++)
         {
             //If the loot exists in the inventory already but is not a weapon, just add the quantity, else add a new slot for the weapon
-            if (inventory.inventorySlots[i].lootName == lootName && !(lootType == "WeaponRanged" || lootType == "WeaponMelee"))
+            if (inventory.inventorySlots[i].lootName == lootName)// && (lootType != "WeaponRanged" || lootType != "WeaponMelee"))
             {
-                inventory.inventorySlots[i].lootQty += lootQty;
-                hasItem = true;
+                Debug.Log(lootName + " found in inventory");
+                if(lootType != "WeaponRanged" && lootType != "WeaponMelee")
+                {
+                    inventory.inventorySlots[i].lootQty += lootQty;
+                    hasItem = true;
+                    break;
+                }
+                else
+                {
+                    hasItem = false;
+                }                
             }
             else
             {
@@ -426,7 +435,7 @@ public class PartyController : MonoBehaviour
             inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootWeight = lootWeight;
             inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootValue = lootValue;
             inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootQty = lootQty;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootStack = lootStack;
+            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootBiome = lootBiome;
         }
 
         //Calculate the party weight
@@ -512,6 +521,31 @@ public class PartyController : MonoBehaviour
         //get the survivors defense value
     }
 
+    //Return random item
+    public Loot RandomItem(float lootChance)
+    {
+        Loot randomItem = new Loot();
+
+        //get current biome
+        string currentBiome = WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.biome;
+        Debug.Log("Scavenging  - Biome: " + currentBiome + " - lootChance: " + lootChance);
+
+        //return all items for that biome and up to that rarity
+        List<Loot> biomeItems = new List<Loot>();
+
+        for (int i = 0; i < ConfigController.instance.loot.loot.Count; i++)
+        {
+            if (ConfigController.instance.loot.loot[i].lootBiome == currentBiome && ConfigController.instance.loot.loot[i].lootRarity < lootChance)
+            {
+                biomeItems.Add(ConfigController.instance.loot.loot[i]);
+            }
+        }
+
+        //select a random item from that new list
+        randomItem = biomeItems[Random.Range(0, biomeItems.Count - 1)];
+        return randomItem;
+    }
+
     //Advances time every seconds by X minutes
     IEnumerator RestCoroutine(float minutes)
     {
@@ -538,6 +572,8 @@ public class PartyController : MonoBehaviour
     //Advances time every seconds by X minutes
     IEnumerator ScavengeCoroutine(float minutes)
     {
+        float lootChance = Random.Range(0.5f, 1f);
+
         for (int i = 0; i < 6; i++)
         {
             yield return new WaitForSeconds(1f);
@@ -545,12 +581,21 @@ public class PartyController : MonoBehaviour
 
             //Add random loot or end the scavenging with an encounter or an ambush
             //Call inventory pickup method - add item to existing slot or create new slot (pass across all the items details)            
-            int randomQty = Random.Range(1, 3);
-            Loot randomItem = ConfigController.instance.loot.loot[Random.Range(0, ConfigController.instance.loot.loot.Count - 1)];
-            AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, randomQty, randomItem.lootBiome);
+            int lootQty = 0;
+            Loot randomItem = RandomItem(lootChance);
 
+            if (randomItem.lootType == "WeaponRanged" || randomItem.lootType == "WeaponMelee")
+            {
+                lootQty = 1;
+            }
+            else
+            {
+                lootQty = Random.Range(1, 3);
+            }
+
+            AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
             //Update the status text to state what was picked up
-            EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + randomQty);
+            EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
             EncounterController.instance.StatusStringBuilder();
             UIController.instance.UpdateHud();
         }
@@ -621,6 +666,6 @@ public class InventorySlot
     public float lootRarity;
     public float lootValue;
     public int lootQty;
-    public int lootStack;
+    public string lootBiome;
     public bool lootEquipped;
 }
