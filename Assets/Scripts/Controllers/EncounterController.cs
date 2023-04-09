@@ -72,6 +72,8 @@ public class EncounterController : MonoBehaviour
 
         Debug.Log("Players are attacked by a " + randomEnemy.enemyName);
 
+        AmbushController.instance.SetupAmbush();
+
     }
 
     //Adds a new line of status text

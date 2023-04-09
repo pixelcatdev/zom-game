@@ -42,6 +42,19 @@ public class WorldController : MonoBehaviour
     {
         world.logs.Add(world.worldDateTime +": " + logString);
     }
+
+    //Geta random tile at a given position
+    public GameObject GetRandomTile(Transform origin, float radius)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(origin.position, radius, LayerMask.GetMask("WorldTile"));
+        GameObject[] tilesInRange = new GameObject[colliders.Length];
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            tilesInRange[i] = colliders[i].gameObject;
+        }
+        GameObject randomTile = tilesInRange[UnityEngine.Random.Range(0, tilesInRange.Length)];
+        return randomTile;
+    }
 }
 
 [System.Serializable]
@@ -61,6 +74,5 @@ public class TileData
     public string biome;
     public float threatLevel;
     public bool alreadyScavenged;
-    public GameObject alreadyScavengedIcon;
     public List<Vehicle> vehicles = new List<Vehicle>();
 }

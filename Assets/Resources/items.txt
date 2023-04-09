@@ -19,14 +19,24 @@
 			"lootRarity": 0.4,
 			"lootValue": 0.25,
 			"lootBiome": "Urban"
-		},		
+		},
 		{
-			"lootName": "Zom-be Gone!",
-			"lootDesc": "Commercially available antigens, designed to reduce the infection. Hugely ineffective.",
+			"lootName": "Antibiotics",
+			"lootDesc": "Generic antiobiotics, barely fights off the infection.",
 			"lootType": "Medicine",
 			"lootTypeVal": 1,
 			"lootWeight": 1,
-			"lootRarity": 0.5,
+			"lootRarity": 0.6,
+			"lootValue": 0.75,
+			"lootBiome": "Urban"
+		},
+		{
+			"lootName": "Zom-be Gone!",
+			"lootDesc": "Commercially available antigens, designed to reduce the infection. Hugely effective, but very rare.",
+			"lootType": "Medicine",
+			"lootTypeVal": 0,
+			"lootWeight": 1,
+			"lootRarity": 0.9,
 			"lootValue": 0.75,
 			"lootBiome": "Urban"
 		},
@@ -76,7 +86,7 @@
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 1,
 			"lootWeight": 1,
-			"lootRarity": 0.5,
+			"lootRarity": 0.75,
 			"lootValue": 2,
 			"lootBiome": "Urban"
 		},
@@ -86,7 +96,7 @@
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
 			"lootWeight": 1,
-			"lootRarity": 0.7,
+			"lootRarity": 0.8,
 			"lootValue": 2,
 			"lootBiome": "Countryside"
 		},
@@ -96,7 +106,7 @@
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
 			"lootWeight": 1,
-			"lootRarity": 0.6,
+			"lootRarity": 0.7,
 			"lootValue": 2,
 			"lootBiome": "Countryside"
 		},

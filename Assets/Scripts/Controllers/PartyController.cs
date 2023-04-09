@@ -126,6 +126,9 @@ public class PartyController : MonoBehaviour
             //Check the party status
             CheckPartyStatus();
 
+            //Check the quest list to see if any quests have completed
+            QuestController.instance.CheckQuests();
+
             //Output the turns status
             EncounterController.instance.StatusStringBuilder();
 
@@ -205,7 +208,7 @@ public class PartyController : MonoBehaviour
         if (WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavenged == false)
         {
             WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavenged = true;
-            WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavengedIcon.SetActive(true);
+            WorldController.instance.currentTile.GetComponent<WorldTileProps>().alreadyScavengedIcon.SetActive(true);
             StartCoroutine("ScavengeCoroutine", 2f);
         }
         else
@@ -263,6 +266,13 @@ public class PartyController : MonoBehaviour
 
             //Randomise chance of new quest
 
+            //Randomise 10% chance of infection
+            float infected = Random.Range(0f, 1f);
+            if(infected > 0.9f)
+            {
+                newSurvivor.infection = Random.Range(1, 5);
+            }
+
             //Update the logs
             WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
 
@@ -284,10 +294,6 @@ public class PartyController : MonoBehaviour
 
             //Update the logs
             WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " passes away due to their infection, and quickly reanimates.");
-        }
-        else
-        {
-            WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " was killed.");
         }
 
         //Remove from Survivor list
@@ -556,7 +562,7 @@ public class PartyController : MonoBehaviour
 
         for (int i = 0; i < ConfigController.instance.loot.loot.Count; i++)
         {
-            if (ConfigController.instance.loot.loot[i].lootBiome == currentBiome && ConfigController.instance.loot.loot[i].lootRarity < lootChance)
+            if (ConfigController.instance.loot.loot[i].lootBiome == currentBiome && ConfigController.instance.loot.loot[i].lootRarity <= lootChance)
             {
                 biomeItems.Add(ConfigController.instance.loot.loot[i]);
             }

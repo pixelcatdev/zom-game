@@ -104,8 +104,11 @@ MonoBehaviour:
     biome: Mountain
     threatLevel: 0
     alreadyScavenged: 0
-    alreadyScavengedIcon: {fileID: 8821080315160541727}
     vehicles: []
+  changeTimeOfDayColor: 0
+  colorNight: {r: 0, g: 0, b: 0, a: 0}
+  colorDay: {r: 0, g: 0, b: 0, a: 0}
+  alreadyScavengedIcon: {fileID: 8821080315160541727}
 --- !u!61 &1273714806763814822
 BoxCollider2D:
   m_ObjectHideFlags: 0

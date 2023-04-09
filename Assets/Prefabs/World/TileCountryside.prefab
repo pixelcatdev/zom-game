@@ -188,11 +188,11 @@ MonoBehaviour:
     biome: Countryside
     threatLevel: 0
     alreadyScavenged: 0
-    alreadyScavengedIcon: {fileID: 2086013551113518339}
     vehicles: []
   changeTimeOfDayColor: 1
   colorNight: {r: 0, g: 0, b: 1, a: 1}
   colorDay: {r: 0, g: 1, b: 0, a: 1}
+  alreadyScavengedIcon: {fileID: 2086013551113518339}
 --- !u!61 &8791077575231048400
 BoxCollider2D:
   m_ObjectHideFlags: 0

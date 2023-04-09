@@ -45,6 +45,10 @@ public class UIController : MonoBehaviour
     public GameObject uiNotes;
     public TMP_InputField uiNotesInput;
 
+    public GameObject uiQuests;
+    public Transform uiQuestsSlots;
+    public GameObject uiQuestSlotObj;
+
     public List<GameObject> survivorObjs;
     public List<GameObject> enemyObjs;
 
@@ -100,6 +104,11 @@ public class UIController : MonoBehaviour
             uiJournal.SetActive(true);
             UpdateJournal();
         }
+        else if (targetMenu == "Quests")
+        {
+            uiQuests.SetActive(true);
+            UpdateQuests();
+        }
     }
 
     //Closes all menus when returning to the worldmap
@@ -111,6 +120,7 @@ public class UIController : MonoBehaviour
         uiWeapons.SetActive(false);
         uiJournal.SetActive(false);
         uiNotes.SetActive(false);
+        uiQuests.SetActive(false);
     }
 
     //Updates the Inventory menu
@@ -325,6 +335,34 @@ public class UIController : MonoBehaviour
     public void UpdateNotes()
     {
         uiNotesInput.text = WorldController.instance.world.journalNotes;
+    }
+
+    //Updates the quests menu
+    public void UpdateQuests()
+    {
+        //loop through the party survivors and instantiate the survivor slot under the Slots Transform, setting the text of each object as its dropped
+        foreach (Transform child in uiQuestsSlots)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < QuestController.instance.quests.quests.Count; i++)
+        {
+            Quest quest = QuestController.instance.quests.quests[i];
+
+            GameObject newSlot = Instantiate(uiQuestSlotObj, uiQuestsSlots);
+            UiQuestSlotProps questSlot = newSlot.GetComponent<UiQuestSlotProps>();
+
+            questSlot.uiQuestType.text = "Quest: " + quest.questType.ToString();
+            questSlot.uiQuestText.text = quest.questText;
+            questSlot.uiCompleteBy.text = "Complete by: " + quest.questTargetDateTime;
+            questSlot.uiRewards.text = "Rewards: "; //build a comma seperated string of the rewards and their quantities
+
+            int slotId = i;
+
+            //add the listener to the equip button to load the equipmenu, and the value is that of the survivor
+            questSlot.uiAbandonQuest.GetComponent<Button>().onClick.AddListener(delegate { QuestController.instance.AbandonQuest(slotId); });
+        }
     }
 
     //Updates all UI elements on the main screen

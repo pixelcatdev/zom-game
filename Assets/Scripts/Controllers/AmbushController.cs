@@ -45,21 +45,13 @@ public class AmbushController : MonoBehaviour
         Debug.Log("Setting up ambush");
 
         //Randomise enemy and enemy total
-        enemy = ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
+        enemy =  ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
         enemyTotal = Random.Range(1, 7);
         
         //Call the UI to enable the Ambush screen
         UIController.instance.UpdateAmbush();
         ambush.SetActive(true);
         ambushUi.SetActive(true);
-    }
-
-    public void Update()
-    {
-        if (GameController.instance.gameMode == GameController.GameMode.ambush)
-        {
-            //AmbushInteraction();
-        }
     }
 
     //Get player input from the action menu
@@ -94,7 +86,7 @@ public class AmbushController : MonoBehaviour
         }
         else if (action == "Flee")
         {
-
+            CompleteAmbush();
         }
 
         StartCoroutine("PartyActionEnd");
@@ -154,17 +146,18 @@ public class AmbushController : MonoBehaviour
                         PartyController.instance.party.partySurvivors[randomPartyMember].infection = 1;
                         WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was bitten by a Zom and infected.");
                         //Add a status for the enemy infecting the party member
-                        EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " has been infected!");
+                        EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " has been infected!");
                     }
                     else
                     {
-                        Debug.Log("Zom attacking");
+                        WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " and died from their injuries.");
                         PartyController.instance.KillSurvivor(randomPartyMember);
                     }
                 }
                 else
                 {
-                    PartyController.instance.KillSurvivor(randomPartyMember);
+                    WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " and died from their injuries.");
+                    PartyController.instance.KillSurvivor(randomPartyMember);                    
                 }
             }
         }

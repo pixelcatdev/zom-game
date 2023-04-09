@@ -1,0 +1,76 @@
+- game
+	- new game
+	- game over
+- ui
+	- hud
+	- tooltips
+- party
+	- add survivor			DONE
+	- equip survivor		DONE
+	- kill survivor			DONE
+	- turn survivor			DONE
+	- abandon survivor		DONE
+	- infect survivor		DONE
+	- feed party			DONE
+	- heal party infection		DONE
+- travel
+	- walk				DONE
+	- drive				DONE
+- world
+	- advance time			DONE
+	- timeline events
+	- fog of war
+- inventory management
+	- add item			DONE
+	- discard item			DONE
+- vehicle management
+	- find vehicle			DONE
+	- enter vehicle			DONE
+	- exit vehicle			DONE
+	- refuel vehicle		DONE
+	- repair vehicle
+- scavenging				DONE
+- encounters
+	- travel status text		DONE
+	- ambush
+	- walking encounter
+	- driving encounter
+	- survivor betrayal
+- ambush
+	- setup ambush			DONE
+	- attack			DONE
+	- defend
+	- use item
+	- flee
+	- win conditions		DONE
+- journal
+	- record events			DONE
+	- record player notes		DONE
+- trade
+	- buy items
+	- sell items
+- quests
+	- fetch
+	- find
+	- escort
+- save system
+	- save				DONE
+	- load				DONE
+- options
+- graphics
+	- tiles				DONE
+	- ambush backgrounds
+	- ambush sprites
+- sounds
+	- menu buttons
+	- movement
+	- attacks
+	- music
+- map
+- configs
+	- loot
+	- enemies
+	- vehicles
+	- status verbs
+	- status nouns
+	- encounters

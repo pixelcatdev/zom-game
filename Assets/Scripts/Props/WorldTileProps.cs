@@ -9,13 +9,14 @@ public class WorldTileProps : MonoBehaviour
     public bool changeTimeOfDayColor;
     public Color colorNight;
     public Color colorDay;
+    public GameObject alreadyScavengedIcon;
 
     private void Update()
     {
         //Turns on the scavenged marker
         if (tileProps.alreadyScavenged == true)
         {
-            tileProps.alreadyScavengedIcon.SetActive(true);
+            alreadyScavengedIcon.SetActive(true);
         }
 
         //Twilight mode if night-time
