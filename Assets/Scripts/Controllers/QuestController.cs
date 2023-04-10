@@ -94,18 +94,21 @@ public class QuestController : MonoBehaviour
         {
             lootTotal = 3;
         }
+
+        //DEBUG -- Remove later
+        lootTotal = 3;
         Debug.Log("Loot total: " + lootTotal);
 
         //Add rare items to the rewards
-        //for (int i = 0; i < lootTotal; i++)
-        //{
-        //    Loot newLoot = PartyController.instance.RandomItem(9);
-        //    Debug.Log("adding " + newLoot.lootName + " as a reward");
-        //    newQuest.questRewards.Add(new InventorySlot());
-        //    quests.quests[quests.quests.Count - 1].questRewards[newQuest.questRewards.Count - 1].lootName = newLoot.lootName;
-        //    quests.quests[quests.quests.Count - 1].questRewards[newQuest.questRewards.Count - 1].lootQty = lootTotal;
-        //}
-        
+        for (int i = 0; i < lootTotal; i++)
+        {
+            Loot newLoot = PartyController.instance.RandomItem(9);
+            Debug.Log("adding " + newLoot.lootName + " as a reward");
+            newQuest.questRewards = new List<InventorySlot>();
+            newQuest.questRewards.Add(new InventorySlot());
+            newQuest.questRewards[quests.quests.Count - 1].lootName = newLoot.lootName;
+            newQuest.questRewards[quests.quests.Count - 1].lootQty = lootTotal;
+        }
 
         //Find quest specifics
         if (newQuest.questType == QuestType.search)

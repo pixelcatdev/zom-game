@@ -161,7 +161,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1733721843, guid: a51a760dc3546bd4c9b4621f00a872df, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -190,8 +190,8 @@ MonoBehaviour:
     alreadyScavenged: 0
     vehicles: []
   changeTimeOfDayColor: 0
-  colorNight: {r: 0, g: 0, b: 0, a: 0}
-  colorDay: {r: 0, g: 0, b: 0, a: 0}
+  colorNight: {r: 0, g: 0, b: 1, a: 0}
+  colorDay: {r: 0, g: 1, b: 0, a: 0}
   alreadyScavengedIcon: {fileID: 6273491457078832328}
 --- !u!61 &1057729950464629051
 BoxCollider2D:

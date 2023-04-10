@@ -45,9 +45,24 @@ public class AmbushController : MonoBehaviour
         Debug.Log("Setting up ambush");
 
         //Randomise enemy and enemy total
-        enemy =  ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
+        enemy = ConfigController.instance.enemies.enemies[0]; //ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
         enemyTotal = Random.Range(1, 7);
-        
+
+        //Status update
+        EncounterController.instance.statusStrings.Clear();
+        if (enemyTotal > 1)
+        {
+            EncounterController.instance.AddToStatus("Your party is ambushed by a group of " + enemy.enemyName);
+        }
+        else
+        {
+            EncounterController.instance.AddToStatus("Your party is ambushed by a " + enemy.enemyName);
+        }
+
+        //Update the status string
+        EncounterController.instance.StatusStringBuilder();
+        UIController.instance.UpdateHud();
+
         //Call the UI to enable the Ambush screen
         UIController.instance.UpdateAmbush();
         ambush.SetActive(true);
@@ -75,6 +90,8 @@ public class AmbushController : MonoBehaviour
             {
                 //add a status update for the party missing an enemy
             }
+
+            StartCoroutine("PartyActionEnd");
         }
         else if (action == "Defend")
         {
@@ -86,10 +103,17 @@ public class AmbushController : MonoBehaviour
         }
         else if (action == "Flee")
         {
-            CompleteAmbush();
+            //Attempt to flee via RNG
+            bool partyEscapes = (Random.value > 0.5f);
+            if(partyEscapes == true)
+            {
+                CompleteAmbush();
+            }
+            else
+            {
+                StartCoroutine("PartyActionEnd");
+            }            
         }
-
-        StartCoroutine("PartyActionEnd");
     }
 
     //Completes the Ambush

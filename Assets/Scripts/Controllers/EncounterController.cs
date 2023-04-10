@@ -60,7 +60,10 @@ public class EncounterController : MonoBehaviour
         //trigger ambush
         else if (randomInt == 4)
         {
-            Ambush();
+            if(PartyController.instance.party.inVehicle == false)
+            {
+                Ambush();
+            }            
         }
     }
 
@@ -97,6 +100,7 @@ public class EncounterController : MonoBehaviour
         }
     }
 
+    //Loops through the list of Status updates and sets the party status to whatever they're set to
     public void StatusStringBuilder()
     {
         //partyStatus = "Your party " + StatusVerb() + " " + StatusNoun();

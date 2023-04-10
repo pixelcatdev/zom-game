@@ -290,10 +290,19 @@ public class PartyController : MonoBehaviour
         //Turn the survivor into a zom if they are infected, triggering a single zom ambush
         if (party.partySurvivors[survivorId].infection > 0 && GameController.instance.gameMode == GameController.GameMode.worldmap)
         {
-            //AmbushController.instance.SetupAmbush();
+            if(party.partySurvivors.Count > 1)
+            {
+                AmbushController.instance.SetupAmbush();
 
-            //Update the logs
-            WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " passes away due to their infection, and quickly reanimates.");
+                //Update the logs
+                WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " passes away due to their infection, and quickly reanimates.");
+            }
+            else
+            {
+                //Gameover();
+                Debug.Log("Game over - your last survivor turned");
+            }
+            
         }
 
         //Remove from Survivor list
@@ -606,25 +615,37 @@ public class PartyController : MonoBehaviour
             yield return new WaitForSeconds(1f);
             WorldController.instance.AdvanceTime(minutes);
 
-            //Add random loot or end the scavenging with an encounter or an ambush
-            //Call inventory pickup method - add item to existing slot or create new slot (pass across all the items details)            
-            int lootQty = 0;
-            Loot randomItem = RandomItem(lootChance);
-
-            if (randomItem.lootType == "WeaponRanged" || randomItem.lootType == "WeaponMelee")
+            //Randomise chance of being ambushed based on survival skills, party size etc
+            bool partyIsAmbushed = (Random.value > 0.75f);
+            if(partyIsAmbushed == true)
             {
-                lootQty = 1;
+                AmbushController.instance.SetupAmbush();
+                //Display a status
+
+                StopCoroutine("ScavengeCoroutine");
             }
             else
             {
-                lootQty = Random.Range(1, 3);
-            }
+                //Add random loot or end the scavenging with an encounter or an ambush
+                //Call inventory pickup method - add item to existing slot or create new slot (pass across all the items details)            
+                int lootQty = 0;
+                Loot randomItem = RandomItem(lootChance);
 
-            AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
-            //Update the status text to state what was picked up
-            EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
-            EncounterController.instance.StatusStringBuilder();
-            UIController.instance.UpdateHud();
+                if (randomItem.lootType == "WeaponRanged" || randomItem.lootType == "WeaponMelee")
+                {
+                    lootQty = 1;
+                }
+                else
+                {
+                    lootQty = Random.Range(1, 3);
+                }
+
+                AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
+                //Update the status text to state what was picked up
+                EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
+                EncounterController.instance.StatusStringBuilder();
+                UIController.instance.UpdateHud();
+            }            
         }
     }
 }
