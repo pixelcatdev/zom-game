@@ -29,6 +29,14 @@ public class GameController : MonoBehaviour
 
     public void NewGame()
     {
+        //Start player at random urban tile
+        GameObject randomStartingTile = WorldController.instance.GetRandomUrbanTile();
+        PartyController.instance.partyObj.transform.position = randomStartingTile.transform.position;
+        PartyController.instance.party.partyPosX = randomStartingTile.transform.position.x;
+        PartyController.instance.party.partyPosY = randomStartingTile.transform.position.y;
+        WorldController.instance.currentTile = randomStartingTile;
+        Camera.main.transform.position = new Vector3(randomStartingTile.transform.position.x, randomStartingTile.transform.position.y, Camera.main.transform.position.z);
+
         //Add a random survivor
         //PartyController.instance.AddSurvivor();
         PartyController.instance.party.partyEnergy = 100;

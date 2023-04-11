@@ -1,0 +1,93 @@
+-how is the threatlevel based
+
+- base threat level = 0
+
+- threat level
+
+- increases at night
+- increases as time progresses
+- increases in certain biomes
+
+- mountain - 0
+- coastal - 1
+- countryside - 2
+- woodland - 3
+- urban - 4
+
+-----
+
+biome + time of day + world threat level + party
+
+- world threat = every month threat level + 1
+
+- time of day - night = 2
+
+- party - (party size / 2) + any trait based (conspicuous, clumsy, loud etc)
+
+----------------------------------
+
+Urban, at night, 1 month in =  4 + 1 + 2 = Threat level of 7
+
+Calculating ambush chance:
+
+- ThreatChance = Random (1,20) + BiomeThreatLevel + WorldThreatLevel + TimeOfDayThreatLevel + PartyThreatLevel = 10-30
+- RNG vs ThreatChance
+
+---------------------------------- hovering over a tile gives you indication of threat level
+
+whats threat level used for?
+
+- resting
+- scavenging
+- moving
+
+- fundamental player action related tasks
+
+- create a method that's called by each of these actions
+
+- PlayerActionEnd
+- calculates energy consumption (based on party size and traits)
+- consumes energy or fuel
+- checks the threat level
+- generates an encounter based on threat level outcome
+
+- UI
+- add tile info for
+- travel cost (energy, weight, party size)
+- threat level (party, world, time of day, biome)
+
+- scrolling over a tile returns the biome, the name and the threat calculation
+
+
+Travel Method: Walking
+Energy: 75
+
+Party:
+----------------------
+Chris
+Charlie
+Monty
+Oscar
+Dot
+
+----------------------------------------------------------------------------------------
+
+Travel Method: Walking
+Energy: 75
+
+Party:
+----------------------
+Chris
+Charlie
+Monty
+Oscar
+Dot
+
+---------------------
+
+- you come across a survivor. they want to join.
+- accept
+- decline
+
+- you come across a survivor. they are being attacked.
+- 

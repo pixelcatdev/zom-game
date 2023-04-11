@@ -22,6 +22,8 @@ public class AmbushController : MonoBehaviour
     public int enemyAttack;
     public int enemyDefense;
 
+    private float cameraZoom;
+
     public static AmbushController instance;
 
     // Singleton Initialization
@@ -43,6 +45,10 @@ public class AmbushController : MonoBehaviour
         //switch to ambush mode
         GameController.instance.gameMode = GameController.GameMode.ambush;
         Debug.Log("Setting up ambush");
+
+        //Get the camera's zoom so it can be restored after completing, then set the zoom to the ambush screen ratio
+        cameraZoom = Camera.main.GetComponent<Camera>().orthographicSize;
+        Camera.main.GetComponent<Camera>().orthographicSize = 5f;
 
         //Randomise enemy and enemy total
         enemy = ConfigController.instance.enemies.enemies[0]; //ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
@@ -85,10 +91,15 @@ public class AmbushController : MonoBehaviour
             {
                 enemyTotal--;
                 //add a status update for the party defeating an enemy
+
+                EncounterController.instance.AddToStatus("Your party hits the enemy");
+                EncounterController.instance.StatusStringBuilder();
             }
             else
             {
                 //add a status update for the party missing an enemy
+                EncounterController.instance.AddToStatus("Your party misses");
+                EncounterController.instance.StatusStringBuilder();
             }
 
             StartCoroutine("PartyActionEnd");
@@ -107,10 +118,13 @@ public class AmbushController : MonoBehaviour
             bool partyEscapes = (Random.value > 0.5f);
             if(partyEscapes == true)
             {
+                EncounterController.instance.AddToStatus("Your party manages to flee your ambushers.");
                 CompleteAmbush();
             }
             else
             {
+                EncounterController.instance.AddToStatus("Your party fails to outrun its ambushers.");
+                EncounterController.instance.StatusStringBuilder();
                 StartCoroutine("PartyActionEnd");
             }            
         }
@@ -119,9 +133,14 @@ public class AmbushController : MonoBehaviour
     //Completes the Ambush
     public void CompleteAmbush()
     {
+        //Set the camera's zoom back again
+        Camera.main.GetComponent<Camera>().orthographicSize = cameraZoom;
+
+        EncounterController.instance.AddToStatus("Your party survives the ambush");
+        EncounterController.instance.StatusStringBuilder();
+
         GameController.instance.gameMode = GameController.GameMode.worldmap;
         ambush.SetActive(false);
-        Debug.Log("Ambush completed");
     }  
 
     IEnumerator PartyActionEnd()
@@ -162,24 +181,21 @@ public class AmbushController : MonoBehaviour
             if (PartyController.instance.party.partySurvivors.Count > 0)
             {
                 //If its a zom attacking, if the randomly targeted survivor isn't yet infected, infect them - otherwise kill them
-                if(enemy.enemyName == "Zom")
+                if(enemy.enemyName == "Zom" && PartyController.instance.party.partySurvivors[randomPartyMember].infection == 0)
                 {
-                    if (PartyController.instance.party.partySurvivors[randomPartyMember].infection == 0)
-                    {
-                        Debug.Log("Zom attempting to infect");
-                        PartyController.instance.party.partySurvivors[randomPartyMember].infection = 1;
-                        WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was bitten by a Zom and infected.");
-                        //Add a status for the enemy infecting the party member
-                        EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " has been infected!");
-                    }
-                    else
-                    {
-                        WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " and died from their injuries.");
-                        PartyController.instance.KillSurvivor(randomPartyMember);
-                    }
+                    Debug.Log("Zom attempting to infect");
+                    PartyController.instance.party.partySurvivors[randomPartyMember].infection = 1;
+                    WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " has been infected!");
+                    //Add a status for the enemy infecting the party member
+                    EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " has been infected!");
+                    EncounterController.instance.StatusStringBuilder();                    
                 }
                 else
                 {
+                    //Output status
+                    EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " and died from their injuries.");
+                    EncounterController.instance.StatusStringBuilder();
+
                     WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " and died from their injuries.");
                     PartyController.instance.KillSurvivor(randomPartyMember);                    
                 }
@@ -189,6 +205,7 @@ public class AmbushController : MonoBehaviour
         {
             //add a status update for the party missing an enemy
             EncounterController.instance.AddToStatus(enemy.enemyName + " attacked, but missed");
+            EncounterController.instance.StatusStringBuilder();
         }
 
         //At the end of the enemy action, wait a second and then re-enable the party action menu

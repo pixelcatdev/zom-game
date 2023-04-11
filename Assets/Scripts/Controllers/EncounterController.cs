@@ -10,6 +10,10 @@ public class EncounterController : MonoBehaviour
     public string partyStatus;
     public List<string> statusStrings;
 
+    public string encounterText;
+
+    public Survivor newSurvivor = new Survivor();
+
     // Singleton Initialization
     void Awake()
     {
@@ -26,13 +30,49 @@ public class EncounterController : MonoBehaviour
     //Randomise chance of an encounter when moving
     public void RandomEncounter()
     {
-        int randomInt = Random.Range(0, 5);
+        int randomInt = 1; // Random.Range(0, 5);
         Debug.Log("Encounter chance: " + randomInt);
 
         //find a survivor
         if (randomInt == 1)
         {
-            
+            Party party = PartyController.instance.party;
+
+            if (party.partySurvivors.Count < 6)
+            {
+                //Randomise whether its a rescue or a request
+                Debug.Log("Survivor would like to join");
+
+                //Randomise the survivors details
+                //newSurvivor = new Survivor();
+
+                //Randomise gender
+                int gender = Random.Range(0, 2);
+
+                //Randomise name based on gender
+                if (gender == 0)
+                {
+                    newSurvivor.survivorName = ConfigController.instance.maleNames[Random.Range(0, ConfigController.instance.maleNames.Count - 1)];
+                }
+                else
+                {
+                    newSurvivor.survivorName = ConfigController.instance.femaleNames[Random.Range(0, ConfigController.instance.femaleNames.Count - 1)];
+                }
+
+                //Set the survivor to unequipped
+                newSurvivor.equippedWeaponIndex = -1;
+
+                //Randomise 10% chance of infection
+                float infected = Random.Range(0f, 1f);
+                if (infected > 0.9f)
+                {
+                    newSurvivor.infection = Random.Range(1, 5);
+                }
+                encounterText = "Your party comes across another survivor.\n\n" + newSurvivor.survivorName + " would like to join.";
+                UIController.instance.uiEncounter.SetActive(true);
+                UIController.instance.UpdateEncounter();
+                //PartyController.instance.AddSurvivor(newSurvivor);
+            }
         }
         //find a vehicle
         else if (randomInt == 2)
@@ -60,10 +100,18 @@ public class EncounterController : MonoBehaviour
         //trigger ambush
         else if (randomInt == 4)
         {
-            if(PartyController.instance.party.inVehicle == false)
+            //calculate threat level
+            int threatLevel = WorldController.instance.CalculateThreatLevel(true, null);
+            int threatChance = Random.Range(0, 20);
+            Debug.Log("Ambush Chance: " + threatChance);
+            //if threat level > threatChance trigger ambush
+            if (threatChance > threatLevel)
             {
-                Ambush();
-            }            
+                if (PartyController.instance.party.inVehicle == false)
+                {
+                    Ambush();
+                }
+            }                       
         }
     }
 
@@ -115,6 +163,8 @@ public class EncounterController : MonoBehaviour
                 partyStatus += ". " + statusStrings[i];
             }
         }
+        UIController.instance.UpdateHud();
+        statusStrings.Clear();
     }
 
     //Minor function to procure a random verb based on frequency

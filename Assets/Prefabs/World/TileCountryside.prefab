@@ -186,7 +186,7 @@ MonoBehaviour:
   tileProps:
     name: 
     biome: Countryside
-    threatLevel: 0
+    biomeThreatLevel: 2
     alreadyScavenged: 0
     vehicles: []
   changeTimeOfDayColor: 1

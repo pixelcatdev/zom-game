@@ -186,7 +186,7 @@ MonoBehaviour:
   tileProps:
     name: 
     biome: Woodland
-    threatLevel: 0
+    biomeThreatLevel: 3
     alreadyScavenged: 0
     vehicles: []
   changeTimeOfDayColor: 0

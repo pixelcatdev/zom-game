@@ -10,12 +10,22 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI hud_date;
     public TextMeshProUGUI hud_time;
     public TextMeshProUGUI hud_biome;
+    public TextMeshProUGUI hud_threatCalc;
+    public TextMeshProUGUI hud_travel;
+    public TextMeshProUGUI hud_travelStats;
     public TextMeshProUGUI hud_tileName;
     public TextMeshProUGUI hud_partyEnergy;
     public List<TextMeshProUGUI> hud_partySurvivors;
     public TextMeshProUGUI hud_partyVehicleType;
     public TextMeshProUGUI hud_partyVehicleFuel;
     public TextMeshProUGUI hud_statusText;
+
+    public GameObject uiCursorMap;
+    public GameObject uiCursorTooltip;
+    public TextMeshProUGUI uiCursorTooltipText;
+
+    public GameObject uiEncounter;
+    public GameObject uiEncounterPrompt;
 
     public GameObject uiInventory;
     public Transform uiInventorySlots;
@@ -79,6 +89,16 @@ public class UIController : MonoBehaviour
         {
             CloseAllMenus();
         }
+
+        DrawCursors();
+    }
+
+    public void DrawCursors()
+    {
+        // Convert the mouse position to world coordinates
+        Vector3 newPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10);
+
+        uiCursorMap.GetComponent<RectTransform>().position = newPos;
     }
 
     public void OpenMenu(string targetMenu)
@@ -121,6 +141,15 @@ public class UIController : MonoBehaviour
         uiJournal.SetActive(false);
         uiNotes.SetActive(false);
         uiQuests.SetActive(false);
+        uiEncounter.SetActive(false);
+    }
+
+    //Updates the Encounter text - currently for new survivors, but needs to be more fluid
+    public void UpdateEncounter()
+    {
+        uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiEncounterText.text = EncounterController.instance.encounterText;
+        Survivor newSurvivor = EncounterController.instance.newSurvivor;
+        uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.AddSurvivor(newSurvivor); });
     }
 
     //Updates the Inventory menu
@@ -373,6 +402,20 @@ public class UIController : MonoBehaviour
 
         hud_date.text = currentDateTime.ToString("dd/MM/yyyy");
         hud_time.text = currentDateTime.TimeOfDay.ToString("hh\\:mm");
+
+        //Set the hud travel text based on whether walking or driving
+        if(PartyController.instance.party.inVehicle == false)
+        {
+            //Party Energy
+            hud_travel.text = "Travel: Walking";
+            hud_travelStats.text = "Energy: " + PartyController.instance.party.partyEnergy;
+        }
+        else
+        {
+            //Party Energy
+            hud_travel.text = "Travel: Driving (" + PartyController.instance.party.partyVehicle.vehicleName + " (" + PartyController.instance.party.partyVehicle.vehicleHp + "HP)";
+            hud_travelStats.text = "Fuel: " + PartyController.instance.party.partyVehicle.vehicleFuel + " (miles)";
+        }
 
         //Party Energy
         hud_partyEnergy.text = "Energy: " + PartyController.instance.party.partyEnergy;

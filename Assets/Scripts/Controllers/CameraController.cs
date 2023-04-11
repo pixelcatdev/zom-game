@@ -13,6 +13,15 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if(GameController.instance.gameMode == GameController.GameMode.worldmap)
+        {
+            MapCameraControls();
+        }
+    }
+
+    //Scroll and zoom when in the worldmap
+    private void MapCameraControls()
+    {
         // Check if right mouse button is held down
         if (Input.GetMouseButtonDown(1))
         {

@@ -1,0 +1,41 @@
+joining
+
+- opportunities for survivors to join only occurs if there is less than 6 survivors in the current party
+- survivors can join through a couple of methods
+	- search quest reward
+	- random join encounter
+	- random rescue encounter (complete the ambush first)
+
+weapons
+- shotguns, pistols, bolt-action rifles etc - all very rare (quest reward or 5% chance)
+
+traits
+
+- greedy (requires consumes twice as much food)
+- unfit (consumes more energy when moving)
+- fit (consumes less energy when moving)
+- underlying health condition (may randomly die at any time)
+- charismatic (trade bonus)
+- 
+
+
+party stats
+
+energy		energy is consumed as the party moves or performs actions
+carry weight	carry weight is the total sum of party inventory, multiplied by the number of people
+		some survivors can carry more based on traits, but the standard carry weight per survivor is 50lb
+attack		the cumulative attack strength of each of your survivors
+		this is used during combat encounters to see whether your party, or the enemy party lands a hit during a turn
+
+survivors stats
+
+skill		certain skills buff certain actions for the individual
+		having a survivalist in the group increases the energy gained from resting
+		having a cooking in the group increases the energy gained from eating
+		equipping a shooter with a ranged weapon gives a +1 bonus to that survivors attack		
+trait		there's a mixture of traits for survivors, good and bad
+		you could have a shady trait, who may take off with some of your loot in the middle of the night
+		you could have an unfit trait, who consumes more energy as you travel
+		but you could also have a strong trait, who can carry an extra 25lb of inventory
+attack		equipping a survivor with a weapon increases the attack strength
+		if they have a shooter or brawler skill, this skill is increased by +1 at all times

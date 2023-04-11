@@ -6,6 +6,7 @@ using UnityEngine;
 public class WorldController : MonoBehaviour
 {    
     public List<GameObject> worldTileObjects;
+    public List<GameObject> urbanTiles;
     public World world = new World();
     public GameObject currentTile;
 
@@ -22,6 +23,62 @@ public class WorldController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        SetupWorld();
+    }
+
+    public void SetupWorld()
+    {
+        GameObject[] urbanTilesFound = GameObject.FindGameObjectsWithTag("tileUrban");
+
+        // Loop through the found objects and do something with them
+        foreach (GameObject tile in urbanTilesFound)
+        {
+            // Do something with the object here
+            urbanTiles.Add(tile);
+        }
+
+        world.worldThreatLevel = 1;
+    }
+
+    public GameObject GetRandomUrbanTile()
+    {
+        GameObject randomUrbanTile = urbanTiles[UnityEngine.Random.Range(0, WorldController.instance.urbanTiles.Count - 1)];
+
+        return randomUrbanTile;
+    }
+
+    //Calculates the threat level of the tile based on numerous factors
+    public int CalculateThreatLevel(bool calculateForCurrentTile, GameObject targetedTile)
+    {        
+        int party = PartyController.instance.party.partyThreatLevel;
+        int world = WorldController.instance.world.worldThreatLevel;
+
+        //Determine time of day threat level
+        int timeOfDay = 0;
+        if(isNightTime() == true)
+        {
+            timeOfDay = 5;
+        }
+        else
+        {
+            timeOfDay = 1;
+        }
+
+        //Calculate the current tile's biome threat level, or the targeted tile's biome threat level based on flag
+        int biome = 0;
+        if (calculateForCurrentTile == false)
+        {
+            biome = targetedTile.GetComponent<WorldTileProps>().tileProps.biomeThreatLevel;
+        }
+        else
+        {
+            biome = currentTile.GetComponent<WorldTileProps>().tileProps.biomeThreatLevel;
+        }
+
+        int calculatedThreatLevel = party + biome + world + timeOfDay;
+
+        return calculatedThreatLevel;
     }
 
     //Moves time forward by the given value
@@ -30,6 +87,21 @@ public class WorldController : MonoBehaviour
         DateTime newDateTime = DateTime.Parse(world.worldDateTime);
         newDateTime = newDateTime.AddMinutes(minutes);
         world.worldDateTime = newDateTime.ToString();
+    }
+
+    //Returns true if it's night
+    private bool isNightTime()
+    {
+        DateTime currentDateTime = DateTime.Parse(world.worldDateTime);
+
+        if (currentDateTime.TimeOfDay >= TimeSpan.FromHours(19) || currentDateTime.TimeOfDay < TimeSpan.FromHours(6))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void UpdateJournalNotes()
@@ -61,6 +133,8 @@ public class WorldController : MonoBehaviour
 public class World
 {
     public string worldDateTime;
+    public int worldThreatLevel;
+    public int timeOfDayThreatLevel;
     public string journalNotes;
     public List<string> logs;
     //All tiles in the map and their associated properties
@@ -72,7 +146,7 @@ public class TileData
 {
     public string name;
     public string biome;
-    public float threatLevel;
+    public int biomeThreatLevel;
     public bool alreadyScavenged;
     public List<Vehicle> vehicles = new List<Vehicle>();
 }

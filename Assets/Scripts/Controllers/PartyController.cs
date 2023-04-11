@@ -42,9 +42,22 @@ public class PartyController : MonoBehaviour
             GameObject hit = hits[0].transform.gameObject;
             GameObject hitObj = hit.transform.gameObject;
 
-            //Display the tiles name and biome
+            //Display the tiles name, biome, and threat details
             UIController.instance.hud_biome.text = hitObj.GetComponent<WorldTileProps>().tileProps.biome;
             UIController.instance.hud_tileName.text = hitObj.GetComponent<WorldTileProps>().tileProps.name;
+            UIController.instance.hud_threatCalc.text = "Threat Level: " + WorldController.instance.CalculateThreatLevel(false, hitObj);
+
+            //Output the name of the title if present
+            if (hitObj.GetComponent<WorldTileProps>().tileProps.name.Length > 0)
+            {
+                UIController.instance.uiCursorTooltip.SetActive(true);
+                UIController.instance.uiCursorTooltipText.text = hitObj.GetComponent<WorldTileProps>().tileProps.name;
+            }
+            else
+            {
+                UIController.instance.uiCursorTooltip.SetActive(false);
+                UIController.instance.uiCursorTooltipText.text = null;
+            }
 
             //On left-click, if the tile is within 1.5 unit of the party's position
             if (Input.GetMouseButtonDown(0) && Vector2.Distance(PartyController.instance.partyObj.position, hit.transform.position) <= 1.5f)
@@ -52,6 +65,11 @@ public class PartyController : MonoBehaviour
                 //Call PartyController MoveParty (with tile Vector2 pos and the biome)
                 MoveParty(hitObj, hit.transform.position, hit.GetComponent<WorldTileProps>().tileProps.biome);
             }
+        }
+        else
+        {
+            UIController.instance.uiCursorTooltip.SetActive(false);
+            UIController.instance.uiCursorTooltipText.text = null;
         }
     }
 
@@ -67,7 +85,7 @@ public class PartyController : MonoBehaviour
             canMove = true;
         }
         //if in a vehicle, fuel > 0 and the target tile is a motorway
-        else if (party.inVehicle == true && party.partyVehicle.vehicleFuel >= 0 && (tileBiome == "Urban" || tileBiome == "Motorway"))
+        else if (party.inVehicle == true && party.partyVehicle.vehicleFuel > 0 && (tileBiome == "Urban" || tileBiome == "Motorway"))
         {
             canMove = true;
         }
@@ -114,14 +132,14 @@ public class PartyController : MonoBehaviour
 
             //Check the log to see if this is the first time the party has visited this location
             string tileName = selectedTile.GetComponent<WorldTileProps>().tileProps.name;
-            if(tileName.Length > 0)
+            if (tileName.Length > 0)
             {
                 bool locationVisited = WorldController.instance.world.logs.Exists(s => s.Contains(tileName));
                 if (locationVisited == false)
                 {
                     WorldController.instance.AddLog("Your party visits " + tileName + " for the first time");
                 }
-            }            
+            }
 
             //Check the party status
             CheckPartyStatus();
@@ -213,7 +231,8 @@ public class PartyController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Cannot scavenge, you've already scavenged here");
+            EncounterController.instance.AddToStatus("Your party has scavenged all they can from here.");
+            EncounterController.instance.StatusStringBuilder();
         }
     }
 
@@ -240,45 +259,21 @@ public class PartyController : MonoBehaviour
     }
 
     //Adds a new survivor to the group
-    public void AddSurvivor()
+    public void AddSurvivor(Survivor newSurvivor)
     {
-        if (party.partySurvivors.Count < 6)
-        {
-            party.partySurvivors.Add(new Survivor());
+        party.partySurvivors.Add(newSurvivor);
 
-            //Randomise gender
-            int gender = Random.Range(0, 2);
+        //Recalc the threat level of the party
+        CalculatePartyThreatLevel();
 
-            //Randomise name based on gender
-            Survivor newSurvivor = party.partySurvivors[party.partySurvivors.Count - 1];
+        //Randomise chance of new quest
 
-            if (gender == 0)
-            {
-                newSurvivor.survivorName = ConfigController.instance.maleNames[Random.Range(0, ConfigController.instance.maleNames.Count - 1)];
-            }
-            else
-            {
-                newSurvivor.survivorName = ConfigController.instance.femaleNames[Random.Range(0, ConfigController.instance.femaleNames.Count - 1)];
-            }
+        //Update the logs
+        WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
 
-            //Set the survivor to unequipped
-            newSurvivor.equippedWeaponIndex = -1;
-
-            //Randomise chance of new quest
-
-            //Randomise 10% chance of infection
-            float infected = Random.Range(0f, 1f);
-            if(infected > 0.9f)
-            {
-                newSurvivor.infection = Random.Range(1, 5);
-            }
-
-            //Update the logs
-            WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
-
-            //Update the UI
-            UIController.instance.UpdateHud();
-        }
+        //Update the UI
+        UIController.instance.CloseAllMenus();
+        UIController.instance.UpdateHud();
     }
 
     //Kill a survivor from the party
@@ -290,9 +285,10 @@ public class PartyController : MonoBehaviour
         //Turn the survivor into a zom if they are infected, triggering a single zom ambush
         if (party.partySurvivors[survivorId].infection > 0 && GameController.instance.gameMode == GameController.GameMode.worldmap)
         {
-            if(party.partySurvivors.Count > 1)
+            if (party.partySurvivors.Count > 1)
             {
-                AmbushController.instance.SetupAmbush();
+                //trigger an ambush with 1 zom
+                //AmbushController.instance.SetupAmbush();
 
                 //Update the logs
                 WorldController.instance.AddLog(party.partySurvivors[survivorId].survivorName + " passes away due to their infection, and quickly reanimates.");
@@ -302,7 +298,7 @@ public class PartyController : MonoBehaviour
                 //Gameover();
                 Debug.Log("Game over - your last survivor turned");
             }
-            
+
         }
 
         //Remove from Survivor list
@@ -332,6 +328,9 @@ public class PartyController : MonoBehaviour
 
         //Remove from Survivor list
         party.partySurvivors.RemoveAt(survivorId);
+
+        //Recalc the threat level of the party
+        CalculatePartyThreatLevel();
 
         //Update UI Elements
         UIController.instance.UpdateHud();
@@ -375,13 +374,20 @@ public class PartyController : MonoBehaviour
     //Enter a vehicle
     public void EnterVehicle(Vehicle targetVehicle, int fuel, int hp, int tileIndex)
     {
-        party.partyVehicle = targetVehicle;
-        party.partyVehicle.vehicleFuel = fuel;
-        party.partyVehicle.vehicleHp = hp;
-        WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.RemoveAt(tileIndex);
-        UIController.instance.UpdateHud();
-        UIController.instance.UpdateVehicles();
-        party.inVehicle = true;
+        if(party.partySurvivors.Count <= targetVehicle.vehiclePassengers)
+        {
+            party.partyVehicle = targetVehicle;
+            party.partyVehicle.vehicleFuel = fuel;
+            party.partyVehicle.vehicleHp = hp;
+            WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.RemoveAt(tileIndex);
+            party.inVehicle = true;
+            UIController.instance.UpdateHud();
+            UIController.instance.UpdateVehicles();
+        }
+        else
+        {
+            Debug.Log("Too many passengers");
+        }
     }
 
     //Exit a vehicle
@@ -557,6 +563,16 @@ public class PartyController : MonoBehaviour
         //get the survivors defense value
     }
 
+    //recalculate the party threat level based on party size and any trait effects
+    public void CalculatePartyThreatLevel()
+    {
+        int partySize = party.partySurvivors.Count;
+
+        //Loop through each survivor, check if they have a threat trait and add it to the score, then half that
+
+        party.partyThreatLevel = Mathf.RoundToInt(partySize / 2);
+    }
+
     //Return random item
     public Loot RandomItem(float lootChance)
     {
@@ -615,9 +631,11 @@ public class PartyController : MonoBehaviour
             yield return new WaitForSeconds(1f);
             WorldController.instance.AdvanceTime(minutes);
 
-            //Randomise chance of being ambushed based on survival skills, party size etc
-            bool partyIsAmbushed = (Random.value > 0.75f);
-            if(partyIsAmbushed == true)
+            //calculate threat level
+            int threatLevel = WorldController.instance.CalculateThreatLevel(true, null);
+            int threatChance = 0; // Random.Range(0, 10);
+
+            if (threatChance > threatLevel)
             {
                 AmbushController.instance.SetupAmbush();
                 //Display a status
@@ -644,6 +662,7 @@ public class PartyController : MonoBehaviour
                 //Update the status text to state what was picked up
                 EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
                 EncounterController.instance.StatusStringBuilder();
+                //WorldController.instance.AdvanceTime(15f);
                 UIController.instance.UpdateHud();
             }            
         }
@@ -663,6 +682,9 @@ public class Party
     //Party stats
     public int partyAttack;
     public int partyDefense;
+
+    //Party Threat Level
+    public int partyThreatLevel;
 
     //Party weight based on inventory
     public float partyWeight;

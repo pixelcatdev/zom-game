@@ -11,16 +11,27 @@ public class WorldTileProps : MonoBehaviour
     public Color colorDay;
     public GameObject alreadyScavengedIcon;
 
+    private void Start()
+    {
+        if (changeTimeOfDayColor == true)
+        {
+            GetComponent<SpriteRenderer>().color = colorDay;
+        }
+    }
+
     private void Update()
     {
         //Turns on the scavenged marker
         if (tileProps.alreadyScavenged == true)
         {
             alreadyScavengedIcon.SetActive(true);
-        }
+        }               
+    }
 
+    private void RenderTile()
+    {
         //Twilight mode if night-time
-        if(changeTimeOfDayColor == true)
+        if (changeTimeOfDayColor == true)
         {
             string dateTime = WorldController.instance.world.worldDateTime;
             DateTime date;
@@ -43,6 +54,6 @@ public class WorldTileProps : MonoBehaviour
             {
                 Console.WriteLine("Invalid date format.");
             }
-        }        
+        }
     }
 }
