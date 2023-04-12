@@ -272,7 +272,7 @@ public class PartyController : MonoBehaviour
         WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
 
         //Update the UI
-        UIController.instance.CloseAllMenus();
+        UIController.instance.CloseEncounterPrompt();
         UIController.instance.UpdateHud();
     }
 

@@ -12,7 +12,7 @@ public class EncounterController : MonoBehaviour
 
     public string encounterText;
 
-    public Survivor newSurvivor = new Survivor();
+    public Survivor newSurvivor;// = new Survivor();
 
     // Singleton Initialization
     void Awake()
@@ -44,7 +44,7 @@ public class EncounterController : MonoBehaviour
                 Debug.Log("Survivor would like to join");
 
                 //Randomise the survivors details
-                //newSurvivor = new Survivor();
+                newSurvivor = new Survivor();
 
                 //Randomise gender
                 int gender = Random.Range(0, 2);

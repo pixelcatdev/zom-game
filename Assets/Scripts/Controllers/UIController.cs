@@ -141,7 +141,6 @@ public class UIController : MonoBehaviour
         uiJournal.SetActive(false);
         uiNotes.SetActive(false);
         uiQuests.SetActive(false);
-        uiEncounter.SetActive(false);
     }
 
     //Updates the Encounter text - currently for new survivors, but needs to be more fluid
@@ -150,6 +149,13 @@ public class UIController : MonoBehaviour
         uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiEncounterText.text = EncounterController.instance.encounterText;
         Survivor newSurvivor = EncounterController.instance.newSurvivor;
         uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.AddSurvivor(newSurvivor); });
+    }
+
+    //Closes the encounter prompt and clears any listeners added to either of the buttons
+    public void CloseEncounterPrompt()
+    {
+        uiEncounter.SetActive(false);
+        uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.RemoveAllListeners();
     }
 
     //Updates the Inventory menu
