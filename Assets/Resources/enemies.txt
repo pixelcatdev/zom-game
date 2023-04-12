@@ -2,29 +2,25 @@
 	"enemies": [
 		{
 			"enemyName": "Zom",
-			"enemyAttack": 2,			
-			"enemyDefense": 1,
+			"enemyAttack": 1,			
 			"enemyVerb": "bitten",
 			"enemySprite":"\\Directory\\..."
 		},
 		{
 			"enemyName": "Raider",
 			"enemyAttack": 3,
-			"enemyDefense": 7,
 			"enemyVerb": "beaten",
 			"enemySprite":"\\Directory\\..."
 		},
 		{
 			"enemyName": "Wild Dog",
 			"enemyAttack": 2,
-			"enemyDefense": 3,
 			"enemyVerb": "mauled",
 			"enemySprite":"\\Directory\\..."
 		},
 		{
 			"enemyName": "Rogue Soldier",
-			"enemyAttack": 5,
-			"enemyDefense": 3,
+			"enemyAttack": 4,
 			"enemyVerb": "gunned down",
 			"enemySprite":"\\Directory\\..."
 		}		

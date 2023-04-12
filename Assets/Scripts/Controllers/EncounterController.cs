@@ -30,10 +30,10 @@ public class EncounterController : MonoBehaviour
     //Randomise chance of an encounter when moving
     public void RandomEncounter()
     {
-        int randomInt = 1; // Random.Range(0, 5);
+        int randomInt = Random.Range(0, 20);
         Debug.Log("Encounter chance: " + randomInt);
 
-        //find a survivor
+        //survivor joins
         if (randomInt == 1)
         {
             Party party = PartyController.instance.party;
@@ -43,62 +43,78 @@ public class EncounterController : MonoBehaviour
                 //Randomise whether its a rescue or a request
                 Debug.Log("Survivor would like to join");
 
-                //Randomise the survivors details
-                newSurvivor = new Survivor();
+                //Generate a new survivor
+                GenerateNewSurvivor();
 
-                //Randomise gender
-                int gender = Random.Range(0, 2);
-
-                //Randomise name based on gender
-                if (gender == 0)
-                {
-                    newSurvivor.survivorName = ConfigController.instance.maleNames[Random.Range(0, ConfigController.instance.maleNames.Count - 1)];
-                }
-                else
-                {
-                    newSurvivor.survivorName = ConfigController.instance.femaleNames[Random.Range(0, ConfigController.instance.femaleNames.Count - 1)];
-                }
-
-                //Set the survivor to unequipped
-                newSurvivor.equippedWeaponIndex = -1;
-
-                //Randomise 10% chance of infection
-                float infected = Random.Range(0f, 1f);
-                if (infected > 0.9f)
-                {
-                    newSurvivor.infection = Random.Range(1, 5);
-                }
                 encounterText = "Your party comes across another survivor.\n\n" + newSurvivor.survivorName + " would like to join.";
                 UIController.instance.uiEncounter.SetActive(true);
-                UIController.instance.UpdateEncounter();
+                UIController.instance.UpdateEncounter("SurvivorJoins");
                 //PartyController.instance.AddSurvivor(newSurvivor);
             }
         }
-        //find a vehicle
+
+        //survivor rescue
         else if (randomInt == 2)
         {
-            //Add a vehicle to the tile if the player is in an urban or motorway tile, output the details to the status bar
+            //Generate a new survivor
+            GenerateNewSurvivor();
+
+            encounterText = "A survivor is under attack and needs your help (" + newSurvivor.survivorName + ")\n\nWill you help?";
+            UIController.instance.uiEncounter.SetActive(true);
+            //Randomise the enemy
+            UIController.instance.UpdateEncounter("SurvivorRescue");
+        }
+        //hold-up
+        else if (randomInt == 3)
+        {
+            //randomise for either vehicle or inventory
+            //if inventory, if they dont have anything, go straight into combat
+            if(PartyController.instance.party.inVehicle == true)
+            {
+                encounterText = "Enemies ambush your vehicle. They demand you turn over it over, or they'll start attacking.\n\nDo you surrender your vehicle?";
+                UIController.instance.UpdateEncounter("HoldupVehicle");
+            }
+            else
+            {
+                if(PartyController.instance.inventory.inventorySlots.Count > 0)
+                {
+                    encounterText = "Enemies ambush your party. They demand you turn over your entire inventory (including anything equipped), or they'll start attacking.\n\nDo you surrender your inventory?";
+                    UIController.instance.UpdateEncounter("HoldupInventory");
+                }
+                else
+                {
+                    AmbushController.instance.SetupAmbush(false, false, true, null);
+                }
+            }
+            
+            UIController.instance.uiEncounter.SetActive(true);
+            //Randomise the enemy type for the ambush to a raider or rogue soldier
+
+        }
+        //trader
+        else if (randomInt == 4)
+        {
+
+        }
+        //find a vehicle
+        else if (randomInt == 5)
+        {
+            //Add a vehicle to the tile if the player is in an urban or motorway tile and there is no other vehicle currently there, output the details to the status bar
             WorldTileProps currentTile = WorldController.instance.currentTile.GetComponent<WorldTileProps>();
-            if (currentTile.tileProps.biome == "Motorway" || currentTile.tileProps.biome == "Urban")
+            if (currentTile.tileProps.biome == "Motorway" || currentTile.tileProps.biome == "Urban" && currentTile.tileProps.vehicles.Count == 0)
             {
                 Vehicle randomVehicle = ConfigController.instance.vehicles.vehicles[Random.Range(0, ConfigController.instance.vehicles.vehicles.Count - 1)];
                 WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Add(randomVehicle);
-                Vehicle spawnedVehicle = WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles[WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Count-1];
+                Vehicle spawnedVehicle = WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles[WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Count - 1];
                 spawnedVehicle.vehicleFuel = Random.Range(0, spawnedVehicle.vehicleMaxFuel / 4);
                 spawnedVehicle.vehicleHp = Random.Range(0, 11);
 
                 //Add status text with vehicle details
                 statusStrings.Add(randomVehicle.vehicleName.ToUpper() + " found ");
-                //partyStatus += " " + randomVehicle.vehicleName.ToUpper() + " found ";
-            }            
-        }
-        //trigger encounter
-        else if (randomInt == 3)
-        {
-
+            }
         }
         //trigger ambush
-        else if (randomInt == 4)
+        else if (randomInt == 6)
         {
             //calculate threat level
             int threatLevel = WorldController.instance.CalculateThreatLevel(true, null);
@@ -123,7 +139,7 @@ public class EncounterController : MonoBehaviour
 
         Debug.Log("Players are attacked by a " + randomEnemy.enemyName);
 
-        AmbushController.instance.SetupAmbush();
+        AmbushController.instance.SetupAmbush(false, false, true, null);
 
     }
 
@@ -239,5 +255,35 @@ public class EncounterController : MonoBehaviour
 
         //Debug.Log("frequency: " + frequencyLookup);
         return frequencyLookup;
+    }
+
+    //Generate survivor details for encounters
+    public void GenerateNewSurvivor()
+    {
+        //Randomise the survivors details
+        newSurvivor = new Survivor();
+
+        //Randomise gender
+        int gender = Random.Range(0, 2);
+
+        //Randomise name based on gender
+        if (gender == 0)
+        {
+            newSurvivor.survivorName = ConfigController.instance.maleNames[Random.Range(0, ConfigController.instance.maleNames.Count - 1)];
+        }
+        else
+        {
+            newSurvivor.survivorName = ConfigController.instance.femaleNames[Random.Range(0, ConfigController.instance.femaleNames.Count - 1)];
+        }
+
+        //Set the survivor to unequipped
+        newSurvivor.equippedWeaponIndex = -1;
+
+        //Randomise 10% chance of infection
+        float infected = Random.Range(0f, 1f);
+        if (infected > 0.9f)
+        {
+            newSurvivor.infection = Random.Range(1, 5);
+        }
     }
 }

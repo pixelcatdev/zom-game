@@ -16,6 +16,13 @@ public class AmbushController : MonoBehaviour
     public int currentSurvivor;
     public int currentEnemy;
 
+    public bool isEncounterAmbush;
+    public bool isQuest;
+    public bool wonAmbush;
+
+    public int partyAttackRoll;
+    public int enemyAttackRoll;
+
     //new variables
     public Enemy enemy;
     public int enemyTotal;
@@ -40,8 +47,18 @@ public class AmbushController : MonoBehaviour
     }
 
     //Initiates an ambush, setting the enemy type and total and loading the relevent screen
-    public void SetupAmbush()
+    public void SetupAmbush(bool isEncounter, bool isQuest, bool randomEnemy, string chosenEnemy)
     {
+        if(isEncounter == true)
+        {
+            isEncounterAmbush = true;
+        }
+
+        if (isQuest == true)
+        {
+            isQuest = true;
+        }
+
         //switch to ambush mode
         GameController.instance.gameMode = GameController.GameMode.ambush;
         Debug.Log("Setting up ambush");
@@ -51,7 +68,16 @@ public class AmbushController : MonoBehaviour
         Camera.main.GetComponent<Camera>().orthographicSize = 5f;
 
         //Randomise enemy and enemy total
-        enemy = ConfigController.instance.enemies.enemies[0]; //ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
+        //Set the enemy type at random 
+        if (randomEnemy == true)
+        {
+            enemy = ConfigController.instance.enemies.enemies[0]; //ConfigController.instance.enemies.enemies[Random.Range(0, ConfigController.instance.enemies.enemies.Count)];
+        }
+        else
+        {
+            //crap way of hardcoding this atm
+            enemy = ConfigController.instance.enemies.enemies[2];
+        }        
         enemyTotal = Random.Range(1, 7);
 
         //Status update
@@ -65,14 +91,27 @@ public class AmbushController : MonoBehaviour
             EncounterController.instance.AddToStatus("Your party is ambushed by a " + enemy.enemyName);
         }
 
+        //Calculate the party attack
+        PartyController.instance.CalculatePartyAttack();
+        CalculateEnemyAttack();
+
         //Update the status string
         EncounterController.instance.StatusStringBuilder();
         UIController.instance.UpdateHud();
+
+        partyAttackRoll = 0;
+        enemyAttackRoll = 0;
 
         //Call the UI to enable the Ambush screen
         UIController.instance.UpdateAmbush();
         ambush.SetActive(true);
         ambushUi.SetActive(true);
+    }
+
+    //Recalculates the enemy attack
+    private void CalculateEnemyAttack()
+    {
+        enemyAttack = enemy.enemyAttack * enemyTotal;
     }
 
     //Get player input from the action menu
@@ -81,13 +120,14 @@ public class AmbushController : MonoBehaviour
         if(action == "Attack")
         {           
             //get the players attack and the enemies defense stats
-            int attack = PartyController.instance.party.partyAttack + Random.Range(1, 11);
-            int defense = enemyDefense + Random.Range(1, 11);
+            partyAttackRoll = PartyController.instance.party.partyAttack + Random.Range(1, 20);
+            //int defense = enemyDefense + Random.Range(1, 11);
+            enemyAttackRoll = (enemyAttack * enemyTotal) + Random.Range(1, 20);
 
-            Debug.Log("Party Attacking: " + attack + " vs Enemy Defending: " + defense);
+            Debug.Log("Party Attacking: " + partyAttackRoll + " vs Enemy Attack: " + enemyAttackRoll);
 
             //check if the party succeeds in hitting the enemy
-            if (attack > defense)
+            if (partyAttackRoll > enemyAttackRoll)
             {
                 enemyTotal--;
                 //add a status update for the party defeating an enemy
@@ -101,6 +141,12 @@ public class AmbushController : MonoBehaviour
                 EncounterController.instance.AddToStatus("Your party misses");
                 EncounterController.instance.StatusStringBuilder();
             }
+
+            //Update the attack values
+            UIController.instance.uiAmbushPartyRoll.text = AmbushController.instance.partyAttackRoll.ToString();
+            UIController.instance.uiAmbushPartyVal.text = "+" + PartyController.instance.party.partyAttack.ToString();
+            UIController.instance.uiAmbushEnemyRoll.text = AmbushController.instance.enemyAttackRoll.ToString();
+            UIController.instance.uiAmbushEnemyVal.text = "+" + AmbushController.instance.enemyAttack.ToString();
 
             StartCoroutine("PartyActionEnd");
         }
@@ -133,6 +179,29 @@ public class AmbushController : MonoBehaviour
     //Completes the Ambush
     public void CompleteAmbush()
     {
+        //If triggered by quest or encounter, give some sort of rewarded output
+        if(wonAmbush == true)
+        {
+            if (isEncounterAmbush == true)
+            {
+                string survivorName = EncounterController.instance.newSurvivor.survivorName;
+
+                //Survivor joins, but if not enough room, they give a random inventory item
+                if (PartyController.instance.party.partySurvivors.Count < 6)
+                {
+                    PartyController.instance.AddSurvivor(EncounterController.instance.newSurvivor);
+                    EncounterController.instance.AddToStatus(survivorName + " has been rescued. They join your party.");
+                }
+                else
+                {
+                    Loot randomItem = PartyController.instance.RandomItem(1f);
+                    int lootQty = Random.Range(1, 3);
+                    PartyController.instance.AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
+                    EncounterController.instance.AddToStatus(survivorName + " has been rescued. They offer you what little they have (x" + lootQty + " " + randomItem.lootName + ")");
+                }
+            }
+        }       
+
         //Set the camera's zoom back again
         Camera.main.GetComponent<Camera>().orthographicSize = cameraZoom;
 
@@ -141,6 +210,9 @@ public class AmbushController : MonoBehaviour
 
         GameController.instance.gameMode = GameController.GameMode.worldmap;
         ambush.SetActive(false);
+        //isEncounterAmbush = false;
+        isQuest = false;
+        wonAmbush = false;
     }  
 
     IEnumerator PartyActionEnd()
@@ -151,12 +223,15 @@ public class AmbushController : MonoBehaviour
 
         if (enemyTotal <= 0)
         {
+            wonAmbush = true;
             CompleteAmbush();
         }
         else
         {
             //Disable the player buttons
-            ambushUi.SetActive(false);
+            //ambushUi.SetActive(false);
+            PartyController.instance.CalculatePartyAttack();
+            CalculateEnemyAttack();
             StartCoroutine("EnemyAction");
         }        
     }
@@ -166,17 +241,17 @@ public class AmbushController : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         //get the players attack and the enemies defense stats
-        int attack = enemyAttack + Random.Range(1, 11);
-        int defense = PartyController.instance.party.partyDefense + Random.Range(1, 11);
+        enemyAttackRoll = (enemyAttack * enemyTotal) + Random.Range(1, 20);
+        partyAttackRoll = PartyController.instance.party.partyDefense + Random.Range(1, 20);
 
-        Debug.Log("Enemy Attacking: " + attack + " vs Party Defending: " + defense);
+        Debug.Log("Enemy Attacking: " + enemyAttackRoll + " vs Party Attack: " + partyAttackRoll);
 
         //get a random party target
         int randomPartyMember = Random.Range(0, PartyController.instance.party.partySurvivors.Count);
         Debug.Log(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " targeted");
 
         //check if the party succeeds in hitting the enemy
-        if (attack > defense)
+        if (enemyAttackRoll > partyAttackRoll)
         {
             if (PartyController.instance.party.partySurvivors.Count > 0)
             {
@@ -220,6 +295,8 @@ public class AmbushController : MonoBehaviour
         else
         {
             ambushUi.SetActive(true);
+            PartyController.instance.CalculatePartyAttack();
+            CalculateEnemyAttack();
         }        
     }
 }

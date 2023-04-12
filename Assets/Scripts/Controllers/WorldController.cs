@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldController : MonoBehaviour
-{    
+{
     public List<GameObject> worldTileObjects;
     public List<GameObject> urbanTiles;
     public World world = new World();
@@ -29,6 +29,17 @@ public class WorldController : MonoBehaviour
 
     public void SetupWorld()
     {
+        // Find all game objects with the specified script attached and add them to the list
+        MonoBehaviour[] scripts = FindObjectsOfType<WorldTileProps>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            worldTileObjects.Add(script.gameObject);
+        }
+        Debug.Log(worldTileObjects.Count.ToString() + " tiles found");
+
+        // Sort the list based on the x-axis position of the game objects
+        worldTileObjects.Sort((a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
+
         GameObject[] urbanTilesFound = GameObject.FindGameObjectsWithTag("tileUrban");
 
         // Loop through the found objects and do something with them
@@ -50,13 +61,13 @@ public class WorldController : MonoBehaviour
 
     //Calculates the threat level of the tile based on numerous factors
     public int CalculateThreatLevel(bool calculateForCurrentTile, GameObject targetedTile)
-    {        
+    {
         int party = PartyController.instance.party.partyThreatLevel;
         int world = WorldController.instance.world.worldThreatLevel;
 
         //Determine time of day threat level
         int timeOfDay = 0;
-        if(isNightTime() == true)
+        if (isNightTime() == true)
         {
             timeOfDay = 5;
         }
@@ -112,7 +123,7 @@ public class WorldController : MonoBehaviour
     //Adds a new log to the log strings
     public void AddLog(string logString)
     {
-        world.logs.Add(world.worldDateTime +": " + logString);
+        world.logs.Add(world.worldDateTime + ": " + logString);
     }
 
     //Geta random tile at a given position

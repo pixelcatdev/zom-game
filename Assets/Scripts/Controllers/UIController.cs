@@ -59,6 +59,11 @@ public class UIController : MonoBehaviour
     public Transform uiQuestsSlots;
     public GameObject uiQuestSlotObj;
 
+    public TextMeshProUGUI uiAmbushPartyRoll;
+    public TextMeshProUGUI uiAmbushPartyVal;
+    public TextMeshProUGUI uiAmbushEnemyRoll;
+    public TextMeshProUGUI uiAmbushEnemyVal;
+
     public List<GameObject> survivorObjs;
     public List<GameObject> enemyObjs;
 
@@ -144,11 +149,40 @@ public class UIController : MonoBehaviour
     }
 
     //Updates the Encounter text - currently for new survivors, but needs to be more fluid
-    public void UpdateEncounter()
+    public void UpdateEncounter(string encounterType)
     {
         uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiEncounterText.text = EncounterController.instance.encounterText;
         Survivor newSurvivor = EncounterController.instance.newSurvivor;
-        uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.AddSurvivor(newSurvivor); });
+        
+        //Update the button based on the encounter type
+        if(encounterType == "SurvivorJoins")
+        {
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.AddSurvivor(newSurvivor); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { CloseEncounterPrompt(); });
+
+        }
+        else if (encounterType == "SurvivorRescue")
+        {
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { AmbushController.instance.SetupAmbush(true, false, true, null); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { CloseEncounterPrompt(); });
+        }
+        else if (encounterType == "HoldupVehicle")
+        {
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.AddListener(delegate { AmbushController.instance.SetupAmbush(false, false, false, "Raider"); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.ClearVehicle(); });
+        }
+        else if (encounterType == "HoldupInventory")
+        {
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.AddListener(delegate { AmbushController.instance.SetupAmbush(false, false, false, "Raider"); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.ClearInventory(); });
+        }
+        else if (encounterType == "Trade")
+        {
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { CloseEncounterPrompt(); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { });
+        }
+
+        //Add the default close and clear method too
     }
 
     //Closes the encounter prompt and clears any listeners added to either of the buttons
@@ -156,6 +190,7 @@ public class UIController : MonoBehaviour
     {
         uiEncounter.SetActive(false);
         uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.RemoveAllListeners();
+        uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.RemoveAllListeners();
     }
 
     //Updates the Inventory menu

@@ -272,7 +272,6 @@ public class PartyController : MonoBehaviour
         WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
 
         //Update the UI
-        UIController.instance.CloseEncounterPrompt();
         UIController.instance.UpdateHud();
     }
 
@@ -395,9 +394,9 @@ public class PartyController : MonoBehaviour
     {
         WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Add(party.partyVehicle);
         party.partyVehicle = null;
+        party.inVehicle = false;
         UIController.instance.UpdateHud();
         UIController.instance.UpdateVehicles();
-        party.inVehicle = false;
     }
 
     //Refuel a vehicle
@@ -434,6 +433,18 @@ public class PartyController : MonoBehaviour
     public void RepairVehicle()
     {
 
+    }
+
+    //Remove vehicle
+    public void ClearVehicle()
+    {
+        EncounterController.instance.AddToStatus("Your party hands over the vehicle and your ambushers drive away.");
+        EncounterController.instance.StatusStringBuilder();
+        UIController.instance.CloseEncounterPrompt();
+        party.inVehicle = false;
+        party.partyVehicle = null;
+        UIController.instance.UpdateHud();
+        UIController.instance.UpdateVehicles();
     }
 
     //Adds an item to the party inventory - ok, so this should be in its own Inventory class, but kiss my arse
@@ -542,6 +553,23 @@ public class PartyController : MonoBehaviour
 
     }
 
+    //Clearing the entire inventory
+    public void ClearInventory()
+    {
+        //loop through every player and force them to drop their item
+        for (int i = 0; i < party.partySurvivors.Count; i++)
+        {
+            party.partySurvivors[i].attack = 0;
+            party.partySurvivors[i].equippedWeaponIndex = -1;
+        }
+
+        inventory.inventorySlots.Clear();
+
+        EncounterController.instance.AddToStatus("Your party hands over all inventory and the attackers let you move on.");
+        EncounterController.instance.StatusStringBuilder();
+        UIController.instance.CloseEncounterPrompt();
+    }
+
     //recalculate the party weight
     public void CalculateWeight()
     {
@@ -555,12 +583,14 @@ public class PartyController : MonoBehaviour
         party.partyWeight = tempWeight;
     }
 
-    //recalculate the party attack and defense
-    public void CalculateAttackDefense()
+    //recalculate the party attack
+    public void CalculatePartyAttack()
     {
-        //loop through each survivor
-        //get the survivors attack value
-        //get the survivors defense value
+        party.partyAttack = 0;
+        for (int i = 0; i < party.partySurvivors.Count; i++)
+        {
+            party.partyAttack += party.partySurvivors[i].attack;
+        }
     }
 
     //recalculate the party threat level based on party size and any trait effects
@@ -637,7 +667,7 @@ public class PartyController : MonoBehaviour
 
             if (threatChance > threatLevel)
             {
-                AmbushController.instance.SetupAmbush();
+                AmbushController.instance.SetupAmbush(false, false, true, null);
                 //Display a status
 
                 StopCoroutine("ScavengeCoroutine");
@@ -715,8 +745,6 @@ public class Survivor
     public int infection;
     public int equippedWeaponIndex;
     public int attack;
-    public int defense;
-    public int damage;
 }
 
 [System.Serializable]
