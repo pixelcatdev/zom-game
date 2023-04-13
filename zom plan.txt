@@ -77,6 +77,11 @@
 	- attacks
 	- music
 - map
+	- tile data saves
+- camera controls
+	- scroll zoom
+	- pan
+	- target zoom
 - configs
 	- loot
 	- enemies
