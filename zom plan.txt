@@ -20,6 +20,8 @@
 	- advance time			DONE
 	- timeline events
 	- fog of war
+	- night/day cycle
+	- dynamic threat level		DONE
 - inventory management
 	- add item			DONE
 	- discard item			DONE
@@ -32,9 +34,10 @@
 - scavenging				DONE
 - encounters
 	- travel status text		DONE
-	- ambush
-	- walking encounter
-	- driving encounter
+	- ambush			DONE
+	- survivor joins		DONE
+	- survivor rescue		DONE
+	- robbery			DONE
 	- survivor betrayal
 - ambush
 	- setup ambush			DONE
@@ -48,6 +51,10 @@
 - trade
 	- buy items
 	- sell items
+- crafting
+	- recipes
+	- buy blueprints
+	- craft recipes
 - quests
 	- fetch
 	- find
@@ -73,3 +80,4 @@
 	- status verbs
 	- status nouns
 	- encounters
+	- recipes

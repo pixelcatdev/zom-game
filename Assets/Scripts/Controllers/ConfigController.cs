@@ -7,6 +7,7 @@ using UnityEngine;
 public class ConfigController : MonoBehaviour
 {
     public TextAsset itemsJSON;
+    public TextAsset craftingRecipesJSON;
     public TextAsset weaponsJSON;
     public TextAsset vehiclesJSON;
     public TextAsset enemiesJSON;
@@ -18,6 +19,7 @@ public class ConfigController : MonoBehaviour
     public List<string> femaleNames;
 
     public LootList loot = new LootList();
+    public RecipeList recipes = new RecipeList();
     public WeaponList weapons = new WeaponList();
     public VehicleList vehicles = new VehicleList();
     public EnemyList enemies = new EnemyList();
@@ -58,6 +60,7 @@ public class ConfigController : MonoBehaviour
 
         //Load all definitions
         loot = JsonUtility.FromJson<LootList>(itemsJSON.text);
+        recipes = JsonUtility.FromJson<RecipeList>(craftingRecipesJSON.text);
         weapons = JsonUtility.FromJson<WeaponList>(weaponsJSON.text);
         vehicles = JsonUtility.FromJson<VehicleList>(vehiclesJSON.text);
         enemies = JsonUtility.FromJson<EnemyList>(enemiesJSON.text);
@@ -86,6 +89,30 @@ public class Loot
 public class LootList
 {
     public List<Loot> loot;
+}
+
+//================== Crafting Recipes ======================================
+[System.Serializable]
+public class Recipe
+{
+    public string lootCrafted;
+    public string description;
+    public int buildTimeMinutes;
+    public int intelligence;
+    public List<RecipeIngredients> recipeList;
+}
+
+[System.Serializable]
+public class RecipeIngredients
+{
+    public string lootName;
+    public int requiredQty;
+}
+
+[System.Serializable]
+public class RecipeList
+{
+    public List<Recipe> recipes;
 }
 
 //================== Weapons =====================================
@@ -140,6 +167,7 @@ public class EnemyList
 {
     public List<Enemy> enemies;
 }
+
 //================== Encounters =====================================
 
 [System.Serializable]
