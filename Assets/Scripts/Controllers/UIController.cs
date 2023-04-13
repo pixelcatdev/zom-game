@@ -548,27 +548,27 @@ public class UIController : MonoBehaviour
     //Updates the trade UI
     public void UpdateTrade()
     {
-        ////loop through the party survivors and instantiate the survivor slot under the Slots Transform, setting the text of each object as its dropped
-        //foreach (Transform child in uiTradeBuySlots)
-        //{
-        //    GameObject.Destroy(child.gameObject);
-        //}
+        //loop through the party survivors and instantiate the survivor slot under the Slots Transform, setting the text of each object as its dropped
+        foreach (Transform child in uiTradeBuySlots)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
 
-        //for (int i = 0; i < EncounterController.instance.tradeInventory.inventorySlots.Count; i++)
-        //{
-        //    GameObject newSlot = Instantiate(uiTradeBuySlotObj, uiTradeBuySlots);
-        //    UiTradeSlotProps tradeSlot = newSlot.GetComponent<UiTradeSlotProps>();
+        for (int i = 0; i < EncounterController.instance.tradeInventory.inventorySlots.Count; i++)
+        {
+            GameObject newSlot = Instantiate(uiTradeBuySlotObj, uiTradeBuySlots);
+            UiTradeSlotProps tradeSlot = newSlot.GetComponent<UiTradeSlotProps>();
 
-        //    tradeSlot.uiLootName.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootName;
-        //    tradeSlot.uiLootQty.text = "x" + EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
-        //    tradeSlot.uiLootWeight.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootWeight + "(lb)";
-        //    tradeSlot.uiLootValue.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootValue.ToString();
-        //    //tradeSlot.uiTotal.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
+            tradeSlot.uiLootName.text = EncounterController.instance.tradeInventory.inventorySlots[i].loot.lootName;
+            tradeSlot.uiLootQty.text = "x" + EncounterController.instance.tradeInventory.inventorySlots[i].slotQty;
+            tradeSlot.uiLootWeight.text = EncounterController.instance.tradeInventory.inventorySlots[i].loot.lootWeight + "(lb)";
+            tradeSlot.uiLootValue.text = EncounterController.instance.tradeInventory.inventorySlots[i].loot.lootValue.ToString();
+            //tradeSlot.uiTotal.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
 
-        //    tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(true,0); });
-        //    tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(false, 0); });
+            tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(true, 0); });
+            tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(false, 0); });
 
-        //}
+        }
     }
 
 }

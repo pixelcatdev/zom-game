@@ -1,5 +1,6 @@
 - game
 	- new game
+		- random mode
 	- game over
 - ui
 	- hud				DONE
@@ -52,7 +53,7 @@
 	- buy items
 	- sell items
 - crafting
-	- recipes
+	- recipes			DONE
 	- buy blueprints
 	- craft recipes
 - quests
@@ -63,6 +64,9 @@
 	- save				DONE
 	- load				DONE
 - options
+	- sfx volume
+	- music volume
+	- autosave
 - graphics
 	- tiles				DONE
 	- ambush backgrounds

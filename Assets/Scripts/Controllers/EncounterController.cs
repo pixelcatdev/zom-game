@@ -303,28 +303,23 @@ public class EncounterController : MonoBehaviour
     //Setup a new trade encounter, with 5 random items
     public void SetupTrade()
     {
-        //tradeInventory.inventorySlots.Clear();
+        tradeInventory.inventorySlots.Clear();
 
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    tradeInventory.inventorySlots.Add(new InventorySlot());
-
-        //    //Get a random item
-        //    Loot randomLoot = PartyController.instance.RandomItem(1f);
-        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].loot.lootName = randomLoot.lootName;
-        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].loot.lootDesc = randomLoot.lootDesc;
-
-        //    if(randomLoot.lootType != "WeaponRanged" || randomLoot.lootType != "WeaponMelee")
-        //    {
-        //        tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].loot.lootQty = Random.Range(1, 5);
-        //    }
-        //    else
-        //    {
-        //        tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootQty = 1;
-        //    }
-        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootWeight = randomLoot.lootWeight;
-        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootValue = randomLoot.lootValue;
-        //}
+        for (int i = 0; i < 5; i++)
+        {
+            //Get a random item
+            Loot randomLoot = PartyController.instance.RandomItem(1f);
+            int randomQty = 0;
+            if (randomLoot.lootType != "WeaponRanged" || randomLoot.lootType != "WeaponMelee")
+            {
+                randomQty = Random.Range(1, 5);
+            }
+            else
+            {
+                randomQty = 1;
+            }
+            InventoryController.instance.AddItem(randomLoot, randomQty, tradeInventory);
+        }
 
         //UI updates
         UIController.instance.uiTrade.SetActive(true);
@@ -334,6 +329,11 @@ public class EncounterController : MonoBehaviour
     //When click the buy (increase or decrease) buttons, add or remove the trade slot and recalculate the trade total
     public void TradeBuy(bool increaseQty, int slotId)
     {
+        if (increaseQty)
+        {
+            //InventoryController.instance.MoveItem();
+        }
+
         //if (increaseQty)
         //{
         //    Debug.Log("slotId " + slotId);

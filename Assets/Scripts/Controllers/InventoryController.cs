@@ -113,8 +113,13 @@ public class InventoryController : MonoBehaviour
     }
 
     //Moves an item from one inventory to another
-    public void MoveItem()
+    public void MoveItem(Inventory sourceInventory, int sourceIndex, Inventory targetInventory, int qtyToMove)
     {
+        //sourceInventory.inventorySlots[sourceIndex].slotQty
+
+        //Get the loot from source inventory
+        //Get the qty
+        //Add it to the new inventory
 
     }
 
