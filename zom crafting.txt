@@ -1,0 +1,40 @@
+The climate update
+
+- Seasons		Seasons that cycle with the world
+- Weather		Rain, Snow, Heatwaves, Cold snaps - impacts your travel
+- Wildfires		Can occur in the summer, spreads from tile to tile over a period of hours
+- Floods		Can occur any time with heavy rainfall
+
+The Settlement update
+
+- Camp			Create a camp for a bonus whilst resting
+- Settlement		Visit or establish a settlement, trade and pick up new survivors and quests
+- Factions		Build reputation with various factions
+
+----------------
+
+Crafting
+
+- crafting requires resources, takes time but importantly needs a party intelligence level
+- each survivor comes with an intelligence stat (or has an intelligence trait, tbd)
+- if the cumulative intelligence score is met and the resources are available, the item can be crafted if the recipe is known
+- recipes can be bought from traders or given as quest rewards
+
+- example for a pipe bomb
+
+- recipe
+- lootName		Pipebomb
+- description		A small length of pipe, packed with volatile chemicals that explodes when lit with a fuse (kills between 3 and 6 enemies)
+- recipeList
+	- lootName	Pipe
+	- lootQty	1
+			Fuse
+			1
+			Gunpowder
+			6
+- costInMinutes		10
+- intelligence		5
+
+lootName		Pipebomb
+lootType		explosiveWeapon
+lootTypeVal		6

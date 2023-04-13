@@ -722,6 +722,8 @@ public class Party
     //List of survivors currently in the party
     public List<Survivor> partySurvivors = new List<Survivor>();
 
+    public InventoryTest newInventory = new InventoryTest();
+
     //List of current quests
     public List<Quest> quests = new List<Quest>();
 
@@ -745,25 +747,4 @@ public class Survivor
     public int infection;
     public int equippedWeaponIndex;
     public int attack;
-}
-
-[System.Serializable]
-public class Inventory
-{
-    public List<InventorySlot> inventorySlots;
-}
-
-[System.Serializable]
-public class InventorySlot
-{
-    public string lootName;
-    public string lootDesc;
-    public string lootType;
-    public int lootTypeVal;
-    public float lootWeight;
-    public float lootRarity;
-    public float lootValue;
-    public int lootQty;
-    public string lootBiome;
-    public bool lootEquipped;
 }

@@ -2,8 +2,8 @@
 	- new game
 	- game over
 - ui
-	- hud
-	- tooltips
+	- hud				DONE
+	- tooltips			DONE
 - party
 	- add survivor			DONE
 	- equip survivor		DONE
@@ -39,9 +39,8 @@
 - ambush
 	- setup ambush			DONE
 	- attack			DONE
-	- defend
 	- use item
-	- flee
+	- flee				DONE
 	- win conditions		DONE
 - journal
 	- record events			DONE

@@ -67,6 +67,12 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI uiAmbushEnemyCalc;
     public TextMeshProUGUI uiAmbushEnemyAttackTotal;
 
+    public GameObject uiTrade;
+    public Transform uiTradeBuySlots;
+    public GameObject uiTradeBuySlotObj;
+    public Transform uiTradeSellSlots;
+    public GameObject uiTradeSellSlotObj;
+
     public List<GameObject> survivorObjs;
     public List<GameObject> enemyObjs;
 
@@ -156,9 +162,9 @@ public class UIController : MonoBehaviour
     {
         uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiEncounterText.text = EncounterController.instance.encounterText;
         Survivor newSurvivor = EncounterController.instance.newSurvivor;
-        
+
         //Update the button based on the encounter type
-        if(encounterType == "SurvivorJoins")
+        if (encounterType == "SurvivorJoins")
         {
             uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.AddSurvivor(newSurvivor); });
             uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { CloseEncounterPrompt(); });
@@ -372,7 +378,7 @@ public class UIController : MonoBehaviour
             InventorySlot slot = PartyController.instance.inventory.inventorySlots[i];
             if ((slot.lootType == "WeaponRanged" || slot.lootType == "WeaponMelee") && slot.lootEquipped == false)
             {
-                equippableWeapons.Add(slot.lootName);                
+                equippableWeapons.Add(slot.lootName);
             }
         }
 
@@ -448,7 +454,7 @@ public class UIController : MonoBehaviour
         hud_time.text = currentDateTime.TimeOfDay.ToString("hh\\:mm");
 
         //Set the hud travel text based on whether walking or driving
-        if(PartyController.instance.party.inVehicle == false)
+        if (PartyController.instance.party.inVehicle == false)
         {
             //Party Energy
             hud_travel.text = "Travel: Walking";
@@ -536,6 +542,32 @@ public class UIController : MonoBehaviour
         {
             enemyObjs[i].SetActive(true);
             enemyObjs[i].GetComponentInChildren<TextMeshProUGUI>().text = AmbushController.instance.enemy.enemyName;
+        }
+    }
+
+    //Updates the trade UI
+    public void UpdateTrade()
+    {
+        //loop through the party survivors and instantiate the survivor slot under the Slots Transform, setting the text of each object as its dropped
+        foreach (Transform child in uiTradeBuySlots)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < EncounterController.instance.tradeInventory.inventorySlots.Count; i++)
+        {
+            GameObject newSlot = Instantiate(uiTradeBuySlotObj, uiTradeBuySlots);
+            UiTradeSlotProps tradeSlot = newSlot.GetComponent<UiTradeSlotProps>();
+
+            tradeSlot.uiLootName.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootName;
+            tradeSlot.uiLootQty.text = "x" + EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
+            tradeSlot.uiLootWeight.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootWeight + "(lb)";
+            tradeSlot.uiLootValue.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootValue.ToString();
+            //tradeSlot.uiTotal.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
+
+            tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(true,0); });
+            tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(false, 0); });
+
         }
     }
 
