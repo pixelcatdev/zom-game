@@ -59,10 +59,13 @@ public class UIController : MonoBehaviour
     public Transform uiQuestsSlots;
     public GameObject uiQuestSlotObj;
 
-    public TextMeshProUGUI uiAmbushPartyRoll;
-    public TextMeshProUGUI uiAmbushPartyVal;
-    public TextMeshProUGUI uiAmbushEnemyRoll;
-    public TextMeshProUGUI uiAmbushEnemyVal;
+    public Button uiAmbushAttack;
+    public Button uiAmbushUseitem;
+    public Button uiAmbushFlee;
+    public TextMeshProUGUI uiAmbushPartyCalc;
+    public TextMeshProUGUI uiAmbushPartyAttackTotal;
+    public TextMeshProUGUI uiAmbushEnemyCalc;
+    public TextMeshProUGUI uiAmbushEnemyAttackTotal;
 
     public List<GameObject> survivorObjs;
     public List<GameObject> enemyObjs;
@@ -491,7 +494,19 @@ public class UIController : MonoBehaviour
         hud_statusText.text = EncounterController.instance.partyStatus;
     }
 
-    //Updates the Ambush screen
+    //Updates the Ambush UI
+    public void UpdateAmbushStats()
+    {
+        UIController.instance.uiCursorTooltip.SetActive(false);
+
+        UIController.instance.uiAmbushPartyCalc.text = "Rolled (" + AmbushController.instance.partyAttackRoll.ToString() + ") " + PartyController.instance.party.partyAttack.ToString();
+        UIController.instance.uiAmbushPartyAttackTotal.text = (AmbushController.instance.partyAttackRoll + PartyController.instance.party.partyAttack).ToString();
+
+        UIController.instance.uiAmbushEnemyCalc.text = "Rolled (" + AmbushController.instance.enemyAttackRoll.ToString() + ") " + AmbushController.instance.enemyAttack.ToString();
+        UIController.instance.uiAmbushEnemyAttackTotal.text = (AmbushController.instance.enemyAttackRoll + AmbushController.instance.enemyAttack).ToString();
+    }
+
+    //Updates the Ambush sprites
     public void UpdateAmbush()
     {
         //Update the status string

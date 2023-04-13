@@ -131,6 +131,7 @@ public class Enemy
     public string enemyName;
     public int enemyAttack;
     public string enemyVerb;
+    public string canInfect;
     public string enemySprite;
 }
 

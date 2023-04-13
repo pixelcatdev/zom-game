@@ -33,7 +33,7 @@ public class EncounterController : MonoBehaviour
         int randomInt = Random.Range(0, 20);
         Debug.Log("Encounter chance: " + randomInt);
 
-        //survivor joins
+        //survivor joins if there's room in the party and if there's room in a vehicle
         if (randomInt == 1)
         {
             Party party = PartyController.instance.party;
@@ -41,8 +41,6 @@ public class EncounterController : MonoBehaviour
             if (party.partySurvivors.Count < 6)
             {
                 //Randomise whether its a rescue or a request
-                Debug.Log("Survivor would like to join");
-
                 //Generate a new survivor
                 GenerateNewSurvivor();
 

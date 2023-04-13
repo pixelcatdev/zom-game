@@ -103,6 +103,7 @@ public class AmbushController : MonoBehaviour
         enemyAttackRoll = 0;
 
         //Call the UI to enable the Ambush screen
+        UIController.instance.UpdateAmbushStats();
         UIController.instance.UpdateAmbush();
         ambush.SetActive(true);
         ambushUi.SetActive(true);
@@ -118,41 +119,8 @@ public class AmbushController : MonoBehaviour
     public void PartyAction(string action)
     {
         if(action == "Attack")
-        {           
-            //get the players attack and the enemies defense stats
-            partyAttackRoll = PartyController.instance.party.partyAttack + Random.Range(1, 20);
-            //int defense = enemyDefense + Random.Range(1, 11);
-            enemyAttackRoll = (enemyAttack * enemyTotal) + Random.Range(1, 20);
-
-            Debug.Log("Party Attacking: " + partyAttackRoll + " vs Enemy Attack: " + enemyAttackRoll);
-
-            //check if the party succeeds in hitting the enemy
-            if (partyAttackRoll > enemyAttackRoll)
-            {
-                enemyTotal--;
-                //add a status update for the party defeating an enemy
-
-                EncounterController.instance.AddToStatus("Your party hits the enemy");
-                EncounterController.instance.StatusStringBuilder();
-            }
-            else
-            {
-                //add a status update for the party missing an enemy
-                EncounterController.instance.AddToStatus("Your party misses");
-                EncounterController.instance.StatusStringBuilder();
-            }
-
-            //Update the attack values
-            UIController.instance.uiAmbushPartyRoll.text = AmbushController.instance.partyAttackRoll.ToString();
-            UIController.instance.uiAmbushPartyVal.text = "+" + PartyController.instance.party.partyAttack.ToString();
-            UIController.instance.uiAmbushEnemyRoll.text = AmbushController.instance.enemyAttackRoll.ToString();
-            UIController.instance.uiAmbushEnemyVal.text = "+" + AmbushController.instance.enemyAttack.ToString();
-
-            StartCoroutine("PartyActionEnd");
-        }
-        else if (action == "Defend")
-        {
-
+        {            
+            StartCoroutine("Attack");
         }
         else if (action == "UseItem")
         {
@@ -160,19 +128,7 @@ public class AmbushController : MonoBehaviour
         }
         else if (action == "Flee")
         {
-            //Attempt to flee via RNG
-            bool partyEscapes = (Random.value > 0.5f);
-            if(partyEscapes == true)
-            {
-                EncounterController.instance.AddToStatus("Your party manages to flee your ambushers.");
-                CompleteAmbush();
-            }
-            else
-            {
-                EncounterController.instance.AddToStatus("Your party fails to outrun its ambushers.");
-                EncounterController.instance.StatusStringBuilder();
-                StartCoroutine("PartyActionEnd");
-            }            
+            StartCoroutine("Flee");
         }
     }
 
@@ -215,55 +171,60 @@ public class AmbushController : MonoBehaviour
         wonAmbush = false;
     }  
 
-    IEnumerator PartyActionEnd()
+    IEnumerator Attack()
     {
-        yield return new WaitForSeconds(2f);
+        //disable ambush buttons
+        UIController.instance.uiAmbushAttack.interactable = false;
+        UIController.instance.uiAmbushUseitem.interactable = false;
+        UIController.instance.uiAmbushFlee.interactable = false;
 
-        UIController.instance.UpdateAmbush();
+        yield return new WaitForSeconds(1f);
 
-        if (enemyTotal <= 0)
+        //recalculate the attack stats for each side
+        PartyController.instance.CalculatePartyAttack();
+        CalculateEnemyAttack();
+
+        //calculate the attack rolls for each team
+        partyAttackRoll = Random.Range(1, 20);
+        enemyAttackRoll = Random.Range(1, 20);
+
+        //Update the UI to show the rolls
+        UIController.instance.UpdateAmbushStats();
+
+        yield return new WaitForSeconds(1f);
+
+        //Determine who has the higher attack and resolve accordingly
+        if (partyAttackRoll + PartyController.instance.party.partyAttack >= enemyAttackRoll + enemyAttack)
         {
-            wonAmbush = true;
-            CompleteAmbush();
+            if(enemyTotal - 1 == 0)
+            {
+                wonAmbush = true;
+                CompleteAmbush();
+            }
+            else
+            {
+                enemyTotal--;
+            }
+            
+            //add a status update for the party defeating an enemy
+
+            EncounterController.instance.AddToStatus("Your party lands an attack on the enemy");
+            EncounterController.instance.StatusStringBuilder();
         }
         else
         {
-            //Disable the player buttons
-            //ambushUi.SetActive(false);
-            PartyController.instance.CalculatePartyAttack();
-            CalculateEnemyAttack();
-            StartCoroutine("EnemyAction");
-        }        
-    }
-
-    IEnumerator EnemyAction()
-    {
-        yield return new WaitForSeconds(1f);
-
-        //get the players attack and the enemies defense stats
-        enemyAttackRoll = (enemyAttack * enemyTotal) + Random.Range(1, 20);
-        partyAttackRoll = PartyController.instance.party.partyDefense + Random.Range(1, 20);
-
-        Debug.Log("Enemy Attacking: " + enemyAttackRoll + " vs Party Attack: " + partyAttackRoll);
-
-        //get a random party target
-        int randomPartyMember = Random.Range(0, PartyController.instance.party.partySurvivors.Count);
-        Debug.Log(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " targeted");
-
-        //check if the party succeeds in hitting the enemy
-        if (enemyAttackRoll > partyAttackRoll)
-        {
-            if (PartyController.instance.party.partySurvivors.Count > 0)
+            if(PartyController.instance.party.partySurvivors.Count > 0)
             {
-                //If its a zom attacking, if the randomly targeted survivor isn't yet infected, infect them - otherwise kill them
-                if(enemy.enemyName == "Zom" && PartyController.instance.party.partySurvivors[randomPartyMember].infection == 0)
+                int randomPartyMember = Random.Range(0, PartyController.instance.party.partySurvivors.Count);
+
+                if (enemy.canInfect == "true" && PartyController.instance.party.partySurvivors[randomPartyMember].infection == 0)
                 {
-                    Debug.Log("Zom attempting to infect");
                     PartyController.instance.party.partySurvivors[randomPartyMember].infection = 1;
                     WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " has been infected!");
+
                     //Add a status for the enemy infecting the party member
                     EncounterController.instance.AddToStatus(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " has been infected!");
-                    EncounterController.instance.StatusStringBuilder();                    
+                    EncounterController.instance.StatusStringBuilder();
                 }
                 else
                 {
@@ -272,31 +233,50 @@ public class AmbushController : MonoBehaviour
                     EncounterController.instance.StatusStringBuilder();
 
                     WorldController.instance.AddLog(PartyController.instance.party.partySurvivors[randomPartyMember].survivorName + " was " + enemy.enemyVerb + " by a " + enemy.enemyName + " and died from their injuries.");
-                    PartyController.instance.KillSurvivor(randomPartyMember);                    
+                    PartyController.instance.KillSurvivor(randomPartyMember);
                 }
             }
-        }
-        else
-        {
-            //add a status update for the party missing an enemy
-            EncounterController.instance.AddToStatus(enemy.enemyName + " attacked, but missed");
-            EncounterController.instance.StatusStringBuilder();
+            else
+            {
+                Debug.Log("Game over");
+            }
         }
 
-        //At the end of the enemy action, wait a second and then re-enable the party action menu
-        yield return new WaitForSeconds(1f);
-
+        //Update the UI
         UIController.instance.UpdateAmbush();
 
-        if (PartyController.instance.party.partySurvivors.Count == 0)
+        //enable ambush buttons
+        UIController.instance.uiAmbushAttack.interactable = true;
+        UIController.instance.uiAmbushUseitem.interactable = true;
+        UIController.instance.uiAmbushFlee.interactable = true;
+    }
+
+    IEnumerator Flee()
+    {
+        //disable ambush buttons
+        UIController.instance.uiAmbushAttack.interactable = false;
+        UIController.instance.uiAmbushUseitem.interactable = false;
+        UIController.instance.uiAmbushFlee.interactable = false;
+
+        yield return new WaitForSeconds(1f);
+
+        bool partyEscapes = (Random.value > 0.5f);
+        if (partyEscapes == true)
         {
-            //Game Over
+            EncounterController.instance.AddToStatus("Your party manages to flee your ambushers.");
+            CompleteAmbush();
         }
         else
         {
-            ambushUi.SetActive(true);
-            PartyController.instance.CalculatePartyAttack();
-            CalculateEnemyAttack();
-        }        
-    }
+            EncounterController.instance.AddToStatus("Your party fails to outrun its ambushers. They attack.");
+            EncounterController.instance.StatusStringBuilder();
+
+            StartCoroutine("Attack");
+        }
+
+        //enable ambush buttons
+        UIController.instance.uiAmbushAttack.interactable = true;
+        UIController.instance.uiAmbushUseitem.interactable = true;
+        UIController.instance.uiAmbushFlee.interactable = true;
+    }  
 }

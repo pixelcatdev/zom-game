@@ -4,24 +4,28 @@
 			"enemyName": "Zom",
 			"enemyAttack": 1,			
 			"enemyVerb": "bitten",
+			"canInfect": "true",
 			"enemySprite":"\\Directory\\..."
 		},
 		{
 			"enemyName": "Raider",
 			"enemyAttack": 3,
 			"enemyVerb": "beaten",
+			"canInfect": "false",
 			"enemySprite":"\\Directory\\..."
 		},
 		{
 			"enemyName": "Wild Dog",
 			"enemyAttack": 2,
 			"enemyVerb": "mauled",
+			"canInfect": "false",
 			"enemySprite":"\\Directory\\..."
 		},
 		{
 			"enemyName": "Rogue Soldier",
 			"enemyAttack": 4,
 			"enemyVerb": "gunned down",
+			"canInfect": "false",
 			"enemySprite":"\\Directory\\..."
 		}		
 	]
