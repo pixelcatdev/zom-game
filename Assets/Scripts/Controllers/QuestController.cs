@@ -106,8 +106,8 @@ public class QuestController : MonoBehaviour
             Debug.Log("adding " + newLoot.lootName + " as a reward");
             newQuest.questRewards = new List<InventorySlot>();
             newQuest.questRewards.Add(new InventorySlot());
-            newQuest.questRewards[quests.quests.Count - 1].lootName = newLoot.lootName;
-            newQuest.questRewards[quests.quests.Count - 1].lootQty = lootTotal;
+            newQuest.questRewards[quests.quests.Count - 1].loot.lootName = newLoot.lootName;
+            newQuest.questRewards[quests.quests.Count - 1].slotQty = lootTotal;
         }
 
         //Find quest specifics
@@ -169,10 +169,10 @@ public class QuestController : MonoBehaviour
                     if (partyPos == questOriginPos)
                     {
                         //Check if they've got the required items and qty
-                        for (int x = 0; x < PartyController.instance.inventory.inventorySlots.Count; x++)
+                        for (int x = 0; x < PartyController.instance.party.inventory.inventorySlots.Count; x++)
                         {
-                            InventorySlot slot = PartyController.instance.inventory.inventorySlots[x];
-                            if (slot.lootName == quest.requiredItem && slot.lootQty >= quest.requiredItemQty)
+                            InventorySlot slot = PartyController.instance.party.inventory.inventorySlots[x];
+                            if (slot.loot.lootName == quest.requiredItem && slot.slotQty >= quest.requiredItemQty)
                             {
                                 CompleteQuest(i);
                             }

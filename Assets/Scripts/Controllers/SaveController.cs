@@ -30,7 +30,7 @@ public class SaveController : MonoBehaviour
         saveData.party = PartyController.instance.party;
 
         //Inventory
-        saveData.inventory = PartyController.instance.inventory;
+        //saveData.inventory = PartyController.instance.party.inventory;
 
         //Quests
         saveData.quests = QuestController.instance.quests;
@@ -69,7 +69,7 @@ public class SaveController : MonoBehaviour
         PartyController.instance.party = saveData.party;
 
         //Inventory
-        PartyController.instance.inventory = saveData.inventory;
+        //PartyController.instance.inventory = saveData.inventory;
 
         //Quest
         QuestController.instance.quests = saveData.quests;

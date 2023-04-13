@@ -183,7 +183,7 @@ public class UIController : MonoBehaviour
         else if (encounterType == "HoldupInventory")
         {
             uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.AddListener(delegate { AmbushController.instance.SetupAmbush(false, false, false, "Raider"); });
-            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.ClearInventory(); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.EncounterHoldup(); });
         }
         else if (encounterType == "Trade")
         {
@@ -211,44 +211,44 @@ public class UIController : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        for (int i = 0; i < PartyController.instance.inventory.inventorySlots.Count; i++)
+        for (int i = 0; i < PartyController.instance.party.inventory.inventorySlots.Count; i++)
         {
-            InventorySlot slot = PartyController.instance.inventory.inventorySlots[i];
+            InventorySlot slot = PartyController.instance.party.inventory.inventorySlots[i];
 
             //Set the slot loot name, but flag it as equipped if it's equipped
             GameObject newSlot = Instantiate(uiInventorySlotObj, uiInventorySlots);
-            if (slot.lootEquipped == true)
+            if (slot.slotEquipped == true)
             {
                 for (int x = 0; x < PartyController.instance.party.partySurvivors.Count; x++)
                 {
                     if (PartyController.instance.party.partySurvivors[x].equippedWeaponIndex == i)
                     {
-                        newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = "[E] " + slot.lootName;
+                        newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = "[E] " + slot.loot.lootName;
                     }
                 }
             }
             else
             {
-                newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = slot.lootName;
+                newSlot.GetComponent<UiInventorySlotProps>().uiItemName.text = slot.loot.lootName;
             }
-            newSlot.GetComponent<UiInventorySlotProps>().uiQty.text = "x" + slot.lootQty;
-            newSlot.GetComponent<UiInventorySlotProps>().uiWeight.text = slot.lootWeight + "(lb)";
-            newSlot.GetComponent<UiInventorySlotProps>().uiTotalWeight.text = slot.lootQty * slot.lootWeight + "(lb)";
+            newSlot.GetComponent<UiInventorySlotProps>().uiQty.text = "x" + slot.slotQty;
+            newSlot.GetComponent<UiInventorySlotProps>().uiWeight.text = slot.loot.lootWeight + "(lb)";
+            newSlot.GetComponent<UiInventorySlotProps>().uiTotalWeight.text = slot.slotQty * slot.loot.lootWeight + "(lb)";
 
             int slotId = i;
             //If the slot is food or medicine, activate the Use Item button
-            if (slot.lootType == "Food")
+            if (slot.loot.lootType == "Food")
             {
                 newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.gameObject.SetActive(true);
-                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.FeedParty(slotId, slot.lootTypeVal); });
+                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.FeedParty(slotId, slot.loot.lootTypeVal); });
             }
-            else if (slot.lootType == "Medicine")
+            else if (slot.loot.lootType == "Medicine")
             {
                 newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.gameObject.SetActive(true);
-                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.HealParty(slotId, slot.lootTypeVal); });
+                newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.HealParty(slotId, slot.loot.lootTypeVal); });
             }
-            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.DropItem(slotId, false); });
-            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.DropItem(slotId, true); });
+            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.DropItem(slotId, false, PartyController.instance.party.inventory); });
+            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.DropItem(slotId, true, PartyController.instance.party.inventory); });
         }
     }
 
@@ -322,7 +322,7 @@ public class UIController : MonoBehaviour
             }
             else
             {
-                survivorSlot.uiEquipText.text = PartyController.instance.inventory.inventorySlots[survivor.equippedWeaponIndex].lootName;
+                survivorSlot.uiEquipText.text = PartyController.instance.party.inventory.inventorySlots[survivor.equippedWeaponIndex].loot.lootName;
             }
 
             int slotId = i;
@@ -345,16 +345,16 @@ public class UIController : MonoBehaviour
         }
 
         //get a list of all the weapons in the inventory and add that list to a list of equippable items
-        for (int i = 0; i < PartyController.instance.inventory.inventorySlots.Count; i++)
+        for (int i = 0; i < PartyController.instance.party.inventory.inventorySlots.Count; i++)
         {
-            InventorySlot slot = PartyController.instance.inventory.inventorySlots[i];
-            if ((slot.lootType == "WeaponRanged" || slot.lootType == "WeaponMelee") && slot.lootEquipped == false)
+            InventorySlot slot = PartyController.instance.party.inventory.inventorySlots[i];
+            if ((slot.loot.lootType == "WeaponRanged" || slot.loot.lootType == "WeaponMelee") && slot.slotEquipped == false)
             {
                 GameObject newWeaponSlot = Instantiate(uiWeaponSlotObj, uiWeaponsSlots);
-                Debug.Log(PartyController.instance.inventory.inventorySlots[i].lootName + " - " + i);
+                Debug.Log(PartyController.instance.party.inventory.inventorySlots[i].loot.lootName + " - " + i);
                 UiWeaponsSlotProps weaponSlot = newWeaponSlot.GetComponent<UiWeaponsSlotProps>();
-                weaponSlot.uiWeaponName.text = slot.lootName;
-                weaponSlot.uiAttack.text = "+" + slot.lootTypeVal;
+                weaponSlot.uiWeaponName.text = slot.loot.lootName;
+                weaponSlot.uiAttack.text = "+" + slot.loot.lootTypeVal;
                 weaponSlot.weaponIndexInventory = i;
                 //add the listener to weapon, and add the weaponIndexInventory value?
                 weaponSlot.uiEquipWeapon.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.EquipWeapon(weaponSlot.weaponIndexInventory, survivorIndex); });
@@ -373,12 +373,12 @@ public class UIController : MonoBehaviour
     {
         //get a list of all the weapons in the inventory and add that list to a list of equippable items
         List<string> equippableWeapons = new List<string>();
-        for (int i = 0; i < PartyController.instance.inventory.inventorySlots.Count; i++)
+        for (int i = 0; i < PartyController.instance.party.inventory.inventorySlots.Count; i++)
         {
-            InventorySlot slot = PartyController.instance.inventory.inventorySlots[i];
-            if ((slot.lootType == "WeaponRanged" || slot.lootType == "WeaponMelee") && slot.lootEquipped == false)
+            InventorySlot slot = PartyController.instance.party.inventory.inventorySlots[i];
+            if ((slot.loot.lootType == "WeaponRanged" || slot.loot.lootType == "WeaponMelee") && slot.slotEquipped == false)
             {
-                equippableWeapons.Add(slot.lootName);
+                equippableWeapons.Add(slot.loot.lootName);
             }
         }
 
@@ -548,27 +548,27 @@ public class UIController : MonoBehaviour
     //Updates the trade UI
     public void UpdateTrade()
     {
-        //loop through the party survivors and instantiate the survivor slot under the Slots Transform, setting the text of each object as its dropped
-        foreach (Transform child in uiTradeBuySlots)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        ////loop through the party survivors and instantiate the survivor slot under the Slots Transform, setting the text of each object as its dropped
+        //foreach (Transform child in uiTradeBuySlots)
+        //{
+        //    GameObject.Destroy(child.gameObject);
+        //}
 
-        for (int i = 0; i < EncounterController.instance.tradeInventory.inventorySlots.Count; i++)
-        {
-            GameObject newSlot = Instantiate(uiTradeBuySlotObj, uiTradeBuySlots);
-            UiTradeSlotProps tradeSlot = newSlot.GetComponent<UiTradeSlotProps>();
+        //for (int i = 0; i < EncounterController.instance.tradeInventory.inventorySlots.Count; i++)
+        //{
+        //    GameObject newSlot = Instantiate(uiTradeBuySlotObj, uiTradeBuySlots);
+        //    UiTradeSlotProps tradeSlot = newSlot.GetComponent<UiTradeSlotProps>();
 
-            tradeSlot.uiLootName.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootName;
-            tradeSlot.uiLootQty.text = "x" + EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
-            tradeSlot.uiLootWeight.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootWeight + "(lb)";
-            tradeSlot.uiLootValue.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootValue.ToString();
-            //tradeSlot.uiTotal.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
+        //    tradeSlot.uiLootName.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootName;
+        //    tradeSlot.uiLootQty.text = "x" + EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
+        //    tradeSlot.uiLootWeight.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootWeight + "(lb)";
+        //    tradeSlot.uiLootValue.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootValue.ToString();
+        //    //tradeSlot.uiTotal.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
 
-            tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(true,0); });
-            tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(false, 0); });
+        //    tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(true,0); });
+        //    tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(false, 0); });
 
-        }
+        //}
     }
 
 }

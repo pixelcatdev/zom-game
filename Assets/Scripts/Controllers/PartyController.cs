@@ -6,7 +6,6 @@ public class PartyController : MonoBehaviour
 {
     public Transform partyObj;
     public Party party = new Party();
-    public Inventory inventory = new Inventory();
     public static PartyController instance;
 
     // Singleton Initialization
@@ -178,7 +177,7 @@ public class PartyController : MonoBehaviour
 
         if (partyFed == true)
         {
-            DropItem(inventoryIndex, false);
+            InventoryController.instance.DropItem(inventoryIndex, false, party.inventory);
             Debug.Log("Party energy increased, food consumed");
         }
 
@@ -211,7 +210,7 @@ public class PartyController : MonoBehaviour
 
         if (partyHealed == true)
         {
-            DropItem(inventoryIndex, false);
+            InventoryController.instance.DropItem(inventoryIndex, false,party.inventory);
             Debug.Log("Infection decreased within your party, medicine consumed");
         }
 
@@ -349,9 +348,9 @@ public class PartyController : MonoBehaviour
         //Update the characters stats, sets the weapon as equipped and refresh the party screen
         party.partySurvivors[survivorIndex].equippedWeaponIndex = weaponIndexInventory;
         //Set the text of the players current weapon to that of the inventory slot
-        party.partySurvivors[survivorIndex].attack = inventory.inventorySlots[weaponIndexInventory].lootTypeVal;
+        party.partySurvivors[survivorIndex].attack = party.inventory.inventorySlots[weaponIndexInventory].loot.lootTypeVal;
         //reclaulctae the partys attack strength
-        inventory.inventorySlots[weaponIndexInventory].lootEquipped = true;
+        party.inventory.inventorySlots[weaponIndexInventory].slotEquipped = true;
         UIController.instance.CloseWeaponMenu();
         UIController.instance.UpdateParty();
     }
@@ -364,7 +363,7 @@ public class PartyController : MonoBehaviour
         {
             party.partySurvivors[survivorIndex].equippedWeaponIndex = -1;
             party.partySurvivors[survivorIndex].attack = 0;
-            inventory.inventorySlots[equippedWeaponIndex].lootEquipped = false;
+            party.inventory.inventorySlots[equippedWeaponIndex].slotEquipped = false;
             UIController.instance.CloseWeaponMenu();
             UIController.instance.UpdateParty();
         }
@@ -404,9 +403,9 @@ public class PartyController : MonoBehaviour
     {
         //Find the inventory slot holding fuel
         int fuelIndex = -1;
-        for (int i = 0; i < inventory.inventorySlots.Count; i++)
+        for (int i = 0; i < party.inventory.inventorySlots.Count; i++)
         {
-            if (inventory.inventorySlots[i].lootName == "Fuel")
+            if (party.inventory.inventorySlots[i].loot.lootName == "Fuel")
             {
                 fuelIndex = i;
             }
@@ -415,9 +414,9 @@ public class PartyController : MonoBehaviour
         //if fuel has been found in the inventory
         if (fuelIndex != -1)
         {
-            if (inventory.inventorySlots[fuelIndex].lootQty - 1 > 0)
+            if (party.inventory.inventorySlots[fuelIndex].slotQty - 1 > 0)
             {
-                DropItem(fuelIndex, false);
+                InventoryController.instance.DropItem(fuelIndex, false, party.inventory);
                 party.partyVehicle.vehicleFuel++;
                 UIController.instance.UpdateHud();
                 UIController.instance.UpdateVehicles();
@@ -445,142 +444,6 @@ public class PartyController : MonoBehaviour
         party.partyVehicle = null;
         UIController.instance.UpdateHud();
         UIController.instance.UpdateVehicles();
-    }
-
-    //Adds an item to the party inventory - ok, so this should be in its own Inventory class, but kiss my arse
-    public void AddItem(string lootName, string lootDesc, string lootType, int lootTypeVal, float lootRarity, float lootWeight, float lootValue, int lootQty, string lootBiome)
-    {
-        bool hasItem = false;
-
-        //if the itemId exists in the inventory list already, just add the qty
-        for (int i = 0; i < inventory.inventorySlots.Count; i++)
-        {
-            //If the loot exists in the inventory already but is not a weapon, just add the quantity, else add a new slot for the weapon
-            if (inventory.inventorySlots[i].lootName == lootName)// && (lootType != "WeaponRanged" || lootType != "WeaponMelee"))
-            {
-                Debug.Log(lootName + " found in inventory");
-                if (lootType != "WeaponRanged" && lootType != "WeaponMelee")
-                {
-                    inventory.inventorySlots[i].lootQty += lootQty;
-                    hasItem = true;
-                    break;
-                }
-                else
-                {
-                    hasItem = false;
-                }
-            }
-            else
-            {
-                hasItem = false;
-            }
-        }
-
-        //else add a new slot and populate it with the item
-        if (hasItem == false)
-        {
-            inventory.inventorySlots.Add(new InventorySlot());
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootName = lootName;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootDesc = lootDesc;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootType = lootType;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootTypeVal = lootTypeVal;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootRarity = lootRarity;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootWeight = lootWeight;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootValue = lootValue;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootQty = lootQty;
-            inventory.inventorySlots[inventory.inventorySlots.Count - 1].lootBiome = lootBiome;
-        }
-
-        //Calculate the party weight
-        CalculateWeight();
-
-    }
-
-    //Drop one or all items from a party inventory slot - this also shuffles down any equippedItemIndexes on each survivor (so if they had index 3 equipped, but index 2 was discarded, then index 3 becoems index 2)
-    public void DropItem(int index, bool dropAll)
-    {
-        //Only allow it to be dropped if its not equipped
-        if (inventory.inventorySlots[index].lootEquipped == false)
-        {
-            if (dropAll == false)
-            {
-                Debug.Log("Dropping x1 " + inventory.inventorySlots[index].lootName);
-                //Remove one, but if there's none left, remove the entire slot
-                if (inventory.inventorySlots[index].lootQty - 1 > 0)
-                {
-                    inventory.inventorySlots[index].lootQty--;
-                }
-                else
-                {
-                    inventory.inventorySlots.RemoveAt(index);
-
-                    //now that an index has been removed, correct all equipped weapon indexes if they were after this index
-                    for (int i = 0; i < party.partySurvivors.Count; i++)
-                    {
-                        if (party.partySurvivors[i].equippedWeaponIndex > index)
-                        {
-                            party.partySurvivors[i].equippedWeaponIndex--;
-                        }
-                    }
-                }
-
-                UIController.instance.UpdateInventory();
-            }
-            else
-            {
-                Debug.Log("Dropping all " + inventory.inventorySlots[index].lootName);
-                inventory.inventorySlots.RemoveAt(index);
-
-                //now that an index has been removed, correct all equipped weapon indexes if they were after this index
-                for (int i = 0; i < party.partySurvivors.Count; i++)
-                {
-                    if (party.partySurvivors[i].equippedWeaponIndex > index)
-                    {
-                        party.partySurvivors[i].equippedWeaponIndex--;
-                    }
-                }
-
-                UIController.instance.UpdateInventory();
-            }
-
-            //Recalculate the party weight
-            CalculateWeight();
-        }
-        else
-        {
-            Debug.Log("Cannot drop an equipped item, must unequip first from the Party Screen");
-        }
-
-    }
-
-    //Clearing the entire inventory
-    public void ClearInventory()
-    {
-        //loop through every player and force them to drop their item
-        for (int i = 0; i < party.partySurvivors.Count; i++)
-        {
-            party.partySurvivors[i].attack = 0;
-            party.partySurvivors[i].equippedWeaponIndex = -1;
-        }
-
-        inventory.inventorySlots.Clear();
-
-        EncounterController.instance.AddToStatus("Your party hands over all inventory and the attackers let you move on.");
-        EncounterController.instance.StatusStringBuilder();
-        UIController.instance.CloseEncounterPrompt();
-    }
-
-    //recalculate the party weight
-    public void CalculateWeight()
-    {
-        float tempWeight = 0f;
-
-        for (int i = 0; i < inventory.inventorySlots.Count; i++)
-        {
-            tempWeight += inventory.inventorySlots[i].lootWeight * inventory.inventorySlots[i].lootQty;
-        }
-
-        party.partyWeight = tempWeight;
     }
 
     //recalculate the party attack
@@ -688,7 +551,8 @@ public class PartyController : MonoBehaviour
                     lootQty = Random.Range(1, 3);
                 }
 
-                AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
+                //AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
+                InventoryController.instance.AddItem(randomItem, lootQty, party.inventory);
                 //Update the status text to state what was picked up
                 EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
                 EncounterController.instance.StatusStringBuilder();
@@ -722,7 +586,7 @@ public class Party
     //List of survivors currently in the party
     public List<Survivor> partySurvivors = new List<Survivor>();
 
-    public InventoryTest newInventory = new InventoryTest();
+    public Inventory inventory = new Inventory();
 
     //List of current quests
     public List<Quest> quests = new List<Quest>();

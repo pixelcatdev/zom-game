@@ -152,7 +152,7 @@ public class AmbushController : MonoBehaviour
                 {
                     Loot randomItem = PartyController.instance.RandomItem(1f);
                     int lootQty = Random.Range(1, 3);
-                    PartyController.instance.AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
+                    InventoryController.instance.AddItem(randomItem, lootQty, PartyController.instance.party.inventory);
                     EncounterController.instance.AddToStatus(survivorName + " has been rescued. They offer you what little they have (x" + lootQty + " " + randomItem.lootName + ")");
                 }
             }

@@ -36,7 +36,7 @@ public class EncounterController : MonoBehaviour
     //Randomise chance of an encounter when moving
     public void RandomEncounter()
     {
-        int randomInt = Random.Range(0, 20);
+        int randomInt = 3;// Random.Range(0, 20);
         Debug.Log("Encounter chance: " + randomInt);
 
         //survivor joins if there's room in the party and if there's room in a vehicle
@@ -80,7 +80,7 @@ public class EncounterController : MonoBehaviour
             }
             else
             {
-                if(PartyController.instance.inventory.inventorySlots.Count > 0)
+                if(PartyController.instance.party.inventory.inventorySlots.Count > 0)
                 {
                     encounterText = "Enemies ambush your party. They demand you turn over your entire inventory (including anything equipped), or they'll start attacking.\n\nDo you surrender your inventory?";
                     UIController.instance.UpdateEncounter("HoldupInventory");
@@ -133,6 +133,15 @@ public class EncounterController : MonoBehaviour
                 }
             }                       
         }
+    }
+
+    //Clears the party inventory if it's a holdup encounter (I could stick this in encounter)
+    public void EncounterHoldup()
+    {
+        InventoryController.instance.ClearInventory(PartyController.instance.party.inventory);
+        EncounterController.instance.AddToStatus("Your party hands over all inventory and the attackers let you move on.");
+        EncounterController.instance.StatusStringBuilder();
+        UIController.instance.CloseEncounterPrompt();
     }
 
     //Start an ambush combat sequence
@@ -294,28 +303,28 @@ public class EncounterController : MonoBehaviour
     //Setup a new trade encounter, with 5 random items
     public void SetupTrade()
     {
-        tradeInventory.inventorySlots.Clear();
+        //tradeInventory.inventorySlots.Clear();
 
-        for (int i = 0; i < 5; i++)
-        {
-            tradeInventory.inventorySlots.Add(new InventorySlot());
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    tradeInventory.inventorySlots.Add(new InventorySlot());
 
-            //Get a random item
-            Loot randomLoot = PartyController.instance.RandomItem(1f);
-            tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootName = randomLoot.lootName;
-            tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootDesc = randomLoot.lootDesc;
+        //    //Get a random item
+        //    Loot randomLoot = PartyController.instance.RandomItem(1f);
+        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].loot.lootName = randomLoot.lootName;
+        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].loot.lootDesc = randomLoot.lootDesc;
 
-            if(randomLoot.lootType != "WeaponRanged" || randomLoot.lootType != "WeaponMelee")
-            {
-                tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootQty = Random.Range(1, 5);
-            }
-            else
-            {
-                tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootQty = 1;
-            }
-            tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootWeight = randomLoot.lootWeight;
-            tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootValue = randomLoot.lootValue;
-        }
+        //    if(randomLoot.lootType != "WeaponRanged" || randomLoot.lootType != "WeaponMelee")
+        //    {
+        //        tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].loot.lootQty = Random.Range(1, 5);
+        //    }
+        //    else
+        //    {
+        //        tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootQty = 1;
+        //    }
+        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootWeight = randomLoot.lootWeight;
+        //    tradeInventory.inventorySlots[tradeInventory.inventorySlots.Count - 1].lootValue = randomLoot.lootValue;
+        //}
 
         //UI updates
         UIController.instance.uiTrade.SetActive(true);
@@ -325,69 +334,69 @@ public class EncounterController : MonoBehaviour
     //When click the buy (increase or decrease) buttons, add or remove the trade slot and recalculate the trade total
     public void TradeBuy(bool increaseQty, int slotId)
     {
-        if (increaseQty)
-        {
-            Debug.Log("slotId " + slotId);
-            Debug.Log("Increasing buy quantity of " + tradeInventory.inventorySlots[slotId].lootName);
-            if(buyInventory.inventorySlots.Count > 0)
-            {
-                for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
-                {
-                    if (buyInventory.inventorySlots[i].lootName == tradeInventory.inventorySlots[slotId].lootName)
-                    {
-                        Debug.Log("a");
-                        buyInventory.inventorySlots[i].lootQty++;
-                        tradeInventory.inventorySlots[slotId].lootQty--;
-                        break;
-                    }
-                    else
-                    {
-                        Debug.Log("b");
-                        buyInventory.inventorySlots.Add(new InventorySlot());
-                        buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootName = tradeInventory.inventorySlots[slotId].lootName;
-                        buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootQty = tradeInventory.inventorySlots[slotId].lootQty;
-                        buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootValue = tradeInventory.inventorySlots[slotId].lootValue;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                Debug.Log("c");
-                buyInventory.inventorySlots.Add(new InventorySlot());
-                buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootName = tradeInventory.inventorySlots[slotId].lootName;
-                buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootQty = tradeInventory.inventorySlots[slotId].lootQty;
-                buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootValue = tradeInventory.inventorySlots[slotId].lootValue;
-            }
+        //if (increaseQty)
+        //{
+        //    Debug.Log("slotId " + slotId);
+        //    Debug.Log("Increasing buy quantity of " + tradeInventory.inventorySlots[slotId].lootName);
+        //    if(buyInventory.inventorySlots.Count > 0)
+        //    {
+        //        for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
+        //        {
+        //            if (buyInventory.inventorySlots[i].lootName == tradeInventory.inventorySlots[slotId].lootName)
+        //            {
+        //                Debug.Log("a");
+        //                buyInventory.inventorySlots[i].lootQty++;
+        //                tradeInventory.inventorySlots[slotId].lootQty--;
+        //                break;
+        //            }
+        //            else
+        //            {
+        //                Debug.Log("b");
+        //                buyInventory.inventorySlots.Add(new InventorySlot());
+        //                buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootName = tradeInventory.inventorySlots[slotId].lootName;
+        //                buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootQty = tradeInventory.inventorySlots[slotId].lootQty;
+        //                buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootValue = tradeInventory.inventorySlots[slotId].lootValue;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("c");
+        //        buyInventory.inventorySlots.Add(new InventorySlot());
+        //        buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootName = tradeInventory.inventorySlots[slotId].lootName;
+        //        buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootQty = tradeInventory.inventorySlots[slotId].lootQty;
+        //        buyInventory.inventorySlots[buyInventory.inventorySlots.Count - 1].lootValue = tradeInventory.inventorySlots[slotId].lootValue;
+        //    }
             
-        }
-        else
-        {
-            Debug.Log("Decreasing buy quantity of " + tradeInventory.inventorySlots[slotId].lootName);
-            for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
-            {
-                if (buyInventory.inventorySlots[i].lootName == tradeInventory.inventorySlots[slotId].lootName)
-                {
-                    if(buyInventory.inventorySlots[i].lootQty > 0)
-                    {
-                        buyInventory.inventorySlots[i].lootQty--;
-                    }
-                    else
-                    {
-                        buyInventory.inventorySlots.RemoveAt(i);
-                    }                    
-                    break;
-                }
-            }
-        }
+        //}
+        //else
+        //{
+        //    Debug.Log("Decreasing buy quantity of " + tradeInventory.inventorySlots[slotId].lootName);
+        //    for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
+        //    {
+        //        if (buyInventory.inventorySlots[i].lootName == tradeInventory.inventorySlots[slotId].lootName)
+        //        {
+        //            if(buyInventory.inventorySlots[i].lootQty > 0)
+        //            {
+        //                buyInventory.inventorySlots[i].lootQty--;
+        //            }
+        //            else
+        //            {
+        //                buyInventory.inventorySlots.RemoveAt(i);
+        //            }                    
+        //            break;
+        //        }
+        //    }
+        //}
 
-        //recalc the buy total
-        buyTotal = 0;
+        ////recalc the buy total
+        //buyTotal = 0;
 
-        for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
-        {
-            buyTotal += buyInventory.inventorySlots[i].lootQty * buyInventory.inventorySlots[i].lootValue;            
-        }
+        //for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
+        //{
+        //    buyTotal += buyInventory.inventorySlots[i].lootQty * buyInventory.inventorySlots[i].lootValue;            
+        //}
     }
 
 }
