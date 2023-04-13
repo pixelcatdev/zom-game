@@ -10,12 +10,16 @@ public class CameraController : MonoBehaviour
     public float zoomSpeed = 1f;
     public float minZoomSize = 2f;
     public float maxZoomSize = 10f;
+    private Vector3 cameraOffset;
+    public Transform cameraTarget;
+    public bool isFindingTarget;
 
     void Update()
     {
-        if(GameController.instance.gameMode == GameController.GameMode.worldmap)
+        if (GameController.instance.gameMode == GameController.GameMode.worldmap)
         {
             MapCameraControls();
+            ZoomToTarget();
         }
     }
 
@@ -53,6 +57,37 @@ public class CameraController : MonoBehaviour
             float zoomAmount = scroll * zoomSpeed;
             size = Mathf.Clamp(size - zoomAmount, minZoomSize, maxZoomSize);
             Camera.main.orthographicSize = size;
+        }
+
+        //Lerp to the party in the map
+        if (Input.GetKeyDown(KeyCode.Home) && isFindingTarget == false)
+        {
+            cameraTarget = PartyController.instance.partyObj.transform;
+            cameraOffset = transform.position - cameraTarget.position;
+            isFindingTarget = true;
+        }       
+
+    }
+
+    //Zooms towards a target
+    private void ZoomToTarget()
+    {
+        if (isFindingTarget == true)
+        {
+            float distanceToTarget = Vector2.Distance(cameraTarget.position,transform.position);
+
+            if (distanceToTarget < 0.25f)
+            {
+                transform.position = Vector3.Lerp(transform.position, PartyController.instance.partyObj.transform.position + cameraOffset, Time.deltaTime * 5f);
+
+                // set the orthographic size to zoom in to 5f
+                //GetComponent<Camera>().orthographicSize = 5f;
+            }
+            else
+            {
+                isFindingTarget = false;
+            }
+
         }
     }
 }
