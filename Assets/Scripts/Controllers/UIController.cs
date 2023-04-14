@@ -31,6 +31,10 @@ public class UIController : MonoBehaviour
     public Transform uiInventorySlots;
     public GameObject uiInventorySlotObj;
 
+    public GameObject uiCrafting;
+    public Transform uiCraftingSlots;
+    public GameObject uiCraftingSlotObj;
+
     public GameObject uiVehicles;
     public Transform uiVehicleSlots;
     public GameObject uiVehicleSlotObj;
@@ -202,6 +206,19 @@ public class UIController : MonoBehaviour
         uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.RemoveAllListeners();
     }
 
+    //Opens the Crafting tab in the Inventory
+    public void OpenInventoryCrafting()
+    {
+        uiCrafting.SetActive(true);
+        UpdateCrafting();
+    }
+
+    //Closes the Crafting tab in the Inventory
+    public void CloseInventoryCrafting()
+    {
+        uiCrafting.SetActive(false);
+    }
+
     //Updates the Inventory menu
     public void UpdateInventory()
     {
@@ -247,8 +264,38 @@ public class UIController : MonoBehaviour
                 newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.gameObject.SetActive(true);
                 newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.HealParty(slotId, slot.loot.lootTypeVal); });
             }
-            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.DropItem(slotId, false, PartyController.instance.party.inventory); });
-            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.DropItem(slotId, true, PartyController.instance.party.inventory); });
+            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, false, PartyController.instance.party.inventory); });
+            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, true, PartyController.instance.party.inventory); });
+        }
+    }
+
+    //Updates the Inventory Crafting menu
+    public void UpdateCrafting()
+    {
+        //loop through the known recipes and instantiate the crafting slot under the Slots Transform, setting the text of each object as its dropped
+        foreach (Transform child in uiCraftingSlots)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < PartyController.instance.party.recipesKnown.recipes.Count; i++)
+        {
+            GameObject newSlot = Instantiate(uiCraftingSlotObj, uiCraftingSlots);
+
+            newSlot.GetComponent<UiCraftingSlotProps>().uiRecipeName.text = PartyController.instance.party.recipesKnown.recipes[i].lootCrafted;
+            //newSlot.GetComponent<UiCraftingSlotProps>().uiIngredients.text = PartyController.instance.party.recipesKnown.recipes[i].lootCrafted;
+
+            string ingredients = null;
+            for (int x = 0; x < PartyController.instance.party.recipesKnown.recipes[i].ingredients.Count; x++)
+            {
+                ingredients += PartyController.instance.party.recipesKnown.recipes[i].ingredients[x].lootName + " x" + PartyController.instance.party.recipesKnown.recipes[i].ingredients[x].requiredQty + ", ";
+            }
+
+            newSlot.GetComponent<UiCraftingSlotProps>().uiIngredients.text = ingredients;
+            newSlot.GetComponent<UiCraftingSlotProps>().uiBuildTime.text = PartyController.instance.party.recipesKnown.recipes[i].buildTimeMinutes + " (mins)";
+
+            //Add the method to build the item here
+            newSlot.GetComponent<UiCraftingSlotProps>().uiCraftRecipeButton.GetComponent<Button>().onClick.AddListener(delegate { });
         }
     }
 

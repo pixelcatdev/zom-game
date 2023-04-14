@@ -110,7 +110,7 @@ public class QuestController : MonoBehaviour
             newQuest.questRewards[quests.quests.Count - 1].slotQty = lootTotal;
         }
 
-        //Find quest specifics
+        //Search quest specifics
         if (newQuest.questType == QuestType.search)
         {
             SetupFind(newQuest);

@@ -98,8 +98,7 @@ public class Recipe
     public string lootCrafted;
     public string description;
     public int buildTimeMinutes;
-    public int intelligence;
-    public List<RecipeIngredients> recipeList;
+    public List<RecipeIngredients> ingredients;
 }
 
 [System.Serializable]

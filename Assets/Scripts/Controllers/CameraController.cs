@@ -74,19 +74,19 @@ public class CameraController : MonoBehaviour
     {
         if (isFindingTarget == true)
         {
-            float distanceToTarget = Vector2.Distance(cameraTarget.position,transform.position);
+            //float distanceToTarget = Vector2.Distance(cameraTarget.position,transform.position);
 
-            if (distanceToTarget < 0.25f)
-            {
-                transform.position = Vector3.Lerp(transform.position, PartyController.instance.partyObj.transform.position + cameraOffset, Time.deltaTime * 5f);
+            //if (distanceToTarget < 0.25f)
+            //{
+                transform.position = Vector3.Lerp(transform.position, cameraTarget.position + cameraOffset, Time.deltaTime * 5f);
 
                 // set the orthographic size to zoom in to 5f
                 //GetComponent<Camera>().orthographicSize = 5f;
-            }
-            else
-            {
-                isFindingTarget = false;
-            }
+            //}
+            //else
+            //{
+            //    isFindingTarget = false;
+            //}
 
         }
     }

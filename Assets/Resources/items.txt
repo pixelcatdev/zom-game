@@ -129,6 +129,16 @@
 			"lootRarity": 0.9,
 			"lootValue": 2,
 			"lootBiome": "Urban"
-		}	
+		},
+		{
+			"lootName": "Pipebomb",
+			"lootDesc": "A short length of pipe that when packed with gunpowder and lit can create a small explosion",
+			"lootType": "WeaponThrown",
+			"lootTypeVal": 6,
+			"lootWeight": 1,
+			"lootRarity": 0.9,
+			"lootValue": 12,
+			"lootBiome": "Urban"
+		}
 	]
 }

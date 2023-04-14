@@ -1,0 +1,37 @@
+zom roadmap
+
+- mvp
+	- core features
+	- core gamemodes
+- lore
+	- timeline events
+		- 7 day war
+	- radio broadcasts
+		- news broadcast
+		- emergency radio broadcasts
+
+- transport
+	- party convoy
+	- boats for coastal travel
+	- aircraft
+
+- climate system
+	- seasons
+	- environmental effects
+		- flooding, wildfires
+	- simulated weather system
+	
+- factions & settlements
+	- temporary camps
+		- inventory storage
+	- safezones
+		- safezones radio broadcasts
+		- safezones quests
+
+- wildlife
+	- hunting
+	- horseback travel
+	- dog taming
+	- additional wildlife enemies
+
+- modding framework

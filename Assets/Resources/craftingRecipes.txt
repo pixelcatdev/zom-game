@@ -4,8 +4,7 @@
 			"lootCrafted":"Pipebomb",
 			"description":"Small length of pipe, packed with gunpowder and a fuse - damages multiple enemies",
 			"buildTimeMinutes": 10,
-			"intelligence": 5,
-			"recipeList": [
+			"ingredients": [
 					{
 						"lootName":"Pipe",
 						"requiredQty":1
@@ -24,8 +23,7 @@
 			"lootCrafted":"Herbal Antiviral",
 			"description":"A mixture of herbs that reduce fever and slow infection rate",
 			"buildTimeMinutes": 5,
-			"intelligence": 3,
-			"recipeList": [
+			"ingredients": [
 					{
 						"lootName":"Blackberry",
 						"requiredQty":3

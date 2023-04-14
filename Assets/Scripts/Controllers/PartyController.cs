@@ -177,7 +177,7 @@ public class PartyController : MonoBehaviour
 
         if (partyFed == true)
         {
-            InventoryController.instance.DropItem(inventoryIndex, false, party.inventory);
+            InventoryController.instance.RemoveItem(inventoryIndex, false, party.inventory);
             Debug.Log("Party energy increased, food consumed");
         }
 
@@ -210,7 +210,7 @@ public class PartyController : MonoBehaviour
 
         if (partyHealed == true)
         {
-            InventoryController.instance.DropItem(inventoryIndex, false,party.inventory);
+            InventoryController.instance.RemoveItem(inventoryIndex, false,party.inventory);
             Debug.Log("Infection decreased within your party, medicine consumed");
         }
 
@@ -416,7 +416,7 @@ public class PartyController : MonoBehaviour
         {
             if (party.inventory.inventorySlots[fuelIndex].slotQty - 1 > 0)
             {
-                InventoryController.instance.DropItem(fuelIndex, false, party.inventory);
+                InventoryController.instance.RemoveItem(fuelIndex, false, party.inventory);
                 party.partyVehicle.vehicleFuel++;
                 UIController.instance.UpdateHud();
                 UIController.instance.UpdateVehicles();
@@ -586,7 +586,11 @@ public class Party
     //List of survivors currently in the party
     public List<Survivor> partySurvivors = new List<Survivor>();
 
+    //Inventory
     public Inventory inventory = new Inventory();
+
+    //Recipes known
+    public RecipeList recipesKnown = new RecipeList();
 
     //List of current quests
     public List<Quest> quests = new List<Quest>();

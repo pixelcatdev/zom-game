@@ -57,7 +57,7 @@ public class InventoryController : MonoBehaviour
     }
 
     //Remove an item from a target inventory, clears up the slot if nothing is left
-    public void DropItem(int slotIndex, bool dropAll, Inventory targetInventory)
+    public void RemoveItem(int slotIndex, bool dropAll, Inventory targetInventory)
     {
         //Only allow it to be dropped if its not equipped
         if (targetInventory.inventorySlots[slotIndex].slotEquipped == false)
@@ -115,12 +115,12 @@ public class InventoryController : MonoBehaviour
     //Moves an item from one inventory to another
     public void MoveItem(Inventory sourceInventory, int sourceIndex, Inventory targetInventory, int qtyToMove)
     {
-        //sourceInventory.inventorySlots[sourceIndex].slotQty
+        //get the reference of the item to move and move it to the target inventory
+        Loot lootToMove = sourceInventory.inventorySlots[sourceIndex].loot;
+        AddItem(lootToMove, qtyToMove, targetInventory);
 
-        //Get the loot from source inventory
-        //Get the qty
-        //Add it to the new inventory
-
+        //remove the item from the source inventory
+        RemoveItem(sourceIndex, false, sourceInventory);
     }
 
     //Clears an inventory out completely
@@ -139,6 +139,20 @@ public class InventoryController : MonoBehaviour
         targetInventory.inventorySlots.Clear();
     }
 
+    //Checks if an item can be crafted
+    public bool CheckCraftingRecipe(int craftingIndex)
+    {
+        //get each ingredient from the recipe at craftingIndex, if the required qty is in the inventory, loop to the next one, else break and return false
+
+        bool canCraft = true;
+
+        for (int i = 0; i < PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients.Count; i++)
+        {
+            
+        }
+
+        return canCraft;
+    }
 }
 
 [System.Serializable]

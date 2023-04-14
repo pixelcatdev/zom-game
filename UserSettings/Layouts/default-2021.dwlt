@@ -193,7 +193,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 62
+  controlID: 52
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 63
+  controlID: 53
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 64
+  controlID: 54
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -263,8 +263,8 @@ MonoBehaviour:
     y: 0
     width: 334
     height: 558
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -342,8 +342,8 @@ MonoBehaviour:
     y: 0
     width: 447
     height: 947
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -474,10 +474,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
+      scrollPos: {x: 0, y: 221852}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 2afbffffee550000b67d00003281000034db0000aee4000096ea0000def10000e2fc0000b81f0100
+      m_ExpandedIDs: 0ebffcff12bffcffb4c1fcffb4d2fcff10d3fcff2afbffff06560000828300004887000022c6000042d50000b2eb000052f200005e150100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -556,7 +556,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-scene-view-toolbar
@@ -765,7 +765,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 0
-      snapOffset: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 25}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: Scene View/Tilemap Focus
@@ -782,9 +782,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 135.21024, y: -13.9726095, z: -0.59108394}
+    m_Target: {x: 175.68312, y: 46.984283, z: 4.7358723}
     speed: 2
-    m_Value: {x: 135.21024, y: -13.9726095, z: -0.59108394}
+    m_Value: {x: 175.68312, y: 46.984283, z: 4.7358723}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -835,9 +835,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 61.485912
+    m_Target: 99.303345
     speed: 2
-    m_Value: 61.485912
+    m_Value: 99.303345
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -904,22 +904,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Controllers
+    - Assets/Scripts/Props
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/Controllers
+  - Assets/Scripts/Props
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\mrcad\Documents\Unity Projects\ZomAlpha
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 24}
-    m_SelectedIDs: c42f0100
-    m_LastClickedID: 77764
-    m_ExpandedIDs: 000000008c2f01008e2f0100902f0100922f0100942f0100962f0100
+    m_SelectedIDs: c8390100
+    m_LastClickedID: 80328
+    m_ExpandedIDs: 000000008e3901009039010092390100943901009639010098390100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -947,7 +947,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008c2f01008e2f0100902f0100922f0100942f0100962f0100
+    m_ExpandedIDs: 000000008e3901009039010092390100943901009639010098390100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
