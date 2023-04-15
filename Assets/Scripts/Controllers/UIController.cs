@@ -264,8 +264,8 @@ public class UIController : MonoBehaviour
                 newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.gameObject.SetActive(true);
                 newSlot.GetComponent<UiInventorySlotProps>().uiUseItemButton.GetComponent<Button>().onClick.AddListener(delegate { PartyController.instance.HealParty(slotId, slot.loot.lootTypeVal); });
             }
-            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, false, PartyController.instance.party.inventory); });
-            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, true, PartyController.instance.party.inventory); });
+            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, 1, false, PartyController.instance.party.inventory); });
+            newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, 0, true, PartyController.instance.party.inventory); });
         }
     }
 

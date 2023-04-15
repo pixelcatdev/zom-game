@@ -177,7 +177,7 @@ public class PartyController : MonoBehaviour
 
         if (partyFed == true)
         {
-            InventoryController.instance.RemoveItem(inventoryIndex, false, party.inventory);
+            InventoryController.instance.RemoveItem(inventoryIndex, 1, false, party.inventory);
             Debug.Log("Party energy increased, food consumed");
         }
 
@@ -210,7 +210,7 @@ public class PartyController : MonoBehaviour
 
         if (partyHealed == true)
         {
-            InventoryController.instance.RemoveItem(inventoryIndex, false,party.inventory);
+            InventoryController.instance.RemoveItem(inventoryIndex, 1, false,party.inventory);
             Debug.Log("Infection decreased within your party, medicine consumed");
         }
 
@@ -416,7 +416,7 @@ public class PartyController : MonoBehaviour
         {
             if (party.inventory.inventorySlots[fuelIndex].slotQty - 1 > 0)
             {
-                InventoryController.instance.RemoveItem(fuelIndex, false, party.inventory);
+                InventoryController.instance.RemoveItem(fuelIndex, 1, false, party.inventory);
                 party.partyVehicle.vehicleFuel++;
                 UIController.instance.UpdateHud();
                 UIController.instance.UpdateVehicles();

@@ -57,7 +57,7 @@ public class InventoryController : MonoBehaviour
     }
 
     //Remove an item from a target inventory, clears up the slot if nothing is left
-    public void RemoveItem(int slotIndex, bool dropAll, Inventory targetInventory)
+    public void RemoveItem(int slotIndex, int qty, bool dropAll, Inventory targetInventory)
     {
         //Only allow it to be dropped if its not equipped
         if (targetInventory.inventorySlots[slotIndex].slotEquipped == false)
@@ -66,9 +66,9 @@ public class InventoryController : MonoBehaviour
             {
                 Debug.Log("Dropping x1 " + targetInventory.inventorySlots[slotIndex].loot.lootName);
                 //Remove one, but if there's none left, remove the entire slot
-                if (targetInventory.inventorySlots[slotIndex].slotQty - 1 > 0)
+                if (targetInventory.inventorySlots[slotIndex].slotQty - qty > 0)
                 {
-                    targetInventory.inventorySlots[slotIndex].slotQty--;
+                    targetInventory.inventorySlots[slotIndex].slotQty-= qty;
                 }
                 else
                 {
@@ -120,7 +120,7 @@ public class InventoryController : MonoBehaviour
         AddItem(lootToMove, qtyToMove, targetInventory);
 
         //remove the item from the source inventory
-        RemoveItem(sourceIndex, false, sourceInventory);
+        RemoveItem(sourceIndex, qtyToMove, false, sourceInventory);
     }
 
     //Clears an inventory out completely
@@ -207,7 +207,7 @@ public class InventoryController : MonoBehaviour
 
                 if (inventorySlot.loot.lootName == ingredientLoot)
                 {
-                    RemoveItem(x, true, PartyController.instance.party.inventory);
+                    RemoveItem(x, ingredientQty, false, PartyController.instance.party.inventory);
                     break;
                 }
             }
