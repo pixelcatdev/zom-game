@@ -143,15 +143,80 @@ public class InventoryController : MonoBehaviour
     public bool CheckCraftingRecipe(int craftingIndex)
     {
         //get each ingredient from the recipe at craftingIndex, if the required qty is in the inventory, loop to the next one, else break and return false
+        Debug.Log("Checking inventory for ingredients for " + PartyController.instance.party.recipesKnown.recipes[craftingIndex].lootCrafted);
 
-        bool canCraft = true;
+        bool canCraft = false;
+        int ingredientsFulfilled = 0;
 
-        for (int i = 0; i < PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients.Count; i++)
+        for (int x = 0; x < PartyController.instance.party.inventory.inventorySlots.Count; x++)
         {
-            
+            InventorySlot inventorySlot = PartyController.instance.party.inventory.inventorySlots[x];
+            for (int i = 0; i < PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients.Count; i++)
+            {
+                string ingredientLoot = PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients[i].lootName;
+                int ingredientQty = PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients[i].requiredQty;
+
+                if (inventorySlot.loot.lootName == ingredientLoot && inventorySlot.slotQty >= ingredientQty)
+                {
+                    ingredientsFulfilled++;
+                }
+            }
+        }
+
+        if(ingredientsFulfilled == PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients.Count)
+        {
+            canCraft = true;
+        }
+        else
+        {
+            canCraft = false;
+        }
+        Debug.Log("Can craft: " + canCraft);
+
+        //Craft the item
+        if(canCraft == true)
+        {
+            CraftItem(craftingIndex);
         }
 
         return canCraft;
+    }
+
+    //Adds the new item to the inventory and removes the resources for the recipe
+    public void CraftItem(int craftingIndex)
+    {
+        Loot craftedLoot = null;
+
+        //find the crafted loot from the configs
+        for (int i = 0; i < ConfigController.instance.loot.loot.Count; i++)
+        {
+            if(PartyController.instance.party.recipesKnown.recipes[craftingIndex].lootCrafted == ConfigController.instance.loot.loot[i].lootName)
+            {
+                craftedLoot = ConfigController.instance.loot.loot[i];
+            }
+        }
+
+        for (int i = 0; i < PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients.Count; i++)
+        {
+            string ingredientLoot = PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients[i].lootName;
+            int ingredientQty = PartyController.instance.party.recipesKnown.recipes[craftingIndex].ingredients[i].requiredQty;
+
+            for (int x = 0; x < PartyController.instance.party.inventory.inventorySlots.Count; x++)
+            {
+                InventorySlot inventorySlot = PartyController.instance.party.inventory.inventorySlots[x];
+
+                if (inventorySlot.loot.lootName == ingredientLoot)
+                {
+                    RemoveItem(x, true, PartyController.instance.party.inventory);
+                    break;
+                }
+            }
+        }
+
+        //add the item and update the inventory
+        AddItem(craftedLoot, 1, PartyController.instance.party.inventory);
+        UIController.instance.UpdateInventory();
+        Debug.Log("Item Crafted");
     }
 }
 

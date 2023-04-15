@@ -294,8 +294,10 @@ public class UIController : MonoBehaviour
             newSlot.GetComponent<UiCraftingSlotProps>().uiIngredients.text = ingredients;
             newSlot.GetComponent<UiCraftingSlotProps>().uiBuildTime.text = PartyController.instance.party.recipesKnown.recipes[i].buildTimeMinutes + " (mins)";
 
+            int slotId = i;
+
             //Add the method to build the item here
-            newSlot.GetComponent<UiCraftingSlotProps>().uiCraftRecipeButton.GetComponent<Button>().onClick.AddListener(delegate { });
+            newSlot.GetComponent<UiCraftingSlotProps>().uiCraftRecipeButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.CheckCraftingRecipe(slotId); });
         }
     }
 

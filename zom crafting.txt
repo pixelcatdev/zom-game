@@ -1,10 +1,24 @@
+The climate update
+
+- Seasons		Seasons that cycle with the world
+- Weather		Rain, Snow, Heatwaves, Cold snaps - impacts your travel
+- Wildfires		Can occur in the summer, spreads from tile to tile over a period of hours
+- Floods		Can occur any time with heavy rainfall
+
+The Settlement update
+
+- Camp			Create a camp for a bonus whilst resting
+- Settlement		Visit or establish a settlement, trade and pick up new survivors and quests
+- Factions		Build reputation with various factions
+
+----------------
+
 Crafting
 
 - crafting requires resources, takes time but importantly needs a party intelligence level
 - each survivor comes with an intelligence stat (or has an intelligence trait, tbd)
 - if the cumulative intelligence score is met and the resources are available, the item can be crafted if the recipe is known
 - recipes can be bought from traders, given as quest rewards or discovered by experimentation (my favourite approach)
-
 
 - example for a pipe bomb
 

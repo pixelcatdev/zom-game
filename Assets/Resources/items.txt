@@ -46,7 +46,7 @@
 			"lootType": "Resource",
 			"lootTypeVal": 5,
 			"lootWeight": 0.5,
-			"lootRarity": 0.9,
+			"lootRarity": 0.5,
 			"lootValue": 5,
 			"lootBiome": "Countryside"
 		},
@@ -68,6 +68,16 @@
 			"lootWeight": 1,
 			"lootRarity": 0.1,
 			"lootValue": 0.1,
+			"lootBiome": "Countryside"
+		},
+		{
+			"lootName": "Fuse",
+			"lootDesc": "A small length of fuse",
+			"lootType": "Resource",
+			"lootTypeVal": 5,
+			"lootWeight": 1,
+			"lootRarity": 0.25,
+			"lootValue": 0.5,
 			"lootBiome": "Countryside"
 		},
 		{
