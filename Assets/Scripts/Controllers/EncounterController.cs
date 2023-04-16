@@ -10,11 +10,6 @@ public class EncounterController : MonoBehaviour
     public string partyStatus;
     public List<string> statusStrings;
 
-    public Inventory tradeInventory = new Inventory();
-    public Inventory buyInventory = new Inventory();
-    public Inventory sellInventory = new Inventory();
-    public float buyTotal;
-    public float sellTotal;
 
     public string encounterText;
 
@@ -300,61 +295,7 @@ public class EncounterController : MonoBehaviour
         }
     }
 
-    //Setup a new trade encounter, with 5 random items
-    public void SetupTrade()
-    {
-        tradeInventory.inventorySlots.Clear();
 
-        for (int i = 0; i < 5; i++)
-        {
-            //Get a random item
-            Loot randomLoot = PartyController.instance.RandomItem(1f);
-            int randomQty = 0;
-            if (randomLoot.lootType != "WeaponRanged" || randomLoot.lootType != "WeaponMelee")
-            {
-                randomQty = Random.Range(1, 5);
-            }
-            else
-            {
-                randomQty = 1;
-            }
-            InventoryController.instance.AddItem(randomLoot, randomQty, tradeInventory);
-        }
 
-        //UI updates
-        UIController.instance.uiTrade.SetActive(true);
-        UIController.instance.UpdateTrade();
-    }
-
-    //When click the buy (increase or decrease) buttons, add or remove the trade slot and recalculate the trade total
-    public void TradeBuy(bool increaseQty, int slotId)
-    {
-        if (increaseQty == true)
-        {
-            Debug.Log("a");
-            InventoryController.instance.MoveItem(tradeInventory, slotId, buyInventory, 1);
-        }
-        else
-        {
-            Debug.Log("b");
-            InventoryController.instance.MoveItem(buyInventory, slotId, tradeInventory, 1);
-        }
-
-        //Recalculate the buy qty
-        CalculateBuyTotal();
-
-        //Update the Trade UI
-        UIController.instance.UpdateTrade();
-    }
-
-    //Loops through the buyInventory and totals the loot value
-    private void CalculateBuyTotal()
-    {
-        buyTotal = 0;
-        for (int i = 0; i < buyInventory.inventorySlots.Count; i++)
-        {
-            buyTotal += buyInventory.inventorySlots[i].loot.lootValue * buyInventory.inventorySlots[i].slotQty;
-        }
-    }
 
 }

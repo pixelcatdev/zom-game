@@ -34,7 +34,7 @@
 			"lootName": "Zom-be Gone!",
 			"lootDesc": "Commercially available antigens, designed to reduce the infection. Hugely effective, but very rare.",
 			"lootType": "Medicine",
-			"lootTypeVal": 0,
+			"lootTypeVal": 10,
 			"lootWeight": 1,
 			"lootRarity": 0.9,
 			"lootValue": 0.75,

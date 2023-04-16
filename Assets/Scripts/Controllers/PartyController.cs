@@ -226,7 +226,7 @@ public class PartyController : MonoBehaviour
         {
             WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.alreadyScavenged = true;
             WorldController.instance.currentTile.GetComponent<WorldTileProps>().alreadyScavengedIcon.SetActive(true);
-            StartCoroutine("ScavengeCoroutine", 2f);
+            StartCoroutine("ScavengeCoroutine", 15f);
         }
         else
         {
@@ -519,7 +519,7 @@ public class PartyController : MonoBehaviour
     {
         float lootChance = Random.Range(0.5f, 1f);
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 4; i++)
         {
             yield return new WaitForSeconds(1f);
             WorldController.instance.AdvanceTime(minutes);
@@ -555,11 +555,11 @@ public class PartyController : MonoBehaviour
                 InventoryController.instance.AddItem(randomItem, lootQty, party.inventory);
                 //Update the status text to state what was picked up
                 EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
-                EncounterController.instance.StatusStringBuilder();
                 //WorldController.instance.AdvanceTime(15f);
                 UIController.instance.UpdateHud();
             }            
         }
+        EncounterController.instance.StatusStringBuilder();
     }
 }
 

@@ -55,10 +55,10 @@
 - crafting
 	- recipes			DONE
 	- buy blueprints
-	- craft recipes
+	- craft recipes			DONE
 - quests
 	- fetch
-	- find
+	- search
 	- escort
 - save system
 	- save				DONE

@@ -603,19 +603,19 @@ public class UIController : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        for (int i = 0; i < EncounterController.instance.tradeInventory.inventorySlots.Count; i++)
+        for (int i = 0; i < TradeController.instance.tradeInventory.inventorySlots.Count; i++)
         {
             GameObject newSlot = Instantiate(uiTradeBuySlotObj, uiTradeBuySlots);
             UiTradeSlotProps tradeSlot = newSlot.GetComponent<UiTradeSlotProps>();
 
-            tradeSlot.uiLootName.text = EncounterController.instance.tradeInventory.inventorySlots[i].loot.lootName;
-            tradeSlot.uiLootQty.text = "x" + EncounterController.instance.tradeInventory.inventorySlots[i].slotQty;
-            tradeSlot.uiLootWeight.text = EncounterController.instance.tradeInventory.inventorySlots[i].loot.lootWeight + "(lb)";
-            tradeSlot.uiLootValue.text = EncounterController.instance.tradeInventory.inventorySlots[i].loot.lootValue.ToString();
+            tradeSlot.uiLootName.text = TradeController.instance.tradeInventory.inventorySlots[i].loot.lootName;
+            tradeSlot.uiLootQty.text = "x" + TradeController.instance.tradeInventory.inventorySlots[i].slotQty;
+            tradeSlot.uiLootWeight.text = TradeController.instance.tradeInventory.inventorySlots[i].loot.lootWeight + "(lb)";
+            tradeSlot.uiLootValue.text = TradeController.instance.tradeInventory.inventorySlots[i].loot.lootValue.ToString();
             //tradeSlot.uiTotal.text = EncounterController.instance.tradeInventory.inventorySlots[i].lootQty;
 
-            tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(true, 0); });
-            tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { EncounterController.instance.TradeBuy(false, 0); });
+            tradeSlot.uiBuyIncreaseButton.GetComponent<Button>().onClick.AddListener(delegate { TradeController.instance.TradeBuy(true, 0); });
+            tradeSlot.uiBuyDecreaseButton.GetComponent<Button>().onClick.AddListener(delegate { TradeController.instance.TradeBuy(false, 0); });
 
         }
     }

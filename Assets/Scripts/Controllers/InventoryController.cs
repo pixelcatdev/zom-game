@@ -214,6 +214,7 @@ public class InventoryController : MonoBehaviour
         }
 
         //add the item and update the inventory
+        WorldController.instance.AdvanceTime(PartyController.instance.party.recipesKnown.recipes[craftingIndex].buildTimeMinutes);
         AddItem(craftedLoot, 1, PartyController.instance.party.inventory);
         UIController.instance.UpdateInventory();
         Debug.Log("Item Crafted");
