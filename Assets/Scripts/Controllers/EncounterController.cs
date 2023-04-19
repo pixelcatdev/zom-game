@@ -287,6 +287,9 @@ public class EncounterController : MonoBehaviour
         //Set the survivor to unequipped
         newSurvivor.equippedWeaponIndex = -1;
 
+        //randomise their HP
+        newSurvivor.survivorHp = Random.Range(2, 11);
+
         //Randomise 10% chance of infection
         float infected = Random.Range(0f, 1f);
         if (infected > 0.9f)

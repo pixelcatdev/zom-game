@@ -1,154 +1,1341 @@
 {
 	"loot": [
 		{
-			"lootName": "Military Ration",
-			"lootDesc": "Assorted rations that when consumed, restore party energy",			
+			"lootName": "Baked Beans",
+			"lootDesc": "Cooked beans in tomato sauce.",
 			"lootType": "Food",
-			"lootTypeVal": 15,
-			"lootWeight": 2,
-			"lootRarity": 0.75,
-			"lootValue": 0.25,
-			"lootBiome": "Urban"
+			"lootTypeVal": 7,
+			"lootWeight": 0.9,
+			"lootRarity": 0.5,
+			"lootValue": 3,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
-			"lootName": "Baked Beans",
-			"lootDesc": "Assorted rations that when consumed, restore party energy",			
+			"lootName": "Military Ration",
+			"lootDesc": "Food for military personnel.",
+			"lootType": "Food",
+			"lootTypeVal": 15,
+			"lootWeight": 1.5,
+			"lootRarity": 0.5,
+			"lootValue": 7,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Ready Meal",
+			"lootDesc": "Pre-prepared meal.",
 			"lootType": "Food",
 			"lootTypeVal": 5,
+			"lootWeight": 1.3,
+			"lootRarity": 0.5,
+			"lootValue": 4,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Sandwich",
+			"lootDesc": "A food item made of bread and filling.",
+			"lootType": "Food",
+			"lootTypeVal": 4,
 			"lootWeight": 0.5,
-			"lootRarity": 0.4,
-			"lootValue": 0.25,
-			"lootBiome": "Urban"
+			"lootRarity": 0.5,
+			"lootValue": 2,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Fast-food",
+			"lootDesc": "Quick and convenient food service.",
+			"lootType": "Food",
+			"lootTypeVal": 2,
+			"lootWeight": 0.8,
+			"lootRarity": 0.5,
+			"lootValue": 1,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Biscuits",
+			"lootDesc": "Small, baked goods often served as a snack.",
+			"lootType": "Food",
+			"lootTypeVal": 1,
+			"lootWeight": 0.3,
+			"lootRarity": 0.5,
+			"lootValue": 3,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Antibiotics",
-			"lootDesc": "Generic antiobiotics, barely fights off the infection.",
+			"lootDesc": "Medications that fight bacterial infections.",
 			"lootType": "Medicine",
 			"lootTypeVal": 1,
-			"lootWeight": 1,
-			"lootRarity": 0.6,
-			"lootValue": 0.75,
-			"lootBiome": "Urban"
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 9,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
-			"lootName": "Zom-be Gone!",
-			"lootDesc": "Commercially available antigens, designed to reduce the infection. Hugely effective, but very rare.",
+			"lootName": "Zom-be-Gone",
+			"lootDesc": "Pharmaceutical that drastically reduces zom infection.",
 			"lootType": "Medicine",
 			"lootTypeVal": 10,
-			"lootWeight": 1,
-			"lootRarity": 0.9,
-			"lootValue": 0.75,
-			"lootBiome": "Urban"
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 10,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Ammunition",
-			"lootDesc": "A range of shells and bullets for use with various firearms",
-			"lootType": "Resource",
-			"lootTypeVal": 5,
-			"lootWeight": 0.5,
+			"lootDesc": "Projectiles used in firearms.",
+			"lootType": "Medicine",
+			"lootWeight": 0.1,
 			"lootRarity": 0.5,
-			"lootValue": 5,
-			"lootBiome": "Countryside"
+			"lootValue": 12,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Herbal Antiviral",
+			"lootDesc": "Natural substance that fights viruses.",
+			"lootType": "Medicine",
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 6,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Fuel",
-			"lootDesc": "A jerry can holding enough fuel for 5 miles of travel",
+			"lootDesc": "Substance used to power engines.",
 			"lootType": "Resource",
-			"lootTypeVal": 5,
-			"lootWeight": 40,
-			"lootRarity": 0.75,
-			"lootValue": 2,
-			"lootBiome": "Motorway"
+			"lootWeight": 6,
+			"lootRarity": 0.5,
+			"lootValue": 13,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Scrap",
-			"lootDesc": "Assorted odds and ends that can be used to patch up transport or craft equipment",
+			"lootDesc": "Waste material that can be recycled or reused.",
 			"lootType": "Resource",
-			"lootTypeVal": 5,
-			"lootWeight": 1,
-			"lootRarity": 0.1,
-			"lootValue": 0.1,
-			"lootBiome": "Countryside"
+			"lootWeight": 0.3,
+			"lootRarity": 0.5,
+			"lootValue": 5,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Fuse",
-			"lootDesc": "A small length of fuse",
+			"lootDesc": "A device that ignites explosives.",
 			"lootType": "Resource",
-			"lootTypeVal": 5,
-			"lootWeight": 1,
-			"lootRarity": 0.25,
-			"lootValue": 0.5,
-			"lootBiome": "Countryside"
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 4,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
-			"lootName": "Shotgun",
-			"lootDesc": "A farming shotgun",
-			"lootType": "WeaponRanged",
-			"lootTypeVal": 5,
-			"lootWeight": 7,
-			"lootRarity": 0.9,
-			"lootValue": 15,
-			"lootBiome": "Countryside"
+			"lootName": "Wood",
+			"lootDesc": "Material obtained from trees used for construction and other purposes.",
+			"lootType": "Resource",
+			"lootWeight": 5,
+			"lootRarity": 0.5,
+			"lootValue": 7,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Screws",
+			"lootDesc": "Hardware used to fasten objects together.",
+			"lootType": "Resource",
+			"lootWeight": 0.3,
+			"lootRarity": 0.5,
+			"lootValue": 5,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Leather",
+			"lootDesc": "Material made from animal hide used for clothing and accessories.",
+			"lootType": "Resource",
+			"lootWeight": 0.5,
+			"lootRarity": 0.5,
+			"lootValue": 6,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Fabric",
+			"lootDesc": "Material made from weaving fibers together used for clothing and textiles.",
+			"lootType": "Resource",
+			"lootWeight": 0.5,
+			"lootRarity": 0.5,
+			"lootValue": 5,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Rubber",
+			"lootDesc": "Material with elastic properties used for various products.",
+			"lootType": "Resource",
+			"lootWeight": 0.5,
+			"lootRarity": 0.5,
+			"lootValue": 5,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Chemicals",
+			"lootDesc": "Substance with specific properties used in various industries.",
+			"lootType": "Resource",
+			"lootWeight": 0.5,
+			"lootRarity": 0.5,
+			"lootValue": 8,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Thyme",
+			"lootDesc": "Herb used in cooking and medicine.",
+			"lootType": "Resource",
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 3,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Nettle",
+			"lootDesc": "Plant with stinging hairs used in traditional medicine.",
+			"lootType": "Resource",
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 2,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Dandelion",
+			"lootDesc": "Edible plant with yellow flowers used in traditional medicine.",
+			"lootType": "Resource",
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 2,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Rope",
+			"lootDesc": "A strong cord made by twisting fibers together.",
+			"lootType": "Resource",
+			"lootWeight": 1,
+			"lootRarity": 0.5,
+			"lootValue": 6,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Cannabis",
+			"lootDesc": "Plant with psychoactive properties used recreationally and medicinally.",
+			"lootType": "Resource",
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 8,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Alcohol",
+			"lootDesc": "Beverage containing ethanol, used recreationally and medicinally.",
+			"lootType": "Resource",
+			"lootWeight": 1,
+			"lootRarity": 0.5,
+			"lootValue": 5,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Roadmap",
+			"lootDesc": "A map for navigating roads and highways.",
+			"lootType": "Tool",
+			"lootWeight": 0.8,
+			"lootRarity": 0.5,
+			"lootValue": 2,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Windup Radio",
+			"lootDesc": "Radio powered by winding a spring or crank.",
+			"lootType": "Tool",
+			"lootWeight": 3.5,
+			"lootRarity": 0.5,
+			"lootValue": 7,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Windup Torch",
+			"lootDesc": "Flashlight powered by winding a spring or crank.",
+			"lootType": "Tool",
+			"lootWeight": 0.5,
+			"lootRarity": 0.5,
+			"lootValue": 6,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Tent",
+			"lootDesc": "Portable shelter for camping or outdoor use.",
+			"lootType": "Tool",
+			"lootWeight": 1.5,
+			"lootRarity": 0.5,
+			"lootValue": 9,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Rucksack",
+			"lootDesc": "A backpack used for carrying supplies.",
+			"lootType": "Tool",
+			"lootWeight": 2.5,
+			"lootRarity": 0.5,
+			"lootValue": 8,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Pipe",
-			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootDesc": "Tube used for smoking tobacco or other substances.",
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 1,
-			"lootWeight": 1,
-			"lootRarity": 0.75,
-			"lootValue": 2,
-			"lootBiome": "Urban"
+			"lootWeight": 2.8,
+			"lootRarity": 0.5,
+			"lootValue": 3,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Wood Axe",
-			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootDesc": "Tool used for chopping wood.",
 			"lootType": "WeaponMelee",
-			"lootTypeVal": 2,
-			"lootWeight": 1,
-			"lootRarity": 0.8,
-			"lootValue": 2,
-			"lootBiome": "Countryside"
+			"lootTypeVal": 3,
+			"lootWeight": 0.3,
+			"lootRarity": 0.5,
+			"lootValue": 10,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Shovel",
+			"lootDesc": "Tool used for digging and moving soil.",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 1,
+			"lootWeight": 2.5,
+			"lootRarity": 0.5,
+			"lootValue": 8,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Cricket Bat",
-			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootDesc": "Wooden bat used in the sport of cricket.",
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
-			"lootWeight": 1,
-			"lootRarity": 0.7,
-			"lootValue": 2,
-			"lootBiome": "Countryside"
+			"lootWeight": 2.8,
+			"lootRarity": 0.5,
+			"lootValue": 3,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Snooker Cue",
-			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootDesc": "Wooden cue stick used in the sport of snooker.",
 			"lootType": "WeaponMelee",
 			"lootTypeVal": 2,
-			"lootWeight": 1,
-			"lootRarity": 0.8,
+			"lootWeight": 2,
+			"lootRarity": 0.5,
 			"lootValue": 2,
-			"lootBiome": "Urban"
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Hammer",
+			"lootDesc": "Tool used for pounding nails and other tasks.",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 2,
+			"lootWeight": 1.8,
+			"lootRarity": 0.5,
+			"lootValue": 6,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Bat",
+			"lootDesc": "Club-like object used for hitting a ball or striking.",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 3,
+			"lootWeight": 2.5,
+			"lootRarity": 0.5,
+			"lootValue": 3,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Spiked Bat",
+			"lootDesc": "Bat with sharp protrusions used as a weapon.",
+			"lootType": "WeaponMelee",
+			"lootTypeVal": 3,
+			"lootWeight": 2.3,
+			"lootRarity": 0.5,
+			"lootValue": 11,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Pistol",
-			"lootDesc": "A blunt lead pipe, great for battering",
+			"lootDesc": "Handgun designed for one-handed use.",
+			"lootType": "WeaponRanged",
+			"lootTypeVal": 4,
+			"lootWeight": 3,
+			"lootRarity": 0.5,
+			"lootValue": 12,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Shotgun",
+			"lootDesc": "Firearm designed for shooting a wide range of pellets or slugs.",
+			"lootType": "WeaponRanged",
+			"lootTypeVal": 5,
+			"lootWeight": 3.5,
+			"lootRarity": 0.5,
+			"lootValue": 14,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Rifle",
+			"lootDesc": "Long-barreled firearm designed for accuracy at long ranges.",
+			"lootType": "WeaponRanged",
+			"lootTypeVal": 5,
+			"lootWeight": 3.3,
+			"lootRarity": 0.5,
+			"lootValue": 15,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Bow",
+			"lootDesc": "Weapon consisting of a curved piece of material and a string used for shooting arrows.",
 			"lootType": "WeaponRanged",
 			"lootTypeVal": 3,
-			"lootWeight": 1,
-			"lootRarity": 0.9,
-			"lootValue": 2,
-			"lootBiome": "Urban"
+			"lootWeight": 4,
+			"lootRarity": 0.5,
+			"lootValue": 10,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Air Rifle",
+			"lootDesc": "Rifle powered by compressed air or gas.",
+			"lootType": "WeaponRanged",
+			"lootTypeVal": 3,
+			"lootWeight": 4,
+			"lootRarity": 0.5,
+			"lootValue": 11,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		},
 		{
 			"lootName": "Pipebomb",
-			"lootDesc": "A short length of pipe that when packed with gunpowder and lit can create a small explosion",
+			"lootDesc": "Homemade explosive device made from a metal pipe and explosive material.",
 			"lootType": "WeaponThrown",
-			"lootTypeVal": 6,
-			"lootWeight": 1,
-			"lootRarity": 0.9,
-			"lootValue": 12,
-			"lootBiome": "Urban"
+			"lootWeight": 4,
+			"lootRarity": 0.5,
+			"lootValue": 13,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Grenade",
+			"lootDesc": "Explosive device thrown by hand or launched from a launcher.",
+			"lootType": "WeaponThrown",
+			"lootWeight": 0.1,
+			"lootRarity": 0.5,
+			"lootValue": 14,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Nailbomb",
+			"lootDesc": "Explosive device containing nails or other shrapnel.",
+			"lootType": "WeaponThrown",
+			"lootWeight": 1.3,
+			"lootRarity": 0.5,
+			"lootValue": 13,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
+		},
+		{
+			"lootName": "Molotov Cocktail",
+			"lootDesc": "Improvised incendiary device made from a glass bottle and flammable liquid.",
+			"lootType": "WeaponThrown",
+			"lootWeight": 1.5,
+			"lootRarity": 0.5,
+			"lootValue": 10,
+			"lootBiomes": [
+				{
+					"biome":"Countryside"
+				},
+				{
+					"biome":"Urban"
+				},
+				{
+					"biome":"Coastal"
+				},
+				{
+					"biome":"Mountain"
+				},
+				{
+					"biome":"Motorway"
+				},
+				{
+					"biome":"Woodland"
+				}
+			]
 		}
 	]
 }

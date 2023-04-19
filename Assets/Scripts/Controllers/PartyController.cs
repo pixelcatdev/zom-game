@@ -81,7 +81,15 @@ public class PartyController : MonoBehaviour
         //If not in a vehicle and energy is > 0
         if (party.inVehicle == false && party.partyEnergy - energyCost >= 0)
         {
-            canMove = true;
+            if(party.partyWeight < party.partyWeightMax)
+            {
+                canMove = true;
+            }
+            else
+            {
+                EncounterController.instance.AddToStatus("Your party is carrying too much and cannot move.");
+                EncounterController.instance.StatusStringBuilder();
+            }
         }
         //if in a vehicle, fuel > 0 and the target tile is a motorway
         else if (party.inVehicle == true && party.partyVehicle.vehicleFuel > 0 && (tileBiome == "Urban" || tileBiome == "Motorway"))
@@ -118,7 +126,7 @@ public class PartyController : MonoBehaviour
             partyObj.position = tilePos;
 
             //Clear the previous status text, randomise a new status and randomise an event
-            EncounterController.instance.statusStrings.Clear();
+            //EncounterController.instance.statusStrings.Clear();
             EncounterController.instance.AddToStatus("Your party " + EncounterController.instance.StatusVerb() + " " + EncounterController.instance.StatusNoun());
             EncounterController.instance.RandomEncounter();
 
@@ -274,6 +282,19 @@ public class PartyController : MonoBehaviour
         UIController.instance.UpdateHud();
     }
 
+    //Damage a Survivor
+    public void DamageSurvivor(int survivorId, int amount)
+    {
+        if(party.partySurvivors[survivorId].survivorHp - amount > 0)
+        {
+            party.partySurvivors[survivorId].survivorHp -= amount;
+        }
+        else
+        {
+            KillSurvivor(survivorId);
+        }
+    }
+
     //Kill a survivor from the party
     public void KillSurvivor(int survivorId)
     {
@@ -394,6 +415,8 @@ public class PartyController : MonoBehaviour
         WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.Add(party.partyVehicle);
         party.partyVehicle = null;
         party.inVehicle = false;
+        //Recalculate the party weight
+        PartyController.instance.CalculatePartyWeight();
         UIController.instance.UpdateHud();
         UIController.instance.UpdateVehicles();
     }
@@ -466,6 +489,22 @@ public class PartyController : MonoBehaviour
         party.partyThreatLevel = Mathf.RoundToInt(partySize / 2);
     }
 
+    //Calculate the party weight
+    public void CalculatePartyWeight()
+    {
+        //Calc the max weight based on survivors + vehicle
+        party.partyWeightMax = (party.partySurvivors.Count * 50f) + party.partyVehicle.vehicleCarry;
+
+        float weight = 0;
+        //loop through the inventory, get the weight
+        for (int i = 0; i < party.inventory.inventorySlots.Count; i++)
+        {
+            weight += party.inventory.inventorySlots[i].loot.lootWeight * party.inventory.inventorySlots[i].slotQty;
+        }
+
+        party.partyWeight = weight;
+    }
+
     //Return random item
     public Loot RandomItem(float lootChance)
     {
@@ -480,10 +519,10 @@ public class PartyController : MonoBehaviour
 
         for (int i = 0; i < ConfigController.instance.loot.loot.Count; i++)
         {
-            if (ConfigController.instance.loot.loot[i].lootBiome == currentBiome && ConfigController.instance.loot.loot[i].lootRarity <= lootChance)
-            {
+            //if (ConfigController.instance.loot.loot[i].lootBiome == currentBiome && ConfigController.instance.loot.loot[i].lootRarity <= lootChance)
+            //{
                 biomeItems.Add(ConfigController.instance.loot.loot[i]);
-            }
+            //}
         }
 
         //select a random item from that new list
@@ -553,13 +592,17 @@ public class PartyController : MonoBehaviour
 
                 //AddItem(randomItem.lootName, randomItem.lootDesc, randomItem.lootType, randomItem.lootTypeVal, randomItem.lootRarity, randomItem.lootWeight, randomItem.lootValue, lootQty, randomItem.lootBiome);
                 InventoryController.instance.AddItem(randomItem, lootQty, party.inventory);
+
+                //Recalculate the party weight
+                CalculatePartyWeight();
+
                 //Update the status text to state what was picked up
                 EncounterController.instance.AddToStatus("Picked up: " + randomItem.lootName + " x" + lootQty);
+                EncounterController.instance.StatusStringBuilder();
                 //WorldController.instance.AdvanceTime(15f);
                 UIController.instance.UpdateHud();
             }            
         }
-        EncounterController.instance.StatusStringBuilder();
     }
 }
 
@@ -581,6 +624,7 @@ public class Party
     public int partyThreatLevel;
 
     //Party weight based on inventory
+    public float partyWeightMax;
     public float partyWeight;
 
     //List of survivors currently in the party
@@ -612,6 +656,7 @@ public class Survivor
 {
     public string survivorName;
     public string survivorClass;
+    public int survivorHp;
     public int infection;
     public int equippedWeaponIndex;
     public int attack;

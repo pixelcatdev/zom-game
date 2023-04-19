@@ -83,7 +83,8 @@ public class InventoryController : MonoBehaviour
                         }
                     }
                 }
-
+                //Recalculate the party weight
+                PartyController.instance.CalculatePartyWeight();
                 UIController.instance.UpdateInventory();
             }
             else
@@ -99,12 +100,11 @@ public class InventoryController : MonoBehaviour
                         PartyController.instance.party.partySurvivors[i].equippedWeaponIndex--;
                     }
                 }
-
+                //Recalculate the party weight
+                PartyController.instance.CalculatePartyWeight();
                 UIController.instance.UpdateInventory();
             }
-
-            //Recalculate the party weight
-            //CalculateWeight();
+            
         }
         else
         {
@@ -126,7 +126,7 @@ public class InventoryController : MonoBehaviour
     //Clears an inventory out completely
     public void ClearInventory(Inventory targetInventory)
     {
-        //if its for the party inventory, loop through every player and force them to drop their item
+        //if its for the party inventory, loop through every player and force them to drop their item (and recalc the party weight)
         if(targetInventory == PartyController.instance.party.inventory)
         {
             for (int i = 0; i < PartyController.instance.party.partySurvivors.Count; i++)
@@ -134,7 +134,9 @@ public class InventoryController : MonoBehaviour
                 PartyController.instance.party.partySurvivors[i].attack = 0;
                 PartyController.instance.party.partySurvivors[i].equippedWeaponIndex = -1;
             }
-        }       
+
+            PartyController.instance.CalculatePartyWeight();
+        }
 
         targetInventory.inventorySlots.Clear();
     }

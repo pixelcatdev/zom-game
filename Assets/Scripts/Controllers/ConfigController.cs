@@ -61,10 +61,10 @@ public class ConfigController : MonoBehaviour
         //Load all definitions
         loot = JsonUtility.FromJson<LootList>(itemsJSON.text);
         recipes = JsonUtility.FromJson<RecipeList>(craftingRecipesJSON.text);
-        weapons = JsonUtility.FromJson<WeaponList>(weaponsJSON.text);
+        //weapons = JsonUtility.FromJson<WeaponList>(weaponsJSON.text);
         vehicles = JsonUtility.FromJson<VehicleList>(vehiclesJSON.text);
         enemies = JsonUtility.FromJson<EnemyList>(enemiesJSON.text);
-        encounters = JsonUtility.FromJson<EncounterList>(encountersJSON.text);
+        //encounters = JsonUtility.FromJson<EncounterList>(encountersJSON.text);
         nounsList = JsonUtility.FromJson<NounList>(nounsJSON.text);
         verbsList = JsonUtility.FromJson<VerbList>(verbsJSON.text);
     }
@@ -82,13 +82,19 @@ public class Loot
     public float lootWeight;
     public float lootRarity;
     public float lootValue;
-    public string lootBiome;
+    public List<LootBiomesList> lootBiomes;
 }
 
 [System.Serializable]
 public class LootList
 {
     public List<Loot> loot;
+}
+
+[System.Serializable]
+public class LootBiomesList
+{
+    public string biome;
 }
 
 //================== Crafting Recipes ======================================

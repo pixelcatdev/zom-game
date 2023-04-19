@@ -71,10 +71,11 @@
 	- tiles				DONE
 	- ambush backgrounds
 	- ambush sprites
-- sounds
+- audio
 	- menu buttons
 	- movement
 	- attacks
+	- biome ambience
 	- music
 - map
 	- tile data saves

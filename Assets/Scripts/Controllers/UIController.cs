@@ -30,6 +30,7 @@ public class UIController : MonoBehaviour
     public GameObject uiInventory;
     public Transform uiInventorySlots;
     public GameObject uiInventorySlotObj;
+    public TextMeshProUGUI uiInventoryPartyWeight;
 
     public GameObject uiCrafting;
     public Transform uiCraftingSlots;
@@ -267,6 +268,9 @@ public class UIController : MonoBehaviour
             newSlot.GetComponent<UiInventorySlotProps>().uiDiscardOneButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, 1, false, PartyController.instance.party.inventory); });
             newSlot.GetComponent<UiInventorySlotProps>().uiDiscardAllButton.GetComponent<Button>().onClick.AddListener(delegate { InventoryController.instance.RemoveItem(slotId, 0, true, PartyController.instance.party.inventory); });
         }
+
+        //Update the weight and max weight
+        uiInventoryPartyWeight.text = "Total Weight: " + PartyController.instance.party.partyWeight + "(lb) / Max Weight: " + PartyController.instance.party.partyWeightMax + "(lb)";
     }
 
     //Updates the Inventory Crafting menu
@@ -360,7 +364,7 @@ public class UIController : MonoBehaviour
             GameObject newSlot = Instantiate(uiPartySlotObj, uiPartySlots);
             UiSurvivorSlotProps survivorSlot = newSlot.GetComponent<UiSurvivorSlotProps>();
 
-            survivorSlot.uiSurvivorName.text = survivor.survivorName;
+            survivorSlot.uiSurvivorName.text = survivor.survivorName + "(" + survivor.survivorHp + "HP)";
             survivorSlot.uiSkill.text = "Skills TBC";
             survivorSlot.uiTrait.text = "Traits TBC";
             survivorSlot.uiInfection.text = survivor.infection.ToString();
@@ -529,7 +533,7 @@ public class UIController : MonoBehaviour
         //Update all stats based on available party members
         for (int i = 0; i < PartyController.instance.party.partySurvivors.Count; i++)
         {
-            hud_partySurvivors[i].text = PartyController.instance.party.partySurvivors[i].survivorName;
+            hud_partySurvivors[i].text = PartyController.instance.party.partySurvivors[i].survivorName + "(" + PartyController.instance.party.partySurvivors[i].survivorHp + "HP)";
         }
 
         //Vehicle stats

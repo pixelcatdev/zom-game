@@ -9,6 +9,12 @@ public class QuestController : MonoBehaviour
 {
     public static QuestController instance;
     public Quests quests;
+    public float distanceMinEasy;
+    public float distanceMaxEasy;
+    public float distanceMinMedium;
+    public float distanceMaxMedium;
+    public float distanceMinHard;
+    public float distanceMaxHard;
 
     // Singleton Initialization
     void Awake()
@@ -36,7 +42,7 @@ public class QuestController : MonoBehaviour
         newQuest.questDifficulty = QuestDifficulty.easy; //(QuestDifficulty)Random.Range(0, 3);
 
         //set the radius based on the difficulty
-        int radiusForTargetTile = 0;
+        float radiusForTargetTile = 0;
 
         if(newQuest.questDifficulty == QuestDifficulty.easy)
         {
@@ -104,10 +110,9 @@ public class QuestController : MonoBehaviour
         {
             Loot newLoot = PartyController.instance.RandomItem(9);
             Debug.Log("adding " + newLoot.lootName + " as a reward");
-            newQuest.questRewards = new List<InventorySlot>();
-            newQuest.questRewards.Add(new InventorySlot());
-            newQuest.questRewards[quests.quests.Count - 1].loot.lootName = newLoot.lootName;
-            newQuest.questRewards[quests.quests.Count - 1].slotQty = lootTotal;
+            newQuest.questRewards.inventorySlots.Add(new InventorySlot());
+            newQuest.questRewards.inventorySlots[quests.quests.Count - 1].loot = newLoot;
+            newQuest.questRewards.inventorySlots[quests.quests.Count - 1].slotQty = lootTotal;
         }
 
         //Search quest specifics
@@ -117,6 +122,10 @@ public class QuestController : MonoBehaviour
         }
         //Fetch quest specifics
         //Escort quest specifics
+        else if (newQuest.questType == QuestType.escort)
+        {
+            
+        }
         //Hunt quest specifics
     }
 
@@ -251,7 +260,7 @@ public class Quest
     public QuestType questType;
     public QuestDifficulty questDifficulty;
     public string questText;
-    public List<InventorySlot> questRewards;
+    public Inventory questRewards;
     public float questPosX;
     public float questPosY;
     public float questTargetPosX;

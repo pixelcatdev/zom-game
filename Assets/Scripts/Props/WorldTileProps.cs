@@ -17,15 +17,20 @@ public class WorldTileProps : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = colorDay;
         }
+
+        if(tileProps.alreadyScavenged == true)
+        {
+            alreadyScavengedIcon.SetActive(true);
+        }
     }
 
     private void Update()
     {
         //Turns on the scavenged marker
-        if (tileProps.alreadyScavenged == true)
-        {
-            alreadyScavengedIcon.SetActive(true);
-        }               
+        //if (tileProps.alreadyScavenged == true)
+        //{
+        //    alreadyScavengedIcon.SetActive(true);
+        //}               
     }
 
     private void RenderTile()
