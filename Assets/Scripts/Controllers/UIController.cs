@@ -193,7 +193,12 @@ public class UIController : MonoBehaviour
         else if (encounterType == "Trade")
         {
             uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { CloseEncounterPrompt(); });
-            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.AddListener(delegate { });
+        }
+        else if (encounterType == "Quest")
+        {
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiAccept.GetComponent<Button>().onClick.AddListener(delegate { QuestController.instance.AddQuest(); });
+            uiEncounterPrompt.GetComponent<UiEncounterPrompt>().uiDecline.GetComponent<Button>().onClick.AddListener(delegate { CloseEncounterPrompt(); });
         }
 
         //Add the default close and clear method too

@@ -221,6 +221,7 @@ public class InventoryController : MonoBehaviour
         UIController.instance.UpdateInventory();
         Debug.Log("Item Crafted");
     }
+
 }
 
 [System.Serializable]

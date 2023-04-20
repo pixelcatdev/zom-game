@@ -21,6 +21,12 @@ public class PartyController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        CalculatePartyThreatLevel();
+        CalculatePartyWeight();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -147,6 +153,8 @@ public class PartyController : MonoBehaviour
                     WorldController.instance.AddLog("Your party visits " + tileName + " for the first time");
                 }
             }
+
+            //Change the ambience
 
             //Check the party status
             CheckPartyStatus();
@@ -275,6 +283,8 @@ public class PartyController : MonoBehaviour
 
         //Randomise chance of new quest
 
+        CalculatePartyWeight();
+
         //Update the logs
         WorldController.instance.AddLog(newSurvivor.survivorName + " joins the party.");
 
@@ -351,6 +361,8 @@ public class PartyController : MonoBehaviour
         //Recalc the threat level of the party
         CalculatePartyThreatLevel();
 
+        CalculatePartyWeight();
+
         //Update UI Elements
         UIController.instance.UpdateHud();
         UIController.instance.UpdateParty();
@@ -400,6 +412,7 @@ public class PartyController : MonoBehaviour
             party.partyVehicle.vehicleHp = hp;
             WorldController.instance.currentTile.GetComponent<WorldTileProps>().tileProps.vehicles.RemoveAt(tileIndex);
             party.inVehicle = true;
+            PartyController.instance.CalculatePartyWeight();
             UIController.instance.UpdateHud();
             UIController.instance.UpdateVehicles();
         }
@@ -416,7 +429,7 @@ public class PartyController : MonoBehaviour
         party.partyVehicle = null;
         party.inVehicle = false;
         //Recalculate the party weight
-        PartyController.instance.CalculatePartyWeight();
+        CalculatePartyWeight();
         UIController.instance.UpdateHud();
         UIController.instance.UpdateVehicles();
     }
@@ -465,6 +478,7 @@ public class PartyController : MonoBehaviour
         UIController.instance.CloseEncounterPrompt();
         party.inVehicle = false;
         party.partyVehicle = null;
+        CalculatePartyWeight();
         UIController.instance.UpdateHud();
         UIController.instance.UpdateVehicles();
     }

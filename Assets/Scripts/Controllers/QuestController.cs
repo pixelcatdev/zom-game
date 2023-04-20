@@ -9,6 +9,7 @@ public class QuestController : MonoBehaviour
 {
     public static QuestController instance;
     public Quests quests;
+    public Quest newQuest;
     public float distanceMinEasy;
     public float distanceMaxEasy;
     public float distanceMinMedium;
@@ -32,109 +33,43 @@ public class QuestController : MonoBehaviour
     //Randomises a quest type
     public void SetupQuest()
     {
-        //Randomise the quest type and difficulty
-        Quest newQuest = new Quest();
+        newQuest.questType = (QuestType)Random.Range(0, 4);
+        newQuest.questDifficulty = (QuestDifficulty)Random.Range(0, 3);
 
-        //Add the new quest to the quests list
-        quests.quests.Add(newQuest);
+        int distance = 0;
+        int lootQty = 0;
+        int timeLimit = 0;
 
-        newQuest.questType = QuestType.search; //(QuestType)Random.Range(0, 3);
-        newQuest.questDifficulty = QuestDifficulty.easy; //(QuestDifficulty)Random.Range(0, 3);
-
-        //set the radius based on the difficulty
-        float radiusForTargetTile = 0;
-
-        if(newQuest.questDifficulty == QuestDifficulty.easy)
+        switch (newQuest.questDifficulty)
         {
-            radiusForTargetTile = 10;
-        }
-        else if (newQuest.questDifficulty == QuestDifficulty.medium)
-        {
-            radiusForTargetTile = 25;
-        }
-        else if (newQuest.questDifficulty == QuestDifficulty.hard)
-        {
-            radiusForTargetTile = 50;
-        }
+            case QuestDifficulty.easy:
+                //get random tile based on min/max distance
+                newQuest.questTargetDateTime = WorldController.instance.world.worldDateTime;
 
-        //Get a random target tile within the radius and set the targetX and targetY as its vector
-        GameObject targetTile = WorldController.instance.GetRandomTile(PartyController.instance.partyObj, radiusForTargetTile);
-        newQuest.questTargetPosX = targetTile.transform.position.x;
-        newQuest.questTargetPosY = targetTile.transform.position.y;
+                System.DateTime targetDateTime = System.DateTime.Parse(WorldController.instance.world.worldDateTime);
+                newQuest.questTargetDateTime = targetDateTime.AddHours(UnityEngine.Random.Range(12, 24)).ToString();
 
-        //Randomise the target dateTime is the quest is timed
-        newQuest.isTimed = true; // (Random.value > 0.5f);
-
-        if (newQuest.isTimed)
-        {
-            string currentDateTime = WorldController.instance.world.worldDateTime;
-            System.DateTime targetDate = System.DateTime.Parse(currentDateTime);
-            int hoursToAdd = 0;
-            if(newQuest.questDifficulty == QuestDifficulty.easy)
-            {
-                hoursToAdd = 24;
-            }
-            else if (newQuest.questDifficulty == QuestDifficulty.medium)
-            {
-                hoursToAdd = 12;
-            }
-            else if (newQuest.questDifficulty == QuestDifficulty.hard)
-            {
-                hoursToAdd = 6;
-            }            
-            targetDate = targetDate.AddHours(hoursToAdd);
-            newQuest.questTargetDateTime = targetDate.ToString();
+                break;
+            case QuestDifficulty.medium:
+                break;
+            case QuestDifficulty.hard:
+                //get random tile based on min/max distance
+                break;
+            default:
+                break;
         }
 
-        //Randomise the reward based on difficulty
-        int lootTotal = 0;
-        if (newQuest.questDifficulty == QuestDifficulty.easy)
-        {
-            lootTotal = 1;
-        }
-        else if (newQuest.questDifficulty == QuestDifficulty.medium)
-        {
-            lootTotal = 2;
-        }
-        else if (newQuest.questDifficulty == QuestDifficulty.hard)
-        {
-            lootTotal = 3;
-        }
-
-        //DEBUG -- Remove later
-        lootTotal = 3;
-        Debug.Log("Loot total: " + lootTotal);
-
-        //Add rare items to the rewards
-        for (int i = 0; i < lootTotal; i++)
-        {
-            Loot newLoot = PartyController.instance.RandomItem(9);
-            Debug.Log("adding " + newLoot.lootName + " as a reward");
-            newQuest.questRewards.inventorySlots.Add(new InventorySlot());
-            newQuest.questRewards.inventorySlots[quests.quests.Count - 1].loot = newLoot;
-            newQuest.questRewards.inventorySlots[quests.quests.Count - 1].slotQty = lootTotal;
-        }
-
-        //Search quest specifics
-        if (newQuest.questType == QuestType.search)
-        {
-            SetupFind(newQuest);
-        }
-        //Fetch quest specifics
-        //Escort quest specifics
-        else if (newQuest.questType == QuestType.escort)
-        {
-            
-        }
-        //Hunt quest specifics
+        string questText = "New Quest: " + newQuest.questType + " (Difficulty: " + newQuest.questDifficulty + ")\n\nQuest details will go here\n\nRewards: xRandom Loot";
+        newQuest.questText = questText;
+        EncounterController.instance.encounterText = questText;
+        UIController.instance.uiEncounter.SetActive(true);
+        UIController.instance.UpdateEncounter("Quest");
     }
 
-    //Setup Find quest specifics
-    private void SetupFind(Quest newQuest)
+    public void AddQuest()
     {
-        //get the nearest urban tile to the targetX and targetY
-        //get the relative compass direction of the tile 
-        //set the quest text with approx descriptions of where to go
+        PartyController.instance.party.quests.Add(newQuest);
+        UIController.instance.CloseEncounterPrompt();
     }
 
     //Checks if a quest can be completed by looping through all of the quests and evaluating win conditions for each

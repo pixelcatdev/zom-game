@@ -31,7 +31,7 @@ public class EncounterController : MonoBehaviour
     //Randomise chance of an encounter when moving
     public void RandomEncounter()
     {
-        int randomInt = Random.Range(0, 20);
+        int randomInt = 7; // Random.Range(0, 20);
         Debug.Log("Encounter chance: " + randomInt);
 
         //survivor joins if there's room in the party and if there's room in a vehicle
@@ -127,6 +127,11 @@ public class EncounterController : MonoBehaviour
                     Ambush();
                 }
             }
+        }
+        //trigger quest
+        else if (randomInt == 7)
+        {
+            QuestController.instance.SetupQuest();
         }
     }
 
